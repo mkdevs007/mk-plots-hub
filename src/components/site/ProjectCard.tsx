@@ -21,7 +21,15 @@ export function ProjectCard({ p }: { p: Project }) {
           height={896}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Hover overlay with CTAs */}
+        <div className="absolute inset-0 bg-primary/60 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 p-4">
+          <span className="px-5 py-2.5 rounded-md gold-gradient text-gold-foreground font-semibold text-xs tracking-wider uppercase shadow-md transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+            View Layout Map
+          </span>
+          <span className="px-5 py-2.5 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold text-xs tracking-wider uppercase border border-white/20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+            Enquire Now
+          </span>
+        </div>
         <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold ${badgeClass[p.status]}`}>
           {p.status}
         </span>

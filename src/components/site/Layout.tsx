@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { WhatsAppButton } from "./WhatsAppButton";
+import { ExitIntentPopup } from "./ExitIntentPopup";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <main className="pt-16 md:pt-[88px]">{children}</main>
       <Footer />
       <WhatsAppButton />
+      <ExitIntentPopup />
     </>
   );
 }

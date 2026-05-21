@@ -3,7 +3,8 @@ import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { projects } from "@/data/projects";
+import { projects, cities } from "@/data/projects";
+import { useMemo, useState } from "react";
 
 const META: Record<string, { title: string; tagline: string; description: string }> = {
   residential: { title: "Residential Plots in Karnataka", tagline: "Build the home you've always imagined", description: "Premium residential plots in gated layouts — wide roads, parks, 24/7 security and clear titles." },
@@ -32,10 +33,52 @@ export const Route = createFileRoute("/plots/$type")({
   component: PlotTypePage,
 });
 
+const statuses = ["All", "Ongoing", "New Launch", "Few Plots Left", "Completed"] as const;
+const budgets = ["All", "Under 15 Lakh", "15 - 25 Lakh", "Above 25 Lakh"] as const;
+const sizes = ["All", "30x40", "30x50", "40x60", "Others/Acre"] as const;
+
 function PlotTypePage() {
   const { type } = Route.useLoaderData();
   const m = META[type]!;
-  const list = projects.filter((p) => p.type === type);
+
+  const [city, setCity] = useState("All");
+  const [status, setStatus] = useState<(typeof statuses)[number]>("All");
+  const [budget, setBudget] = useState<(typeof budgets)[number]>("All");
+  const [size, setSize] = useState<(typeof sizes)[number]>("All");
+
+  const filtered = useMemo(() => {
+    return projects.filter((p) => {
+      if (p.type !== type) return false;
+
+      // City filter
+      if (city !== "All" && p.city !== city) return false;
+
+      // Status filter
+      if (status !== "All" && p.status !== status) return false;
+
+      // Budget filter
+      if (budget !== "All") {
+        if (p.priceLakh === 0) return false; // Sold out
+        if (budget === "Under 15 Lakh" && p.priceLakh >= 15) return false;
+        if (budget === "15 - 25 Lakh" && (p.priceLakh < 15 || p.priceLakh > 25)) return false;
+        if (budget === "Above 25 Lakh" && p.priceLakh <= 25) return false;
+      }
+
+      // Size filter
+      if (size !== "All") {
+        if (size === "Others/Acre") {
+          const hasStandardSize = p.sizes.some(s => s.includes("30x") || s.includes("40x60"));
+          if (hasStandardSize) return false;
+        } else {
+          if (!p.sizes.includes(size)) return false;
+        }
+      }
+
+      return true;
+    });
+  }, [type, city, status, budget, size]);
+
+  const sel = "px-4 py-2.5 rounded-md bg-background border border-border text-sm focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none";
 
   return (
     <SiteLayout>
@@ -49,13 +92,47 @@ function PlotTypePage() {
 
       <section className="py-20 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
+          {/* Filters card */}
+          <div className="bg-card border border-border rounded-xl p-5 md:p-6 shadow-card flex flex-wrap gap-4 items-end mb-10">
+            <div className="flex-1 min-w-[150px]">
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">City</label>
+              <select value={city} onChange={(e) => setCity(e.target.value)} className={sel + " w-full font-medium"}>
+                <option>All</option>
+                {cities.map((c) => <option key={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Status</label>
+              <select value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className={sel + " w-full font-medium"}>
+                {statuses.map((s) => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Budget</label>
+              <select value={budget} onChange={(e) => setBudget(e.target.value as typeof budget)} className={sel + " w-full font-medium"}>
+                {budgets.map((b) => <option key={b}>{b}</option>)}
+              </select>
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Plot Size</label>
+              <select value={size} onChange={(e) => setSize(e.target.value as typeof size)} className={sel + " w-full font-medium"}>
+                {sizes.map((sz) => <option key={sz}>{sz}</option>)}
+              </select>
+            </div>
+            <div className="text-sm text-muted-foreground ml-auto font-medium py-2.5">
+              Showing <span className="font-bold text-foreground">{filtered.length}</span> results
+            </div>
+          </div>
+
           <SectionHeader eyebrow="Available now" title={`${m.title.split(" in ")[0]} for sale`} />
-          {list.length ? (
+          {filtered.length ? (
             <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {list.map((p) => <ProjectCard key={p.slug} p={p} />)}
+              {filtered.map((p) => <ProjectCard key={p.slug} p={p} />)}
             </div>
           ) : (
-            <p className="text-center text-muted-foreground mt-12">New projects coming soon. Share your details and we'll notify you first.</p>
+            <p className="text-center text-muted-foreground mt-20 py-16 bg-secondary/30 rounded-xl">
+              No layouts match your exact filters. Adjust them or contact us below to hear about unlisted inventory.
+            </p>
           )}
         </div>
       </section>
@@ -63,6 +140,7 @@ function PlotTypePage() {
       <section className="py-20 px-5 md:px-8 bg-secondary/50">
         <div className="max-w-3xl mx-auto bg-card p-8 md:p-10 rounded-2xl shadow-card border border-border">
           <h3 className="font-display text-3xl text-center">Enquire about {m.title.split(" in ")[0]}</h3>
+          <p className="text-sm text-muted-foreground text-center mt-2 mb-6">Receive detailed layouts, pricing guides, and site visit schedules.</p>
           <div className="mt-6"><EnquiryForm /></div>
         </div>
       </section>

@@ -35,7 +35,18 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
     }
     setErrors({});
     setLoading(true);
-    setTimeout(() => navigate({ to: "/thank-you" }), 400);
+    setTimeout(() => {
+      navigate({
+        to: "/thank-you",
+        search: {
+          name: data.name,
+          phone: data.phone,
+          city: data.city,
+          type: data.plotType,
+          message: data.message || undefined,
+        },
+      });
+    }, 400);
   };
 
   const fieldCls =

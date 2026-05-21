@@ -1,12 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import heroImg from "@/assets/hero-aerial.jpg";
-import { ArrowRight, ChevronDown, Award, ShieldCheck, MapPin, IndianRupee, Users, Building2, Home, Store, Trees, Factory, Star } from "lucide-react";
+import project1 from "@/assets/project-1.jpg";
+import project2 from "@/assets/project-2.jpg";
+import project3 from "@/assets/project-3.jpg";
+import { ArrowRight, ChevronDown, Award, ShieldCheck, MapPin, IndianRupee, Users, Building2, Home, Store, Trees, Factory, Star, Play } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { whatsappHref } from "@/components/site/WhatsAppButton";
+import { PlotROICalculator } from "@/components/site/PlotROICalculator";
 import { projects, cities } from "@/data/projects";
+import { blogPosts } from "@/data/blog";
 import testimonial1 from "@/assets/testimonial-1.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
@@ -56,6 +62,17 @@ const testimonials = [
 
 function HomePage() {
   const ongoing = projects.filter((p) => p.status !== "Completed").slice(0, 3);
+  const [playVideo, setPlayVideo] = useState(false);
+
+  const galleryPhotos = [
+    { image: project1, name: "MK Green Valley - Devanahalli" },
+    { image: project2, name: "MK Royal Heights - Mysore" },
+    { image: project3, name: "MK Agri Estates - Tumkur" },
+    { image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop", name: "Premium Gated Communities" },
+    { image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop", name: "Lush Parks & Amenities" },
+    { image: "https://images.unsplash.com/photo-1444653389962-8149286c578a?q=80&w=800&auto=format&fit=crop", name: "MK Industrial Park - Hubli" },
+  ];
+
   return (
     <SiteLayout>
       <section className="relative -mt-16 md:-mt-[88px] min-h-[100svh] flex items-center justify-center overflow-hidden">
@@ -129,6 +146,45 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="py-20 md:py-28 px-5 md:px-8 bg-card border-y border-border">
+        <div className="max-w-5xl mx-auto">
+          <SectionHeader
+            eyebrow="Virtual Tour"
+            title="Walkthrough our layouts"
+            description="Take a high-definition drone tour of our ongoing gated communities and plot developments from the comfort of your home."
+          />
+          <div className="mt-12 relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border group bg-black">
+            {playVideo ? (
+              <iframe
+                src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1"
+                title="MK Developers Layout Tour"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            ) : (
+              <div 
+                className="absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center"
+                onClick={() => setPlayVideo(true)}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop"
+                  alt="MK Developers layout drone tour thumbnail"
+                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-black/30" />
+                <span className="relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white flex items-center justify-center group-hover:scale-110 group-hover:bg-gold group-hover:border-gold transition-all duration-300 shadow-lg animate-pulse-soft">
+                  <Play className="w-8 h-8 md:w-10 md:h-10 fill-current text-white translate-x-0.5" />
+                </span>
+                <span className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium tracking-wide">
+                  2:30 Min Walkthrough
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 md:py-28 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
           <SectionHeader eyebrow="Why MK Developers" title="Trust that's earned, not claimed" />
@@ -140,6 +196,57 @@ function HomePage() {
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{u.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28 px-5 md:px-8 bg-secondary/50 border-y border-border">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            eyebrow="Wealth Generator"
+            title="Maximize your land investment"
+            description="Unlike depreciating assets, land grows in value. Calculate your returns over time."
+          />
+          <div className="mt-14">
+            <PlotROICalculator />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28 px-5 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            eyebrow="Gallery Teaser"
+            title="Glimpse of MK Developments"
+            description="Take a visual tour through our meticulously developed plots and surrounding landscapes."
+          />
+          <div className="mt-14 grid gap-4 grid-cols-2 md:grid-cols-3">
+            {galleryPhotos.map((p, i) => (
+              <div
+                key={i}
+                className={`relative overflow-hidden rounded-xl group aspect-[4/3] ${
+                  i === 0 || i === 4 ? "md:col-span-2 md:row-span-1" : ""
+                }`}
+              >
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/95 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-5">
+                  <span className="text-primary-foreground font-display text-lg font-semibold">{p.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Link
+              to="/gallery"
+              className="inline-flex items-center gap-2 text-foreground font-semibold border-b-2 border-gold pb-1 hover:text-gold transition"
+            >
+              View Full Gallery <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -168,6 +275,61 @@ function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28 px-5 md:px-8 bg-secondary/30 border-y border-border">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeader
+            eyebrow="Knowledge Hub"
+            title="Latest insights & investment guides"
+            description="Stay ahead with the latest Karnataka RERA updates, smart plot buying guides, and location growth corridors."
+          />
+          <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {blogPosts.slice(0, 3).map((post) => (
+              <Link
+                key={post.slug}
+                to={`/blog/${post.slug}` as any}
+                className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-gold/50 shadow-card hover:shadow-card-hover transition duration-500 flex flex-col h-full"
+              >
+                <div className="aspect-[16/10] w-full overflow-hidden bg-muted relative">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <span className="absolute top-4 left-4 bg-primary/90 backdrop-blur-sm text-gold text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
+                    {post.category}
+                  </span>
+                </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="text-xs text-muted-foreground font-medium flex gap-2 items-center">
+                    <span>{post.date}</span>
+                    <span className="w-1 h-1 rounded-full bg-border" />
+                    <span>{post.readTime}</span>
+                  </div>
+                  <h3 className="mt-3 font-display text-xl text-foreground group-hover:text-gold transition line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground line-clamp-3 leading-relaxed flex-1">
+                    {post.excerpt}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-gold">
+                    Read Article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-2 text-foreground font-semibold border-b-2 border-gold pb-1 hover:text-gold transition"
+            >
+              View All Articles <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

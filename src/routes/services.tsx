@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
-import { MapPin, Home, Store, Trees, Factory, ShieldCheck, Route as RoadIcon, IndianRupee } from "lucide-react";
+import { MapPin, Home, Store, Trees, Factory, Route as RoadIcon, IndianRupee } from "lucide-react";
+import { PlotROICalculator } from "@/components/site/PlotROICalculator";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
       { title: "Our Services — Layout Development & Plot Sales | MK Developers" },
-      { name: "description", content: "Layout development, plot sales, RERA & legal, site development and investment advisory — end-to-end real estate services across Karnataka." },
+      { name: "description", content: "Layout development, plot sales, site development and investment advisory — end-to-end real estate services across Karnataka." },
       { property: "og:title", content: "Services — MK Developers" },
       { property: "og:url", content: "/services" },
     ],
@@ -22,7 +23,6 @@ const services = [
   { icon: Store, title: "Commercial Plots", desc: "High-visibility plots for shops, offices and showrooms." },
   { icon: Trees, title: "Agricultural Plots", desc: "Farm land and weekend-farm investments." },
   { icon: Factory, title: "Industrial Plots", desc: "Warehouses and industrial-zone parcels." },
-  { icon: ShieldCheck, title: "RERA & Legal", desc: "RERA-registered, clear-title plots — fully compliant." },
   { icon: RoadIcon, title: "Site Development", desc: "Roads, drainage, electricity and landscaping done right." },
   { icon: IndianRupee, title: "Investment Advisory", desc: "Guidance on the best plots for ROI and growth." },
 ];
@@ -50,6 +50,12 @@ function Services() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28 px-5 md:px-8 bg-secondary/50 border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <PlotROICalculator />
         </div>
       </section>
     </SiteLayout>

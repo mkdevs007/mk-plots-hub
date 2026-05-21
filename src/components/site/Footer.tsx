@@ -29,6 +29,7 @@ export function Footer() {
             <li><Link to="/projects" className="hover:text-gold">Projects</Link></li>
             <li><Link to="/services" className="hover:text-gold">Services</Link></li>
             <li><Link to="/gallery" className="hover:text-gold">Gallery</Link></li>
+            <li><Link to="/blog" className="hover:text-gold">Blog</Link></li>
             <li><Link to="/about" className="hover:text-gold">About Us</Link></li>
             <li><Link to="/contact" className="hover:text-gold">Contact</Link></li>
           </ul>
