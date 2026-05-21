@@ -71,7 +71,7 @@ function ProjectDetail() {
                     <tr><th className="px-5 py-3 font-semibold">Size</th><th className="px-5 py-3 font-semibold">Price</th><th className="px-5 py-3 font-semibold">Status</th></tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {p.sizes.map((sz, i) => (
+                    {p.sizes.map((sz: string, i: number) => (
                       <tr key={sz}>
                         <td className="px-5 py-3 font-medium">{sz}</td>
                         <td className="px-5 py-3">From ₹{p.priceLakh + i * 4} Lakh</td>
@@ -87,7 +87,7 @@ function ProjectDetail() {
             <div className="mt-12">
               <h2 className="font-display text-3xl">Amenities</h2>
               <div className="mt-5 flex flex-wrap gap-3">
-                {p.amenities.map((a) => (
+                {p.amenities.map((a: string) => (
                   <span key={a} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border text-sm">
                     <CheckCircle2 className="w-4 h-4 text-gold" /> {a}
                   </span>
