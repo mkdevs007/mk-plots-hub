@@ -3,7 +3,23 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/((?!assets/|favicon\\.png|favicon\\.ico).*)",
+      "source": "/assets/(.*)",
+      "destination": "/client/assets/$1"
+    },
+    {
+      "source": "/favicon.png",
+      "destination": "/client/favicon.png"
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/client/favicon.ico"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/client/robots.txt"
+    },
+    {
+      "source": "/((?!client/|api/).*)",
       "destination": "/api/server"
     }
   ]
