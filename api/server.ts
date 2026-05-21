@@ -1,10 +1,8 @@
 // @ts-ignore
 import server from '../dist/server/server.js';
 
-export const config = {
-  runtime: 'edge',
+export default {
+  async fetch(request: Request) {
+    return server.fetch(request);
+  }
 };
-
-export default async function handler(request: Request) {
-  return server.fetch(request);
-}
