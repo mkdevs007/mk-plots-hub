@@ -111,10 +111,18 @@ function ProjectDetail() {
       <section className="relative -mt-16 md:-mt-[88px] h-[70vh] min-h-[480px] overflow-hidden">
         <img src={p.image} alt={`${p.name} aerial view`} width={1920} height={1080} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-end pb-14 px-5 md:px-8 text-primary-foreground">
-          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">{p.status}</span>
-          <h1 className="mt-3 font-display text-5xl md:text-7xl">{p.name}</h1>
-          <p className="mt-3 text-primary-foreground/80 flex items-center gap-2"><MapPin className="w-4 h-4 text-gold" /> {p.area}, {p.city} — {p.landmark}</p>
+        <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-between pt-24 pb-14 px-5 md:px-8 text-primary-foreground">
+          <Link
+            to="/projects"
+            className="self-start text-[11px] uppercase tracking-[0.22em] text-primary-foreground/70 hover:text-gold transition-colors font-semibold"
+          >
+            ← Back to all projects
+          </Link>
+          <div>
+            <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">{p.status}</span>
+            <h1 className="mt-3 font-display text-5xl md:text-7xl">{p.name}</h1>
+            <p className="mt-3 text-primary-foreground/80 flex items-center gap-2"><MapPin className="w-4 h-4 text-gold" /> {p.area}, {p.city} — {p.landmark}</p>
+          </div>
         </div>
       </section>
 
