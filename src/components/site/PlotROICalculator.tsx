@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info, Sparkles, TrendingUp, Lightbulb, Compass, Award, ShieldCheck } from "lucide-react";
+import { Info, Sparkles, TrendingUp, Lightbulb, Compass, Award, ShieldCheck, ChevronDown } from "lucide-react";
 
 const cityAppreciation: Record<string, number> = {
   Bangalore: 12,
@@ -43,9 +43,9 @@ export function PlotROICalculator() {
   // Generate dynamic financial suggestions
   const getPeriodSuggestion = (y: number) => {
     if (y < 3) {
-      return "Short holding periods are ideal for liquidity, but higher registration taxes and transaction costs apply. We recommend holding for 5+ years to maximize tax exemptions and organic land growth.";
+      return "Short holding periods are ideal for liquidity, but higher transaction costs apply. We recommend holding for 5+ years to maximize compounding gains.";
     } else if (y <= 7) {
-      return "A 5-7 year window is the optimal investment duration. This allows nearby infrastructure developments (roads, commercial hubs) to complete, unlocking maximum land value updates.";
+      return "A 5-7 year window is the optimal investment duration. This allows nearby infrastructure developments (roads, commercial hubs) to complete, unlocking maximum land value.";
     } else {
       return "Generational Wealth Choice! Land investments held for 8+ years experience powerful compounding. You will benefit from long-term capital gains benefits and major regional price re-rating.";
     }
@@ -57,17 +57,19 @@ export function PlotROICalculator() {
   return (
     <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-card-hover max-w-5xl mx-auto">
       <div className="grid lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Inputs & Triggers */}
+        {/* Left Column: Inputs, Triggers & Suggestions */}
         <div className="lg:col-span-6 space-y-6">
           <div className="flex items-center gap-2 text-gold font-semibold text-sm uppercase tracking-wider">
             <Sparkles className="w-4 h-4" /> Live ROI Estimator
           </div>
-          <h3 className="font-display text-3xl">Plot ROI Calculator</h3>
-          <p className="text-sm text-muted-foreground">
-            Estimate the potential appreciation of your land investment compared to traditional investment options like Fixed Deposits (FD) and Gold.
-          </p>
+          <div>
+            <h3 className="font-display text-3xl">Plot ROI Calculator</h3>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              Estimate the potential appreciation of your land investment compared to traditional investment options like Fixed Deposits (FD) and Gold.
+            </p>
+          </div>
 
-          <div className="space-y-6 pt-4">
+          <div className="space-y-6 pt-2">
             {/* Initial Budget Input */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm font-semibold">
@@ -84,56 +86,63 @@ export function PlotROICalculator() {
                 className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-gold focus:outline-none"
               />
               {/* Presets Triggers for Budget */}
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <span className="text-[10px] text-muted-foreground font-medium uppercase mr-1">Presets:</span>
-                {[5, 15, 30, 50, 100].map((val) => (
-                  <button
-                    key={val}
-                    type="button"
-                    onClick={() => setBudget(val)}
-                    className={`px-2.5 py-1 rounded text-xs font-semibold border transition cursor-pointer ${
-                      budget === val
-                        ? "bg-gold text-gold-foreground border-gold shadow-sm shadow-gold/25"
-                        : "bg-secondary/40 hover:bg-secondary text-muted-foreground border-border"
-                    }`}
-                  >
-                    ₹{val}L
-                  </button>
-                ))}
+              <div className="flex items-center gap-2 pt-1">
+                <span className="text-[10px] text-muted-foreground font-semibold uppercase mr-1">Presets:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[5, 15, 30, 50, 100].map((val) => (
+                    <button
+                      key={val}
+                      type="button"
+                      onClick={() => setBudget(val)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${
+                        budget === val
+                          ? "bg-gold text-gold-foreground border-gold shadow-md shadow-gold/20"
+                          : "bg-background hover:bg-secondary text-muted-foreground border-border hover:border-gold/30 hover:text-foreground"
+                      }`}
+                    >
+                      ₹{val}L
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Target Location / City Input */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold">Target Location / City</label>
-              <select
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="w-full px-4 py-3 rounded-md bg-background border border-border focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none transition text-sm font-medium"
-              >
-                {Object.keys(cityAppreciation).map((c) => (
-                  <option key={c} value={c}>
-                    {c} (Avg {cityAppreciation[c]}% p.a.)
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-background hover:bg-secondary/40 border border-border focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none transition text-sm font-semibold text-foreground cursor-pointer appearance-none pr-10"
+                >
+                  {Object.keys(cityAppreciation).map((c) => (
+                    <option key={c} value={c} className="bg-card text-foreground font-medium">
+                      {c} (Avg {cityAppreciation[c]}% p.a.)
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gold pointer-events-none" />
+              </div>
               {/* Presets Triggers for City */}
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <span className="text-[10px] text-muted-foreground font-medium uppercase mr-1">Locations:</span>
-                {Object.keys(cityAppreciation).map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setCity(c)}
-                    className={`px-2.5 py-1 rounded text-xs font-semibold border transition cursor-pointer ${
-                      city === c
-                        ? "bg-gold text-gold-foreground border-gold shadow-sm"
-                        : "bg-secondary/40 hover:bg-secondary text-muted-foreground border-border"
-                    }`}
-                  >
-                    {c}
-                  </button>
-                ))}
+              <div className="flex items-center gap-2 pt-1">
+                <span className="text-[10px] text-muted-foreground font-semibold uppercase mr-1">Locations:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.keys(cityAppreciation).map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setCity(c)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${
+                        city === c
+                          ? "bg-gold text-gold-foreground border-gold shadow-md shadow-gold/20"
+                          : "bg-background hover:bg-secondary text-muted-foreground border-border hover:border-gold/30 hover:text-foreground"
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -154,110 +163,29 @@ export function PlotROICalculator() {
               />
               {/* Presets Triggers for Years */}
               <div className="flex items-center gap-2 pt-1">
-                <span className="text-[10px] text-muted-foreground font-medium uppercase mr-1">Duration:</span>
-                {[1, 3, 5, 8, 10].map((val) => (
-                  <button
-                    key={val}
-                    type="button"
-                    onClick={() => setYears(val)}
-                    className={`px-2.5 py-1 rounded text-xs font-semibold border transition cursor-pointer ${
-                      years === val
-                        ? "bg-gold text-gold-foreground border-gold shadow-sm shadow-gold/25"
-                        : "bg-secondary/40 hover:bg-secondary text-muted-foreground border-border"
-                    }`}
-                  >
-                    {val} {val === 1 ? "Yr" : "Yrs"}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Outputs, Chart, Suggestions */}
-        <div className="lg:col-span-6 space-y-6">
-          {/* Main Return Output Box */}
-          <div className="bg-secondary/40 border border-border rounded-xl p-5 space-y-5">
-            <div>
-              <div className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Estimated Future Value</div>
-              <div className="font-display text-4xl text-gold font-bold mt-1 tracking-tight">
-                {formatCurrency(futureValuePlot)}
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-medium">
-                <TrendingUp className="w-3.5 h-3.5 animate-bounce" />
-                <span>
-                  Net growth of {formatCurrency(futureValuePlot - budget)} in {years} years ({rate}% p.a.)
-                </span>
-              </div>
-            </div>
-
-            {/* Visual Comparison Chart */}
-            <div className="space-y-4 pt-4 border-t border-border">
-              <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Comparison after {years} years</h4>
-              
-              <div className="space-y-3">
-                {/* Plot */}
-                <div>
-                  <div className="flex justify-between text-xs font-semibold mb-1">
-                    <span className="flex items-center gap-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-gold inline-block"></span>
-                      Land Plot ({city} @ {rate}%)
-                    </span>
-                    <span className="font-bold text-gold">{formatCurrency(futureValuePlot)}</span>
-                  </div>
-                  <div className="h-6 w-full bg-secondary/80 rounded-md overflow-hidden flex items-center">
-                    <div
-                      style={{ width: `${getWidthPercent(futureValuePlot)}%` }}
-                      className="h-full gold-gradient rounded-md transition-all duration-500 relative flex items-center px-2 min-w-[30px]"
+                <span className="text-[10px] text-muted-foreground font-semibold uppercase mr-1">Duration:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[1, 3, 5, 8, 10].map((val) => (
+                    <button
+                      key={val}
+                      type="button"
+                      onClick={() => setYears(val)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${
+                        years === val
+                          ? "bg-gold text-gold-foreground border-gold shadow-md shadow-gold/20"
+                          : "bg-background hover:bg-secondary text-muted-foreground border-border hover:border-gold/30 hover:text-foreground"
+                      }`}
                     >
-                      <span className="text-[10px] font-bold text-gold-foreground truncate">Plot Yield</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Gold */}
-                <div>
-                  <div className="flex justify-between text-xs font-semibold mb-1">
-                    <span className="flex items-center gap-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
-                      Gold Investment (@ 9%)
-                    </span>
-                    <span className="text-foreground">{formatCurrency(futureValueGold)}</span>
-                  </div>
-                  <div className="h-6 w-full bg-secondary/80 rounded-md overflow-hidden flex items-center">
-                    <div
-                      style={{ width: `${getWidthPercent(futureValueGold)}%` }}
-                      className="h-full bg-amber-600/70 rounded-md transition-all duration-500 flex items-center px-2 min-w-[30px]"
-                    >
-                      <span className="text-[10px] font-bold text-white truncate">Gold</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* FD */}
-                <div>
-                  <div className="flex justify-between text-xs font-semibold mb-1">
-                    <span className="flex items-center gap-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span>
-                      Fixed Deposit (FD @ 7%)
-                    </span>
-                    <span className="text-foreground">{formatCurrency(futureValueFD)}</span>
-                  </div>
-                  <div className="h-6 w-full bg-secondary/80 rounded-md overflow-hidden flex items-center">
-                    <div
-                      style={{ width: `${getWidthPercent(futureValueFD)}%` }}
-                      className="h-full bg-slate-500/60 rounded-md transition-all duration-500 flex items-center px-2 min-w-[30px]"
-                    >
-                      <span className="text-[10px] font-bold text-white truncate">FD</span>
-                    </div>
-                  </div>
+                      {val} {val === 1 ? "Yr" : "Yrs"}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Dynamic Suggestions & Advice Box */}
-          <div className="bg-gradient-to-br from-card to-secondary/30 border border-gold/20 rounded-xl p-5 space-y-4 shadow-sm">
+          {/* Dynamic Suggestions & Advice Box (moved here to balance white space) */}
+          <div className="bg-gradient-to-br from-card to-secondary/30 border border-gold/25 rounded-2xl p-5 space-y-4 shadow-sm pt-6 border-t border-border/40">
             <div className="flex items-center gap-2 text-gold font-semibold text-sm">
               <Lightbulb className="w-4 h-4" />
               <span>Smart Investment Suggestions</span>
@@ -296,11 +224,98 @@ export function PlotROICalculator() {
               </div>
             </div>
           </div>
+        </div>
 
-          <p className="flex gap-1.5 text-[10px] text-muted-foreground leading-normal">
-            <Info className="w-3.5 h-3.5 shrink-0 text-gold" />
-            Disclaimer: Appreciation rates are historical averages and are not guaranteed. Land appreciation depends heavily on site development, location access, clear titles, and local zoning laws.
-          </p>
+        {/* Right Column: Outputs & Chart */}
+        <div className="lg:col-span-6 space-y-6 h-full flex flex-col justify-between">
+          {/* Main Return Output Box */}
+          <div className="bg-secondary/40 border border-border rounded-2xl p-6 space-y-6">
+            <div>
+              <div className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Estimated Future Value</div>
+              <div className="font-display text-4xl md:text-5xl text-gold font-bold mt-1 tracking-tight">
+                {formatCurrency(futureValuePlot)}
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-medium">
+                <TrendingUp className="w-3.5 h-3.5 animate-bounce" />
+                <span>
+                  Net growth of {formatCurrency(futureValuePlot - budget)} in {years} years ({rate}% p.a.)
+                </span>
+              </div>
+            </div>
+
+            {/* Visual Comparison Chart */}
+            <div className="space-y-4 pt-4 border-t border-border">
+              <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Comparison after {years} years</h4>
+              
+              <div className="space-y-4">
+                {/* Plot */}
+                <div>
+                  <div className="flex justify-between text-xs font-semibold mb-1">
+                    <span className="flex items-center gap-1">
+                      <span className="w-2.5 h-2.5 rounded-full bg-gold inline-block"></span>
+                      Land Plot ({city} @ {rate}%)
+                    </span>
+                    <span className="font-bold text-gold">{formatCurrency(futureValuePlot)}</span>
+                  </div>
+                  <div className="h-7 w-full bg-secondary/80 rounded-md overflow-hidden flex items-center">
+                    <div
+                      style={{ width: `${getWidthPercent(futureValuePlot)}%` }}
+                      className="h-full gold-gradient rounded-md transition-all duration-500 relative flex items-center px-3 min-w-[40px]"
+                    >
+                      <span className="text-[10px] font-bold text-gold-foreground truncate">Plot Yield</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Gold */}
+                <div>
+                  <div className="flex justify-between text-xs font-semibold mb-1">
+                    <span className="flex items-center gap-1">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                      Gold Investment (@ 9%)
+                    </span>
+                    <span className="text-foreground">{formatCurrency(futureValueGold)}</span>
+                  </div>
+                  <div className="h-7 w-full bg-secondary/80 rounded-md overflow-hidden flex items-center">
+                    <div
+                      style={{ width: `${getWidthPercent(futureValueGold)}%` }}
+                      className="h-full bg-amber-600/70 rounded-md transition-all duration-500 flex items-center px-3 min-w-[40px]"
+                    >
+                      <span className="text-[10px] font-bold text-white truncate">Gold</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* FD */}
+                <div>
+                  <div className="flex justify-between text-xs font-semibold mb-1">
+                    <span className="flex items-center gap-1">
+                      <span className="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span>
+                      Fixed Deposit (FD @ 7%)
+                    </span>
+                    <span className="text-foreground">{formatCurrency(futureValueFD)}</span>
+                  </div>
+                  <div className="h-7 w-full bg-secondary/80 rounded-md overflow-hidden flex items-center">
+                    <div
+                      style={{ width: `${getWidthPercent(futureValueFD)}%` }}
+                      className="h-full bg-slate-500/60 rounded-md transition-all duration-500 flex items-center px-3 min-w-[40px]"
+                    >
+                      <span className="text-[10px] font-bold text-white truncate">FD</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <p className="flex gap-1.5 text-[10px] text-muted-foreground leading-normal bg-secondary/20 p-3 rounded-xl border border-border/40">
+              <Info className="w-3.5 h-3.5 shrink-0 text-gold mt-0.5" />
+              <span>
+                Disclaimer: Appreciation rates are historical averages and are not guaranteed. Land appreciation depends heavily on site development, location access, clear titles, and local zoning laws.
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

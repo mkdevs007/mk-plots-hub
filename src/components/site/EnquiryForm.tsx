@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { whatsappHref } from "./WhatsAppButton";
@@ -11,10 +11,30 @@ const schema = z.object({
   message: z.string().trim().max(500).optional(),
 });
 
-export function EnquiryForm({ compact = false }: { compact?: boolean }) {
+interface EnquiryFormProps {
+  compact?: boolean;
+  plotId?: string;
+  projectName?: string;
+}
+
+export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFormProps) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+
+  const defaultMsg = plotId && projectName
+    ? `I am interested in Plot ${plotId} at ${projectName}. Please share pricing and details.`
+    : "";
+
+  const [message, setMessage] = useState(defaultMsg);
+
+  useEffect(() => {
+    setMessage(
+      plotId && projectName
+        ? `I am interested in Plot ${plotId} at ${projectName}. Please share pricing and details.`
+        : ""
+    );
+  }, [plotId, projectName]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,7 +95,14 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
         </select>
       </div>
       <div className={compact ? "" : "md:col-span-2"}>
-        <textarea name="message" rows={3} placeholder="Message (optional)" className={fieldCls} />
+        <textarea
+          name="message"
+          rows={3}
+          placeholder="Message (optional)"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className={fieldCls}
+        />
         {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
       </div>
       <div className={`flex flex-col sm:flex-row gap-3 ${compact ? "" : "md:col-span-2"}`}>

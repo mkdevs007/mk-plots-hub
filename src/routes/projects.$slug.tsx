@@ -1,9 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useLocation } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { projects } from "@/data/projects";
 import { MapPin, Ruler, Shield, Download, CheckCircle2, Calendar, Clock, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SiteVisitModal } from "@/components/site/SiteVisitModal";
 
 export const Route = createFileRoute("/projects/$slug")({
@@ -81,6 +81,22 @@ function ProjectDetail() {
   const [selectedPlot, setSelectedPlot] = useState<InteractivePlot | null>(null);
   const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = window.location.hash || location.hash;
+    if (hash) {
+      const id = hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location.hash]);
+
   const sold = p.totalPlots - p.availablePlots;
   const plotsList = mockPlots(p.priceLakh, p.sizes);
 
@@ -126,7 +142,7 @@ function ProjectDetail() {
             </div>
 
             {/* Interactive Layout Availability Map */}
-            <div className="mt-12 border-t border-border pt-12">
+            <div id="layout-map" className="mt-12 border-t border-border pt-12 scroll-mt-24">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <h2 className="font-display text-3xl">Interactive Availability Map</h2>
@@ -150,7 +166,19 @@ function ProjectDetail() {
                     
                     {/* Plots */}
                     {plotsList.map((plot) => (
-                      <g key={plot.id} className="cursor-pointer group" onClick={() => setSelectedPlot(plot)}>
+                      <g
+                        key={plot.id}
+                        className="cursor-pointer group"
+                        onClick={() => {
+                          setSelectedPlot(plot);
+                          if (plot.status !== "Sold") {
+                            const el = document.getElementById("enquiry");
+                            if (el) {
+                              el.scrollIntoView({ behavior: "smooth" });
+                            }
+                          }
+                        }}
+                      >
                         <rect
                           x={plot.x}
                           y={plot.y}
@@ -291,12 +319,16 @@ function ProjectDetail() {
             </div>
           </div>
 
-          <aside className="lg:sticky lg:top-28 self-start">
+          <aside id="enquiry" className="lg:sticky lg:top-28 self-start scroll-mt-24">
             <div className="bg-card p-6 rounded-2xl shadow-card-hover border border-border">
               <h3 className="font-display text-2xl">Enquire about {p.name}</h3>
               <p className="text-sm text-muted-foreground mt-1">Get plot availability, pricing & site visit slot.</p>
               <div className="mt-5">
-                <EnquiryForm compact />
+                <EnquiryForm
+                  compact
+                  plotId={selectedPlot?.id}
+                  projectName={p.name}
+                />
               </div>
 
               {p.priceLakh > 0 && (

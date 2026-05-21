@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 import logo from "@/assets/logo.png";
@@ -28,22 +28,15 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b ${
         scrolled
-          ? "bg-primary/95 backdrop-blur-md shadow-lg"
-          : "bg-primary/30 backdrop-blur-sm"
+          ? "bg-primary/85 backdrop-blur-lg border-white/10 shadow-lg"
+          : "bg-primary/40 backdrop-blur-md border-white/5"
       }`}
     >
-      <div className="hidden md:flex items-center justify-end gap-6 px-8 py-1.5 text-xs text-primary-foreground/70 border-b border-white/10">
-        <a href="tel:+919999999999" className="flex items-center gap-1.5 hover:text-gold transition">
-          <Phone className="w-3 h-3" /> +91 99999 99999
-        </a>
-        <span>info@mkdevelopers.in</span>
-      </div>
-
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-16 md:h-20">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-14 md:h-16">
         <Link to="/" className="flex items-center group">
-          <img src={logo} alt="MX Developer & Builders logo" className="h-10 md:h-12 w-auto object-contain" />
+          <img src={logo} alt="MX Developer & Builders logo" className="h-8 md:h-10 w-auto object-contain" />
         </Link>
 
         <ul className="hidden lg:flex items-center gap-8">
@@ -51,8 +44,8 @@ export function Header() {
             <li key={n.to}>
               <Link
                 to={n.to}
-                className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition relative"
-                activeProps={{ className: "text-gold" }}
+                className="text-sm font-medium text-primary-foreground/85 hover:text-gold transition relative"
+                activeProps={{ className: "text-gold font-semibold" }}
               >
                 {n.label}
               </Link>
@@ -63,7 +56,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <Link
             to="/contact"
-            className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-md gold-gradient text-gold-foreground font-semibold text-sm hover:opacity-90 transition shadow-md"
+            className="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-md gold-gradient text-gold-foreground font-semibold text-xs hover:opacity-90 transition shadow-md"
           >
             Enquire Now
           </Link>
@@ -72,15 +65,15 @@ export function Header() {
             className="lg:hidden text-primary-foreground p-2"
             aria-label="Open menu"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5" />
           </button>
         </div>
       </nav>
 
       {open && (
         <div className="fixed inset-0 z-[60] lg:hidden">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
-          <div className="absolute top-0 right-0 h-full w-72 bg-primary p-6 animate-fade-up">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setOpen(false)} />
+          <div className="absolute top-0 right-0 h-full w-72 bg-primary/95 backdrop-blur-md border-l border-white/10 p-6 animate-fade-up">
             <div className="flex justify-end">
               <button onClick={() => setOpen(false)} className="text-primary-foreground p-2">
                 <X className="w-6 h-6" />
@@ -92,7 +85,7 @@ export function Header() {
                   <Link
                     to={n.to}
                     onClick={() => setOpen(false)}
-                    className="block py-3 px-3 text-primary-foreground hover:text-gold hover:bg-white/5 rounded-md font-medium"
+                    className="block py-3 px-3 text-primary-foreground/90 hover:text-gold hover:bg-white/5 rounded-md font-medium"
                   >
                     {n.label}
                   </Link>
