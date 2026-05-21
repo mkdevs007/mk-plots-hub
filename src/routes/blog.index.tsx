@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 import { blogPosts } from "@/data/blog";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "MK Developers Blog — Real Estate Guides & Advice" },

@@ -1,12 +1,20 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { projects, cities } from "@/data/projects";
 import { useMemo, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const META: Record<string, { title: string; tagline: string; description: string }> = {
+  all: { title: "All Plots in Karnataka", tagline: "Premium gated plots across prime growth corridors", description: "Explore fully developed residential, commercial, agricultural, and industrial land parcels inside Karnataka. RERA approved, clear titles, premium layouts." },
   residential: { title: "Residential Plots in Karnataka", tagline: "Build the home you've always imagined", description: "Premium residential plots in gated layouts — wide roads, parks, 24/7 security and clear titles." },
   commercial: { title: "Commercial Plots in Karnataka", tagline: "Plots that work as hard as you do", description: "Commercial layouts on high-footfall corridors — perfect for showrooms, offices and mixed-use." },
   agricultural: { title: "Agricultural Plots in Karnataka", tagline: "Land that grows with you", description: "Fertile agri plots with road, water and power. Great for weekend farms and long-horizon investment." },
@@ -36,9 +44,19 @@ export const Route = createFileRoute("/plots/$type")({
 const statuses = ["All", "Ongoing", "New Launch", "Few Plots Left", "Completed"] as const;
 const budgets = ["All", "Under 15 Lakh", "15 - 25 Lakh", "Above 25 Lakh"] as const;
 const sizes = ["All", "30x40", "30x50", "40x60", "Others/Acre"] as const;
+const types = ["all", "residential", "commercial", "agricultural", "industrial"] as const;
+
+const typeNames: Record<string, string> = {
+  all: "All Types",
+  residential: "Residential",
+  commercial: "Commercial",
+  agricultural: "Agricultural",
+  industrial: "Industrial",
+};
 
 function PlotTypePage() {
   const { type } = Route.useLoaderData();
+  const navigate = useNavigate();
   const m = META[type]!;
 
   const [city, setCity] = useState("All");
@@ -48,7 +66,7 @@ function PlotTypePage() {
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
-      if (p.type !== type) return false;
+      if (type !== "all" && p.type !== type) return false;
 
       // City filter
       if (city !== "All" && p.city !== city) return false;
@@ -78,8 +96,6 @@ function PlotTypePage() {
     });
   }, [type, city, status, budget, size]);
 
-  const sel = "px-4 py-2.5 rounded-md bg-background border border-border text-sm focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none";
-
   return (
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8">
@@ -94,31 +110,95 @@ function PlotTypePage() {
         <div className="max-w-7xl mx-auto">
           {/* Filters card */}
           <div className="bg-card border border-border rounded-xl p-5 md:p-6 shadow-card flex flex-wrap gap-4 items-end mb-10">
+            {/* Plot Type Filter */}
+            <div className="flex-1 min-w-[150px]">
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Plot Type</label>
+              <Select
+                value={type}
+                onValueChange={(val) => navigate({ to: "/plots/$type", params: { type: val } })}
+              >
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All Types" />
+                </SelectTrigger>
+                <SelectContent>
+                  {types.map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {typeNames[t]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* City Filter */}
             <div className="flex-1 min-w-[150px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">City</label>
-              <select value={city} onChange={(e) => setCity(e.target.value)} className={sel + " w-full font-medium"}>
-                <option>All</option>
-                {cities.map((c) => <option key={c}>{c}</option>)}
-              </select>
+              <Select value={city} onValueChange={setCity}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Cities</SelectItem>
+                  {cities.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+
+            {/* Status Filter */}
             <div className="flex-1 min-w-[150px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Status</label>
-              <select value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className={sel + " w-full font-medium"}>
-                {statuses.map((s) => <option key={s}>{s}</option>)}
-              </select>
+              <Select value={status} onValueChange={setStatus}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statuses.map((s) => (
+                    <SelectItem key={s} value={s}>
+                      {s === "All" ? "All Statuses" : s}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+
+            {/* Budget Filter */}
             <div className="flex-1 min-w-[150px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Budget</label>
-              <select value={budget} onChange={(e) => setBudget(e.target.value as typeof budget)} className={sel + " w-full font-medium"}>
-                {budgets.map((b) => <option key={b}>{b}</option>)}
-              </select>
+              <Select value={budget} onValueChange={setBudget}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  {budgets.map((b) => (
+                    <SelectItem key={b} value={b}>
+                      {b === "All" ? "All Budgets" : b}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+
+            {/* Size Filter */}
             <div className="flex-1 min-w-[150px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Plot Size</label>
-              <select value={size} onChange={(e) => setSize(e.target.value as typeof size)} className={sel + " w-full font-medium"}>
-                {sizes.map((sz) => <option key={sz}>{sz}</option>)}
-              </select>
+              <Select value={size} onValueChange={setSize}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sizes.map((sz) => (
+                    <SelectItem key={sz} value={sz}>
+                      {sz === "All" ? "All Sizes" : sz}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+
             <div className="text-sm text-muted-foreground ml-auto font-medium py-2.5">
               Showing <span className="font-bold text-foreground">{filtered.length}</span> results
             </div>

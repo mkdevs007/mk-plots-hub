@@ -3,8 +3,16 @@ import { useMemo, useState } from "react";
 import { SiteLayout } from "@/components/site/Layout";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { projects, cities } from "@/data/projects";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export const Route = createFileRoute("/projects")({
+
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title: "Plot Projects in Karnataka | MK Developers" },
@@ -36,8 +44,6 @@ function ProjectsPage() {
     [city, type, status]
   );
 
-  const sel = "px-4 py-2.5 rounded-md bg-background border border-border text-sm focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none";
-
   return (
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-16 md:py-24 px-5 md:px-8">
@@ -53,24 +59,51 @@ function ProjectsPage() {
           <div className="bg-card border border-border rounded-xl p-5 md:p-6 shadow-card flex flex-wrap gap-4 items-end">
             <div className="flex-1 min-w-[160px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">City</label>
-              <select value={city} onChange={(e) => setCity(e.target.value)} className={sel + " w-full"}>
-                <option>All</option>
-                {cities.map((c) => <option key={c}>{c}</option>)}
-              </select>
+              <Select value={city} onValueChange={setCity}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Cities</SelectItem>
+                  {cities.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex-1 min-w-[160px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Plot Type</label>
-              <select value={type} onChange={(e) => setType(e.target.value as typeof type)} className={sel + " w-full"}>
-                {types.map((t) => <option key={t}>{t}</option>)}
-              </select>
+              <Select value={type} onValueChange={(val) => setType(val as typeof type)}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  {types.map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {t === "All" ? "All Types" : t}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex-1 min-w-[160px]">
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Status</label>
-              <select value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className={sel + " w-full"}>
-                {statuses.map((s) => <option key={s}>{s}</option>)}
-              </select>
+              <Select value={status} onValueChange={(val) => setStatus(val as typeof status)}>
+                <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statuses.map((s) => (
+                    <SelectItem key={s} value={s}>
+                      {s === "All" ? "All Statuses" : s}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className="text-sm text-muted-foreground ml-auto">
+            <div className="text-sm text-muted-foreground ml-auto font-medium py-2.5">
               Showing <span className="font-bold text-foreground">{filtered.length}</span> of {projects.length} projects
             </div>
           </div>

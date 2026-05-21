@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Info, Sparkles, TrendingUp, Lightbulb, Compass, Award, ShieldCheck, ChevronDown } from "lucide-react";
+import { Info, Sparkles, TrendingUp, Lightbulb, Compass, Award, ShieldCheck } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const cityAppreciation: Record<string, number> = {
   Bangalore: 12,
@@ -55,23 +62,26 @@ export function PlotROICalculator() {
   const extraProfitGold = futureValuePlot - futureValueGold;
 
   return (
-    <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-card-hover max-w-5xl mx-auto">
-      <div className="grid lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Inputs, Triggers & Suggestions */}
-        <div className="lg:col-span-6 space-y-6">
-          <div className="flex items-center gap-2 text-gold font-semibold text-sm uppercase tracking-wider">
-            <Sparkles className="w-4 h-4" /> Live ROI Estimator
+    <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-card-hover max-w-5xl mx-auto space-y-8">
+      {/* Title Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/60 pb-6">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 text-gold font-semibold text-xs uppercase tracking-widest">
+            <Sparkles className="w-4 h-4 animate-pulse" /> Live ROI Estimator
           </div>
-          <div>
-            <h3 className="font-display text-3xl">Plot ROI Calculator</h3>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              Estimate the potential appreciation of your land investment compared to traditional investment options like Fixed Deposits (FD) and Gold.
-            </p>
-          </div>
+          <h3 className="font-display text-3xl">Plot ROI Calculator</h3>
+          <p className="text-sm text-muted-foreground max-w-xl">
+            Estimate the potential appreciation of your land investment compared to traditional options like Fixed Deposits (FD) and Gold.
+          </p>
+        </div>
+      </div>
 
-          <div className="space-y-6 pt-2">
+      <div className="grid lg:grid-cols-12 gap-8 items-stretch">
+        {/* Left Column: Inputs & Triggers */}
+        <div className="lg:col-span-6 space-y-6 flex flex-col justify-between">
+          <div className="space-y-6">
             {/* Initial Budget Input */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex justify-between text-sm font-semibold">
                 <label className="text-foreground">Initial Budget</label>
                 <span className="text-gold font-bold">{budget} Lakh</span>
@@ -108,22 +118,20 @@ export function PlotROICalculator() {
             </div>
 
             {/* Target Location / City Input */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label className="block text-sm font-semibold">Target Location / City</label>
-              <div className="relative">
-                <select
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-background hover:bg-secondary/40 border border-border focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none transition text-sm font-semibold text-foreground cursor-pointer appearance-none pr-10"
-                >
+              <Select value={city} onValueChange={setCity}>
+                <SelectTrigger className="h-12 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full text-sm">
+                  <SelectValue placeholder="Select City" />
+                </SelectTrigger>
+                <SelectContent>
                   {Object.keys(cityAppreciation).map((c) => (
-                    <option key={c} value={c} className="bg-card text-foreground font-medium">
+                    <SelectItem key={c} value={c}>
                       {c} (Avg {cityAppreciation[c]}% p.a.)
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-                <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gold pointer-events-none" />
-              </div>
+                </SelectContent>
+              </Select>
               {/* Presets Triggers for City */}
               <div className="flex items-center gap-2 pt-1">
                 <span className="text-[10px] text-muted-foreground font-semibold uppercase mr-1">Locations:</span>
@@ -147,7 +155,7 @@ export function PlotROICalculator() {
             </div>
 
             {/* Holding Period Input */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex justify-between text-sm font-semibold">
                 <label className="text-foreground">Holding Period</label>
                 <span className="text-gold font-bold">{years} {years === 1 ? "Year" : "Years"}</span>
@@ -183,53 +191,12 @@ export function PlotROICalculator() {
               </div>
             </div>
           </div>
-
-          {/* Dynamic Suggestions & Advice Box (moved here to balance white space) */}
-          <div className="bg-gradient-to-br from-card to-secondary/30 border border-gold/25 rounded-2xl p-5 space-y-4 shadow-sm pt-6 border-t border-border/40">
-            <div className="flex items-center gap-2 text-gold font-semibold text-sm">
-              <Lightbulb className="w-4 h-4" />
-              <span>Smart Investment Suggestions</span>
-            </div>
-
-            <div className="space-y-3.5 text-xs">
-              {/* Financial Outperformance Suggestion */}
-              <div className="flex gap-2.5 leading-relaxed">
-                <Award className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-foreground block mb-0.5">Plot Outperformance Benefit</strong>
-                  <span className="text-muted-foreground">
-                    Investing in a <span className="font-semibold text-foreground">{city}</span> plot beats Fixed Deposit by{" "}
-                    <span className="font-semibold text-emerald-500">{formatCurrency(extraProfitFD)}</span> and outpaces Gold returns by{" "}
-                    <span className="font-semibold text-emerald-500">{formatCurrency(extraProfitGold)}</span>.
-                  </span>
-                </div>
-              </div>
-
-              {/* City Market Suggestion */}
-              <div className="flex gap-2.5 leading-relaxed border-t border-border/60 pt-3">
-                <Compass className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-foreground block mb-0.5">{city} Market Outlook</strong>
-                  <span className="text-muted-foreground">{cityInsights[city]}</span>
-                </div>
-              </div>
-
-              {/* Holding Period Suggestion */}
-              <div className="flex gap-2.5 leading-relaxed border-t border-border/60 pt-3">
-                <ShieldCheck className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-foreground block mb-0.5">Holding Period Strategy ({years} {years === 1 ? "Year" : "Years"})</strong>
-                  <span className="text-muted-foreground">{getPeriodSuggestion(years)}</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Outputs & Chart */}
-        <div className="lg:col-span-6 space-y-6 h-full flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-secondary/30 border border-border rounded-2xl p-6 flex flex-col justify-between space-y-6">
           {/* Main Return Output Box */}
-          <div className="bg-secondary/40 border border-border rounded-2xl p-6 space-y-6">
+          <div className="space-y-6">
             <div>
               <div className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Estimated Future Value</div>
               <div className="font-display text-4xl md:text-5xl text-gold font-bold mt-1 tracking-tight">
@@ -244,7 +211,7 @@ export function PlotROICalculator() {
             </div>
 
             {/* Visual Comparison Chart */}
-            <div className="space-y-4 pt-4 border-t border-border">
+            <div className="space-y-4 pt-4 border-t border-border/60">
               <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Comparison after {years} years</h4>
               
               <div className="space-y-4">
@@ -252,7 +219,7 @@ export function PlotROICalculator() {
                 <div>
                   <div className="flex justify-between text-xs font-semibold mb-1">
                     <span className="flex items-center gap-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-gold inline-block"></span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-gold inline-block animate-pulse"></span>
                       Land Plot ({city} @ {rate}%)
                     </span>
                     <span className="font-bold text-gold">{formatCurrency(futureValuePlot)}</span>
@@ -307,16 +274,61 @@ export function PlotROICalculator() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div className="space-y-4">
-            <p className="flex gap-1.5 text-[10px] text-muted-foreground leading-normal bg-secondary/20 p-3 rounded-xl border border-border/40">
-              <Info className="w-3.5 h-3.5 shrink-0 text-gold mt-0.5" />
-              <span>
-                Disclaimer: Appreciation rates are historical averages and are not guaranteed. Land appreciation depends heavily on site development, location access, clear titles, and local zoning laws.
-              </span>
+      {/* Full-width suggestions section (replaces white space and looks professional) */}
+      <div className="border-t border-border/60 pt-8 space-y-6">
+        <div className="flex items-center gap-2 text-gold font-semibold text-sm">
+          <Lightbulb className="w-4 h-4" />
+          <span>Smart Investment Suggestions & Market Insights</span>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Card 1: Outperformance Benefit */}
+          <div className="bg-secondary/20 border border-border/40 rounded-xl p-5 space-y-2.5">
+            <div className="flex items-center gap-2 text-emerald-500 font-semibold text-xs uppercase tracking-wider">
+              <Award className="w-4 h-4 shrink-0" />
+              <span>Plot Outperformance</span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Investing in a <span className="font-semibold text-foreground">{city}</span> plot beats Fixed Deposit by{" "}
+              <span className="font-semibold text-emerald-500">{formatCurrency(extraProfitFD)}</span> and outpaces Gold returns by{" "}
+              <span className="font-semibold text-emerald-500">{formatCurrency(extraProfitGold)}</span>.
+            </p>
+          </div>
+
+          {/* Card 2: City Market Outlook */}
+          <div className="bg-secondary/20 border border-border/40 rounded-xl p-5 space-y-2.5">
+            <div className="flex items-center gap-2 text-sky-500 font-semibold text-xs uppercase tracking-wider">
+              <Compass className="w-4 h-4 shrink-0" />
+              <span>{city} Market Outlook</span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {cityInsights[city]}
+            </p>
+          </div>
+
+          {/* Card 3: Holding Period Strategy */}
+          <div className="bg-secondary/20 border border-border/40 rounded-xl p-5 space-y-2.5">
+            <div className="flex items-center gap-2 text-amber-500 font-semibold text-xs uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4 shrink-0" />
+              <span>Strategy ({years} {years === 1 ? "Year" : "Years"})</span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {getPeriodSuggestion(years)}
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="pt-2">
+        <p className="flex gap-1.5 text-[10px] text-muted-foreground leading-normal bg-secondary/10 p-3.5 rounded-xl border border-border/20">
+          <Info className="w-3.5 h-3.5 shrink-0 text-gold mt-0.5" />
+          <span>
+            Disclaimer: Appreciation rates are historical averages and are not guaranteed. Land appreciation depends heavily on site development, location access, clear titles, and local zoning laws.
+          </span>
+        </p>
       </div>
     </div>
   );
