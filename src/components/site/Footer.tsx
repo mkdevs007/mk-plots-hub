@@ -1,14 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Linkedin, MapPin, Phone, Youtube } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="w-9 h-9 rounded-md gold-gradient flex items-center justify-center font-display text-xl font-bold text-gold-foreground">M</span>
-            <span className="font-display text-2xl">MK <span className="text-gold">Developers</span></span>
+          <div className="flex items-center">
+            <img src={logo} alt="MX Developer & Builders logo" className="h-10 w-auto object-contain" />
           </div>
           <p className="mt-4 text-sm text-primary-foreground/70 leading-relaxed">
             Premium residential, commercial, agricultural & industrial plots across Karnataka. Own your future, plot by plot.

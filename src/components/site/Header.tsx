@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Menu, Phone, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
+import logo from "@/assets/logo.png";
+
 const nav = [
   { to: "/", label: "Home" },
   { to: "/projects", label: "Projects" },
@@ -40,13 +42,8 @@ export function Header() {
       </div>
 
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-16 md:h-20">
-        <Link to="/" className="flex items-center gap-2 group">
-          <span className="w-9 h-9 rounded-md gold-gradient flex items-center justify-center font-display text-xl font-bold text-gold-foreground">
-            M
-          </span>
-          <span className="font-display text-xl md:text-2xl text-primary-foreground tracking-wide">
-            MK <span className="text-gold">Developers</span>
-          </span>
+        <Link to="/" className="flex items-center group">
+          <img src={logo} alt="MX Developer & Builders logo" className="h-10 md:h-12 w-auto object-contain" />
         </Link>
 
         <ul className="hidden lg:flex items-center gap-8">
