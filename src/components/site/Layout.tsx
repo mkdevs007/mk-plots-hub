@@ -7,7 +7,9 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      <main className="pt-16 md:pt-[88px]">{children}</main>
+      <main className="pt-16 md:pt-[88px] min-h-screen bg-background text-foreground">
+        {children}
+      </main>
       <Footer />
       <WhatsAppButton />
       <ExitIntentPopup />

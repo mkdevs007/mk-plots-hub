@@ -191,16 +191,16 @@ function HomePage() {
             Premium residential, commercial, agricultural & industrial plots across Karnataka — RERA
             approved, clear titles, prime locations.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up">
+          <div className="mt-10 flex flex-col sm:flex-row gap-3.5 justify-center items-center animate-fade-up w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
             <Link
               to="/projects"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md gold-gradient text-gold-foreground font-semibold shadow-card-hover hover:scale-[1.02] transition"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full gold-gradient text-gold-foreground font-semibold shadow-card hover:scale-[1.02] transition text-sm"
             >
               Explore Projects <ArrowRight className="w-4 h-4" />
             </Link>
             <a
               href="#enquiry"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md border-2 border-white/40 text-white font-semibold backdrop-blur-sm hover:bg-white hover:text-primary transition"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-white/40 text-white font-semibold backdrop-blur-sm hover:bg-white hover:text-primary transition text-sm"
             >
               Reach Out to Us
             </a>
@@ -210,7 +210,7 @@ function HomePage() {
               )}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-md bg-[#25D366] text-white font-semibold hover:opacity-90 transition shadow-md"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-whatsapp text-white font-semibold hover:opacity-90 transition shadow-md text-sm"
             >
               Get Plot Info
             </a>
@@ -353,10 +353,10 @@ function HomePage() {
             Reach out to get brochures, exact location layouts, and verified legal document copies
             within minutes.
           </p>
-          <div className="pt-4 flex flex-wrap justify-center gap-4">
+          <div className="pt-4 flex flex-wrap justify-center gap-3">
             <a
               href="#enquiry"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold text-sm hover:opacity-95 transition hover:scale-[1.02]"
+              className="inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 rounded-full gold-gradient text-gold-foreground font-semibold text-sm hover:opacity-95 transition hover:scale-[1.02]"
             >
               Reach Out to Us
             </a>
@@ -366,13 +366,13 @@ function HomePage() {
               )}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-md border border-white/20 hover:bg-white hover:text-primary transition font-semibold text-sm"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full border border-white/20 hover:bg-white hover:text-primary transition font-semibold text-sm"
             >
               Get Plot Information
             </a>
             <a
               href="tel:+919999999999"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-md bg-white/5 hover:bg-white/10 text-white font-medium text-sm transition"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full bg-white/5 hover:bg-white/10 text-white font-medium text-sm transition"
             >
               <Phone className="w-4 h-4 text-gold" /> Call Plot Advisor
             </a>

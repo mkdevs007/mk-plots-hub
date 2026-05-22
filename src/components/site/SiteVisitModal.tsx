@@ -129,7 +129,7 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-4 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold flex items-center justify-center gap-2 hover:opacity-95 transition disabled:opacity-60"
+            className="w-full mt-4 py-3.5 rounded-full gold-gradient text-gold-foreground font-semibold flex items-center justify-center gap-2 hover:opacity-95 transition disabled:opacity-60 text-sm"
           >
             <Calendar className="w-4 h-4" />
             {loading ? "Scheduling..." : "Confirm & Send WhatsApp"}

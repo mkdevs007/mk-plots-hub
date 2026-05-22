@@ -113,7 +113,7 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 px-6 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold hover:opacity-95 transition disabled:opacity-60"
+          className="flex-1 px-6 py-3.5 rounded-full gold-gradient text-gold-foreground font-semibold hover:opacity-95 transition disabled:opacity-60 text-sm"
         >
           {loading ? "Sending..." : "Get a Callback"}
         </button>
@@ -121,7 +121,7 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
           href={whatsappHref()}
           target="_blank"
           rel="noreferrer"
-          className="flex-1 px-6 py-3.5 rounded-md bg-whatsapp text-white font-semibold text-center hover:opacity-90 transition"
+          className="flex-1 px-6 py-3.5 rounded-full bg-whatsapp text-white font-semibold text-center hover:opacity-90 transition text-sm"
         >
           Chat on WhatsApp
         </a>
