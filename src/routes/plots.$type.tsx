@@ -14,11 +14,36 @@ import {
 } from "@/components/ui/select";
 
 const META: Record<string, { title: string; tagline: string; description: string }> = {
-  all: { title: "All Plots in Karnataka", tagline: "Premium gated plots across prime growth corridors", description: "Explore fully developed residential, commercial, agricultural, and industrial land parcels inside Karnataka. RERA approved, clear titles, premium layouts." },
-  residential: { title: "Residential Plots in Karnataka", tagline: "Build the home you've always imagined", description: "Premium residential plots in gated layouts — wide roads, parks, 24/7 security and clear titles." },
-  commercial: { title: "Commercial Plots in Karnataka", tagline: "Plots that work as hard as you do", description: "Commercial layouts on high-footfall corridors — perfect for showrooms, offices and mixed-use." },
-  agricultural: { title: "Agricultural Plots in Karnataka", tagline: "Land that grows with you", description: "Fertile agri plots with road, water and power. Great for weekend farms and long-horizon investment." },
-  industrial: { title: "Industrial Plots in Karnataka", tagline: "Ready-to-build industrial parcels", description: "Industrial plots with high-load power, wide truck access and logistics-corridor proximity." },
+  all: {
+    title: "All Plots in Karnataka",
+    tagline: "Premium gated plots across prime growth corridors",
+    description:
+      "Explore fully developed residential, commercial, agricultural, and industrial land parcels inside Karnataka. RERA approved, clear titles, premium layouts.",
+  },
+  residential: {
+    title: "Residential Plots in Karnataka",
+    tagline: "Build the home you've always imagined",
+    description:
+      "Premium residential plots in gated layouts — wide roads, parks, 24/7 security and clear titles.",
+  },
+  commercial: {
+    title: "Commercial Plots in Karnataka",
+    tagline: "Plots that work as hard as you do",
+    description:
+      "Commercial layouts on high-footfall corridors — perfect for showrooms, offices and mixed-use.",
+  },
+  agricultural: {
+    title: "Agricultural Plots in Karnataka",
+    tagline: "Land that grows with you",
+    description:
+      "Fertile agri plots with road, water and power. Great for weekend farms and long-horizon investment.",
+  },
+  industrial: {
+    title: "Industrial Plots in Karnataka",
+    tagline: "Ready-to-build industrial parcels",
+    description:
+      "Industrial plots with high-load power, wide truck access and logistics-corridor proximity.",
+  },
 };
 
 export const Route = createFileRoute("/plots/$type")({
@@ -85,7 +110,7 @@ function PlotTypePage() {
       // Size filter
       if (size !== "All") {
         if (size === "Others/Acre") {
-          const hasStandardSize = p.sizes.some(s => s.includes("30x") || s.includes("40x60"));
+          const hasStandardSize = p.sizes.some((s) => s.includes("30x") || s.includes("40x60"));
           if (hasStandardSize) return false;
         } else {
           if (!p.sizes.includes(size)) return false;
@@ -100,9 +125,13 @@ function PlotTypePage() {
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8">
         <div className="max-w-5xl mx-auto text-center">
-          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">{m.title}</span>
+          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+            {m.title}
+          </span>
           <h1 className="mt-4 font-display text-5xl md:text-7xl text-balance">{m.tagline}</h1>
-          <p className="mt-6 text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed">{m.description}</p>
+          <p className="mt-6 text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed">
+            {m.description}
+          </p>
         </div>
       </section>
 
@@ -112,7 +141,9 @@ function PlotTypePage() {
           <div className="bg-card border border-border rounded-xl p-5 md:p-6 shadow-card flex flex-wrap gap-4 items-end mb-10">
             {/* Plot Type Filter */}
             <div className="flex-1 min-w-[150px]">
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Plot Type</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Plot Type
+              </label>
               <Select
                 value={type}
                 onValueChange={(val) => navigate({ to: "/plots/$type", params: { type: val } })}
@@ -132,7 +163,9 @@ function PlotTypePage() {
 
             {/* City Filter */}
             <div className="flex-1 min-w-[150px]">
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">City</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                City
+              </label>
               <Select value={city} onValueChange={setCity}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
@@ -150,7 +183,9 @@ function PlotTypePage() {
 
             {/* Status Filter */}
             <div className="flex-1 min-w-[150px]">
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Status</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Status
+              </label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
@@ -167,7 +202,9 @@ function PlotTypePage() {
 
             {/* Budget Filter */}
             <div className="flex-1 min-w-[150px]">
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Budget</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Budget
+              </label>
               <Select value={budget} onValueChange={setBudget}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
@@ -184,7 +221,9 @@ function PlotTypePage() {
 
             {/* Size Filter */}
             <div className="flex-1 min-w-[150px]">
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Plot Size</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Plot Size
+              </label>
               <Select value={size} onValueChange={setSize}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
@@ -207,11 +246,14 @@ function PlotTypePage() {
           <SectionHeader eyebrow="Available now" title={`${m.title.split(" in ")[0]} for sale`} />
           {filtered.length ? (
             <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((p) => <ProjectCard key={p.slug} p={p} />)}
+              {filtered.map((p) => (
+                <ProjectCard key={p.slug} p={p} />
+              ))}
             </div>
           ) : (
             <p className="text-center text-muted-foreground mt-20 py-16 bg-secondary/30 rounded-xl">
-              No layouts match your exact filters. Adjust them or contact us below to hear about unlisted inventory.
+              No layouts match your exact filters. Adjust them or contact us below to hear about
+              unlisted inventory.
             </p>
           )}
         </div>
@@ -219,9 +261,15 @@ function PlotTypePage() {
 
       <section className="py-20 px-5 md:px-8 bg-secondary/50">
         <div className="max-w-3xl mx-auto bg-card p-8 md:p-10 rounded-2xl shadow-card border border-border">
-          <h3 className="font-display text-3xl text-center">Enquire about {m.title.split(" in ")[0]}</h3>
-          <p className="text-sm text-muted-foreground text-center mt-2 mb-6">Receive detailed layouts, pricing guides, and site visit schedules.</p>
-          <div className="mt-6"><EnquiryForm /></div>
+          <h3 className="font-display text-3xl text-center">
+            Enquire about {m.title.split(" in ")[0]}
+          </h3>
+          <p className="text-sm text-muted-foreground text-center mt-2 mb-6">
+            Receive detailed layouts, pricing guides, and site visit schedules.
+          </p>
+          <div className="mt-6">
+            <EnquiryForm />
+          </div>
         </div>
       </section>
     </SiteLayout>

@@ -22,7 +22,7 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
     if (!name || !phone || !date) return;
 
     setLoading(true);
-    
+
     // Prepare pre-filled WhatsApp message
     const msg = `Hi MK Developers, I am ${name} (Phone: ${phone}). I would like to book a site visit for "${projectName}" on ${date} (${timeSlot} slot). Please confirm.`;
     const href = whatsappHref(msg);
@@ -58,13 +58,17 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
           </div>
           <h3 className="font-display text-2xl text-foreground">Book site visit</h3>
           <p className="text-sm text-muted-foreground mt-1">
-            Schedule a free site tour of <span className="font-semibold text-foreground">{projectName}</span>. Cab pickup and drop can be arranged.
+            Schedule a free site tour of{" "}
+            <span className="font-semibold text-foreground">{projectName}</span>. Cab pickup and
+            drop can be arranged.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Your Name *</label>
+            <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+              Your Name *
+            </label>
             <input
               type="text"
               required
@@ -76,7 +80,9 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Phone Number *</label>
+            <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+              Phone Number *
+            </label>
             <input
               type="tel"
               required
@@ -89,7 +95,9 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Select Date *</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Select Date *
+              </label>
               <div className="relative">
                 <input
                   type="date"
@@ -103,7 +111,9 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Time Slot *</label>
+              <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
+                Time Slot *
+              </label>
               <select
                 value={timeSlot}
                 onChange={(e) => setTimeSlot(e.target.value)}

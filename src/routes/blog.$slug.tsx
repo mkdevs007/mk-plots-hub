@@ -36,13 +36,34 @@ function BlogPostDetail() {
 
       // Headings
       if (trimmed.startsWith("# ")) {
-        return <h1 key={idx} className="font-display text-4xl md:text-5xl mt-8 mb-4 font-bold text-foreground leading-tight">{trimmed.slice(2)}</h1>;
+        return (
+          <h1
+            key={idx}
+            className="font-display text-4xl md:text-5xl mt-8 mb-4 font-bold text-foreground leading-tight"
+          >
+            {trimmed.slice(2)}
+          </h1>
+        );
       }
       if (trimmed.startsWith("## ")) {
-        return <h2 key={idx} className="font-display text-2xl md:text-3xl mt-8 mb-4 font-semibold text-foreground border-b border-border pb-2">{trimmed.slice(3)}</h2>;
+        return (
+          <h2
+            key={idx}
+            className="font-display text-2xl md:text-3xl mt-8 mb-4 font-semibold text-foreground border-b border-border pb-2"
+          >
+            {trimmed.slice(3)}
+          </h2>
+        );
       }
       if (trimmed.startsWith("### ")) {
-        return <h3 key={idx} className="font-display text-xl md:text-2xl mt-6 mb-3 font-semibold text-foreground">{trimmed.slice(4)}</h3>;
+        return (
+          <h3
+            key={idx}
+            className="font-display text-xl md:text-2xl mt-6 mb-3 font-semibold text-foreground"
+          >
+            {trimmed.slice(4)}
+          </h3>
+        );
       }
 
       // Bullet points
@@ -51,23 +72,34 @@ function BlogPostDetail() {
         if (parts.length > 1) {
           return (
             <li key={idx} className="ml-6 list-disc text-muted-foreground leading-relaxed my-1.5">
-              <strong className="text-foreground">{parts[0]}:</strong>{parts.slice(1).join(":")}
+              <strong className="text-foreground">{parts[0]}:</strong>
+              {parts.slice(1).join(":")}
             </li>
           );
         }
-        return <li key={idx} className="ml-6 list-disc text-muted-foreground leading-relaxed my-1.5">{trimmed.slice(2)}</li>;
+        return (
+          <li key={idx} className="ml-6 list-disc text-muted-foreground leading-relaxed my-1.5">
+            {trimmed.slice(2)}
+          </li>
+        );
       }
 
       // Table formatting helper
       if (trimmed.startsWith("|")) {
         // Skip header separators like | :--- | :--- |
         if (trimmed.includes("---")) return null;
-        
-        const cells = trimmed.split("|").map(c => c.trim()).filter(Boolean);
+
+        const cells = trimmed
+          .split("|")
+          .map((c) => c.trim())
+          .filter(Boolean);
         const isHeader = idx === 11 || idx === 12; // Simple check for header line context
-        
+
         return (
-          <div key={idx} className="grid grid-cols-3 gap-4 border-b border-border py-2 text-sm text-muted-foreground">
+          <div
+            key={idx}
+            className="grid grid-cols-3 gap-4 border-b border-border py-2 text-sm text-muted-foreground"
+          >
             {cells.map((cell, cIdx) => (
               <span key={cIdx} className={cIdx === 0 ? "font-semibold text-foreground" : ""}>
                 {cell}
@@ -78,7 +110,11 @@ function BlogPostDetail() {
       }
 
       // Regular paragraphs
-      return <p key={idx} className="my-4 text-muted-foreground leading-relaxed text-base md:text-lg">{trimmed}</p>;
+      return (
+        <p key={idx} className="my-4 text-muted-foreground leading-relaxed text-base md:text-lg">
+          {trimmed}
+        </p>
+      );
     });
   };
 
@@ -87,7 +123,10 @@ function BlogPostDetail() {
       <article className="py-12 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Back button */}
-          <Link to="/blog" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-gold transition mb-8">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-gold transition mb-8"
+          >
             <ChevronLeft className="w-4 h-4" /> Back to Blog
           </Link>
 
@@ -99,10 +138,16 @@ function BlogPostDetail() {
               <span className="px-3 py-1 rounded-full bg-gold text-gold-foreground text-xs font-semibold uppercase tracking-wider">
                 {post.category}
               </span>
-              <h1 className="font-display text-3xl md:text-5xl lg:text-6xl mt-4 leading-tight font-bold">{post.title}</h1>
+              <h1 className="font-display text-3xl md:text-5xl lg:text-6xl mt-4 leading-tight font-bold">
+                {post.title}
+              </h1>
               <div className="flex items-center gap-4 text-sm mt-4 text-white/80">
-                <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {post.date}</span>
-                <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {post.readTime}</span>
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4" /> {post.date}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" /> {post.readTime}
+                </span>
               </div>
             </div>
           </div>
@@ -137,7 +182,8 @@ function BlogPostDetail() {
               <div className="bg-card border border-border p-6 rounded-2xl shadow-card-hover">
                 <h3 className="font-display text-2xl font-bold">Interested in land investment?</h3>
                 <p className="text-sm text-muted-foreground mt-1.5 mb-5">
-                  Speak to our layout consultant for properties with high growth potential and clean deeds.
+                  Speak to our layout consultant for properties with high growth potential and clean
+                  deeds.
                 </p>
                 <EnquiryForm compact />
               </div>

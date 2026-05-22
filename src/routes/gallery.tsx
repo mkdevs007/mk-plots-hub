@@ -7,7 +7,11 @@ export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
       { title: "Project Gallery — Drone Photos & Site Progress | MK Developers" },
-      { name: "description", content: "Aerial drone photos, site progress and walkthroughs from MK Developers layouts across Karnataka." },
+      {
+        name: "description",
+        content:
+          "Aerial drone photos, site progress and walkthroughs from MK Developers layouts across Karnataka.",
+      },
       { property: "og:title", content: "Gallery — MK Developers" },
       { property: "og:url", content: "/gallery" },
     ],
@@ -21,7 +25,9 @@ function Gallery() {
   return (
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center">
-        <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">In Pictures</span>
+        <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+          In Pictures
+        </span>
         <h1 className="mt-4 font-display text-5xl md:text-7xl">Our projects, captured</h1>
       </section>
 
@@ -30,8 +36,16 @@ function Gallery() {
           <SectionHeader eyebrow="Drone & Site Photos" title="See the layouts up close" />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {photos.map((p, i) => (
-              <div key={i} className={`relative overflow-hidden rounded-xl group ${i % 5 === 0 ? "sm:col-span-2 sm:row-span-2 aspect-square" : "aspect-[4/3]"}`}>
-                <img src={p.image} alt={`${p.name} drone photo`} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div
+                key={i}
+                className={`relative overflow-hidden rounded-xl group ${i % 5 === 0 ? "sm:col-span-2 sm:row-span-2 aspect-square" : "aspect-[4/3]"}`}
+              >
+                <img
+                  src={p.image}
+                  alt={`${p.name} drone photo`}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-5">
                   <span className="text-primary-foreground font-display text-xl">{p.name}</span>
                 </div>

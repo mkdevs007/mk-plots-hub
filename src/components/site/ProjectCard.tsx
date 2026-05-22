@@ -41,7 +41,9 @@ export function ProjectCard({ p }: { p: Project }) {
               Enquire Now
             </Link>
           </div>
-          <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold ${badgeClass[p.status]}`}>
+          <span
+            className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold ${badgeClass[p.status]}`}
+          >
             {p.status}
           </span>
           <span className="absolute top-4 right-4 bg-primary/85 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
@@ -50,7 +52,11 @@ export function ProjectCard({ p }: { p: Project }) {
         </div>
 
         <div className="p-6">
-          <Link to="/projects/$slug" params={{ slug: p.slug }} className="hover:text-gold transition-colors">
+          <Link
+            to="/projects/$slug"
+            params={{ slug: p.slug }}
+            className="hover:text-gold transition-colors"
+          >
             <h3 className="font-display text-2xl text-foreground leading-tight">{p.name}</h3>
           </Link>
           <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -59,15 +65,22 @@ export function ProjectCard({ p }: { p: Project }) {
 
           <div className="mt-4 flex flex-wrap gap-1.5">
             {p.sizes.map((s) => (
-              <span key={s} className="text-xs px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground font-medium">
+              <span
+                key={s}
+                className="text-xs px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground font-medium"
+              >
                 {s}
               </span>
             ))}
           </div>
 
           <div className="mt-4 grid grid-cols-2 gap-3 text-xs text-muted-foreground border-t border-border pt-4">
-            <div className="flex items-center gap-1.5"><Ruler className="w-3.5 h-3.5 text-gold" /> {p.availablePlots} of {p.totalPlots} plots</div>
-            <div className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-gold" /> RERA Approved</div>
+            <div className="flex items-center gap-1.5">
+              <Ruler className="w-3.5 h-3.5 text-gold" /> {p.availablePlots} of {p.totalPlots} plots
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-gold" /> RERA Approved
+            </div>
           </div>
         </div>
       </div>

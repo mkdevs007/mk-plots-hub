@@ -12,7 +12,9 @@ export function SectionHeader({
   return (
     <div className={`max-w-3xl ${center ? "mx-auto text-center" : ""}`}>
       {eyebrow && (
-        <div className={`flex items-center gap-3 text-gold text-xs font-semibold tracking-[0.2em] uppercase ${center ? "justify-center" : ""}`}>
+        <div
+          className={`flex items-center gap-3 text-gold text-xs font-semibold tracking-[0.2em] uppercase ${center ? "justify-center" : ""}`}
+        >
           <span className="gold-divider" />
           {eyebrow}
           <span className="gold-divider" />
@@ -22,7 +24,9 @@ export function SectionHeader({
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-muted-foreground text-base md:text-lg leading-relaxed">{description}</p>
+        <p className="mt-4 text-muted-foreground text-base md:text-lg leading-relaxed">
+          {description}
+        </p>
       )}
     </div>
   );

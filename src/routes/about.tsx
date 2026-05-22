@@ -6,8 +6,12 @@ import entranceGateImg from "@/assets/entrance-gate.png";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About MK Developers — Karnataka's Trusted Plotted Communities" },
-      { name: "description", content: "MK Builders & Developers is a family-led firm with a quiet preference for doing fewer things, properly. Under sixteen years, we have delivered 15 layouts and 4,200+ plots across Karnataka." },
+      { title: "About MK Developers — True, Trusted, Transparent | Plotted Communities" },
+      {
+        name: "description",
+        content:
+          "MK Builders & Developers is a family-led firm with a quiet preference for doing fewer things, properly. Under sixteen years, we have delivered 15 layouts and 4,200+ plots across Karnataka.",
+      },
       { property: "og:title", content: "About — MK Developers" },
       { property: "og:url", content: "/about" },
       { property: "og:image", content: entranceGateImg },
@@ -28,11 +32,13 @@ function About() {
             About MK
           </div>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[1.1] text-balance">
-            Land, considered.<br />
+            Land, considered.
+            <br />
             <span className="text-gold italic font-light">Communities, finished.</span>
           </h1>
           <p className="mt-8 text-lg md:text-xl text-primary-foreground/80 leading-relaxed font-sans max-w-2xl mx-auto font-light">
-            MK Builders & Developers is a family-led firm with a quiet preference for doing fewer things, properly.
+            MK Builders & Developers is a family-led firm with a quiet preference for doing fewer
+            things, properly.
           </p>
         </div>
       </section>
@@ -64,22 +70,30 @@ function About() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 justify-center mb-4">
             <span className="gold-divider" />
-            <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">OUR STORY</span>
+            <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">
+              OUR STORY
+            </span>
             <span className="gold-divider" />
           </div>
           <h2 className="font-display text-4xl md:text-5xl text-center text-foreground leading-tight text-balance">
             From a single layout in 2010 to six premium layouts today.
           </h2>
-          
+
           <div className="mt-12 space-y-8 text-muted-foreground leading-relaxed text-base md:text-lg max-w-3xl mx-auto font-light">
             <p>
-              What began as a small family venture in 2010 has, over sixteen years, become one of Karnataka's most respected plotted community developers — without ever choosing to grow loud.
+              What began as a small family venture in 2010 has, over sixteen years, become one of
+              Karnataka's most respected plotted community developers — without ever choosing to
+              grow loud.
             </p>
             <p>
-              We've kept our practice deliberate: a small number of locations at a time, each one fully infrastructured before plots are released. Roads laid. Drainage closed. Boundary walls up. Trees planted. Only then do we open the gate.
+              We've kept our practice deliberate: a small number of locations at a time, each one
+              fully infrastructured before plots are released. Roads laid. Drainage closed. Boundary
+              walls up. Trees planted. Only then do we open the gate.
             </p>
             <p>
-              The result is a community that's ready the day you register — and a buying experience that, in our buyers' words, feels less like real estate and more like a careful introduction.
+              The result is a community that's ready the day you register — and a buying experience
+              that, in our buyers' words, feels less like real estate and more like a careful
+              introduction.
             </p>
           </div>
         </div>
@@ -115,12 +129,16 @@ function About() {
       <section className="py-20 px-5 md:px-8 bg-background relative overflow-hidden">
         <div className="max-w-3xl mx-auto relative z-10">
           <div className="bg-card border border-border rounded-2xl md:rounded-3xl p-8 md:p-12 shadow-card relative">
-            <span className="absolute -top-6 left-8 font-display text-8xl text-gold/20 select-none">“</span>
-            
+            <span className="absolute -top-6 left-8 font-display text-8xl text-gold/20 select-none">
+              “
+            </span>
+
             <p className="font-display text-xl md:text-2xl lg:text-3xl text-foreground/90 italic leading-relaxed text-center relative z-10 font-light">
-              "Land is patient. We try to be too. A community doesn't begin with a sales office; it begins with the trees we plant and the roads we asphalt. If we do our job properly, our presence is felt, not heard."
+              "Land is patient. We try to be too. A community doesn't begin with a sales office; it
+              begins with the trees we plant and the roads we asphalt. If we do our job properly,
+              our presence is felt, not heard."
             </p>
-            
+
             <div className="mt-8 flex flex-col items-center">
               <div className="w-12 h-[1px] bg-gold/50 mb-4" />
               <div className="text-foreground font-display text-lg md:text-xl font-medium tracking-wide">
@@ -138,10 +156,14 @@ function About() {
       <section className="py-20 px-5 md:px-8 bg-secondary/30 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">Trust & Veracity</span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl text-foreground">Statutory Credentials</h2>
+            <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+              Trust & Veracity
+            </span>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl text-foreground">
+              Statutory Credentials
+            </h2>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
@@ -160,7 +182,10 @@ function About() {
                 desc: "Over sixteen years, we have handed over more than 4,200 plots to happy families and investors.",
               },
             ].map((cred, i) => (
-              <div key={i} className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-card transition-all duration-300 group">
+              <div
+                key={i}
+                className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-card transition-all duration-300 group"
+              >
                 <div className="w-10 h-10 rounded-lg bg-gold/10 text-gold flex items-center justify-center mb-4 group-hover:bg-gold group-hover:text-white transition-all duration-300">
                   <cred.icon className="w-5 h-5" />
                 </div>

@@ -22,17 +22,14 @@ export const Route = createFileRoute("/thank-you")({
     };
   },
   head: () => ({
-    meta: [
-      { title: "Thank You — MK Developers" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Thank You — MK Developers" }, { name: "robots", content: "noindex" }],
   }),
   component: ThankYou,
 });
 
 function ThankYou() {
   const { name, city, type } = Route.useSearch();
-  
+
   let whatsappMsg = "Hi MK Developers, I'm interested in your projects — please share details";
   if (name && city && type) {
     whatsappMsg = `Hi MK Developers, my name is ${name} and I am interested in ${city} ${type.toLowerCase()} plots. Please contact me.`;
@@ -48,10 +45,25 @@ function ThankYou() {
             <CheckCircle2 className="w-10 h-10" />
           </span>
           <h1 className="mt-8 font-display text-5xl md:text-6xl">Thank you!</h1>
-          <p className="mt-4 text-muted-foreground text-lg">Our advisor will reach out within 24 hours. For an instant reply, message us on WhatsApp.</p>
+          <p className="mt-4 text-muted-foreground text-lg">
+            Our advisor will reach out within 24 hours. For an instant reply, message us on
+            WhatsApp.
+          </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-            <a href={whatsappHref(whatsappMsg)} target="_blank" rel="noreferrer" className="px-7 py-3.5 rounded-md bg-whatsapp text-white font-semibold">Chat on WhatsApp</a>
-            <Link to="/projects" className="px-7 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold">Explore Projects</Link>
+            <a
+              href={whatsappHref(whatsappMsg)}
+              target="_blank"
+              rel="noreferrer"
+              className="px-7 py-3.5 rounded-md bg-whatsapp text-white font-semibold"
+            >
+              Chat on WhatsApp
+            </a>
+            <Link
+              to="/projects"
+              className="px-7 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold"
+            >
+              Explore Projects
+            </Link>
           </div>
         </div>
       </section>

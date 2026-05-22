@@ -56,7 +56,8 @@ export function ExitIntentPopup() {
           </div>
           <h3 className="font-display text-3xl text-foreground">Before you go...</h3>
           <p className="text-sm text-muted-foreground mt-1 max-w-md mx-auto">
-            Book a site visit today and get a free pickup/drop arranged. Leave your details and we'll call you back!
+            Book a site visit today and get a free pickup/drop arranged. Leave your details and
+            we'll call you back!
           </p>
         </div>
 

@@ -8,7 +8,11 @@ export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "MK Developers Blog — Real Estate Guides & Advice" },
-      { name: "description", content: "Expert guides, legal advice on RERA, investment analyses, and growth corridors for buying land and plots in Karnataka." },
+      {
+        name: "description",
+        content:
+          "Expert guides, legal advice on RERA, investment analyses, and growth corridors for buying land and plots in Karnataka.",
+      },
       { property: "og:title", content: "Blog — MK Developers" },
       { property: "og:url", content: "/blog" },
     ],
@@ -21,21 +25,31 @@ function BlogPage() {
   return (
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center">
-        <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">Knowledge Hub</span>
+        <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+          Knowledge Hub
+        </span>
         <h1 className="mt-4 font-display text-5xl md:text-7xl">Insights & Guides</h1>
         <p className="mt-5 max-w-2xl mx-auto text-primary-foreground/75">
-          Everything you need to know about plotted land investment, legal procedures, KRERA guidelines, and upcoming growth markets in Karnataka.
+          Everything you need to know about plotted land investment, legal procedures, KRERA
+          guidelines, and upcoming growth markets in Karnataka.
         </p>
       </section>
 
       <section className="py-20 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
           <SectionHeader eyebrow="Latest Articles" title="From our land experts" />
-          
+
           <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {blogPosts.map((post) => (
-              <article key={post.slug} className="group bg-card rounded-xl overflow-hidden border border-border shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 flex flex-col h-full">
-                <Link to="/blog/$slug" params={{ slug: post.slug }} className="block aspect-[16/10] overflow-hidden">
+              <article
+                key={post.slug}
+                className="group bg-card rounded-xl overflow-hidden border border-border shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 flex flex-col h-full"
+              >
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: post.slug }}
+                  className="block aspect-[16/10] overflow-hidden"
+                >
                   <img
                     src={post.image}
                     alt={post.title}
@@ -48,7 +62,9 @@ function BlogPage() {
                     <span className="px-2.5 py-0.5 rounded-full bg-secondary text-secondary-foreground font-semibold">
                       {post.category}
                     </span>
-                    <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {post.date}</span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5" /> {post.date}
+                    </span>
                   </div>
                   <h3 className="font-display text-2xl text-foreground group-hover:text-gold transition">
                     <Link to="/blog/$slug" params={{ slug: post.slug }}>
@@ -62,7 +78,11 @@ function BlogPage() {
                     <span className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Clock className="w-3.5 h-3.5" /> {post.readTime}
                     </span>
-                    <Link to="/blog/$slug" params={{ slug: post.slug }} className="inline-flex items-center gap-1 text-sm font-semibold text-gold group-hover:gap-2 transition-all">
+                    <Link
+                      to="/blog/$slug"
+                      params={{ slug: post.slug }}
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-gold group-hover:gap-2 transition-all"
+                    >
                       Read Article <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>

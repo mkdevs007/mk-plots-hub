@@ -5,7 +5,10 @@ import { whatsappHref } from "./WhatsAppButton";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Enter your name").max(80),
-  phone: z.string().trim().regex(/^[0-9+\s-]{7,15}$/, "Enter a valid phone"),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[0-9+\s-]{7,15}$/, "Enter a valid phone"),
   city: z.string().trim().min(2).max(60),
   plotType: z.enum(["Residential", "Commercial", "Agricultural", "Industrial"]),
   message: z.string().trim().max(500).optional(),
@@ -22,9 +25,10 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
-  const defaultMsg = plotId && projectName
-    ? `I am interested in Plot ${plotId} at ${projectName}. Please share pricing and details.`
-    : "";
+  const defaultMsg =
+    plotId && projectName
+      ? `I am interested in Plot ${plotId} at ${projectName}. Please share pricing and details.`
+      : "";
 
   const [message, setMessage] = useState(defaultMsg);
 
@@ -32,7 +36,7 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
     setMessage(
       plotId && projectName
         ? `I am interested in Plot ${plotId} at ${projectName}. Please share pricing and details.`
-        : ""
+        : "",
     );
   }, [plotId, projectName]);
 

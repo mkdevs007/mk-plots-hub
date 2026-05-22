@@ -36,15 +36,19 @@ export function Header() {
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-14 md:h-16">
         <Link to="/" className="flex items-center group">
-          <img src={logo} alt="MX Developer & Builders logo" className="h-8 md:h-10 w-auto object-contain" />
+          <img
+            src={logo}
+            alt="MX Developer & Builders logo"
+            className="h-8 md:h-10 w-auto object-contain"
+          />
         </Link>
 
-        <ul className="hidden lg:flex items-center gap-8">
+        <ul className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
           {nav.map((n) => (
             <li key={n.to}>
               <Link
                 to={n.to}
-                className="text-sm font-medium text-primary-foreground/85 hover:text-gold transition relative"
+                className="text-xs lg:text-sm font-medium text-primary-foreground/85 hover:text-gold transition relative"
                 activeProps={{ className: "text-gold font-semibold" }}
               >
                 {n.label}
@@ -62,7 +66,7 @@ export function Header() {
           </Link>
           <button
             onClick={() => setOpen(true)}
-            className="lg:hidden text-primary-foreground p-2"
+            className="md:hidden text-primary-foreground p-2"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
@@ -71,9 +75,12 @@ export function Header() {
       </nav>
 
       {open && (
-        <div className="fixed inset-0 z-[60] lg:hidden">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setOpen(false)} />
-          <div className="absolute top-0 right-0 h-full w-72 bg-primary/95 backdrop-blur-md border-l border-white/10 p-6 animate-fade-up">
+        <div className="fixed inset-0 z-[60] md:hidden">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
+          <div className="absolute top-0 right-0 h-full w-72 bg-[#1A1A2E] border-l border-white/10 p-6 shadow-2xl animate-fade-up">
             <div className="flex justify-end">
               <button onClick={() => setOpen(false)} className="text-primary-foreground p-2">
                 <X className="w-6 h-6" />

@@ -72,8 +72,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MK Developers — Premium Plots & Layouts in Karnataka" },
-      { name: "description", content: "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur. Own your future, plot by plot." },
+      {
+        title: "MK Developers — True, Trusted, Transparent | Premium Plots & Layouts in Karnataka",
+      },
+      {
+        name: "description",
+        content:
+          "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur. Own your future, plot by plot.",
+      },
       { name: "author", content: "MK Developers" },
       { property: "og:title", content: "MK Developers — Premium Plots & Layouts in Karnataka" },
       { property: "og:description", content: "RERA-approved plots across Karnataka." },
@@ -87,7 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "shortcut icon", href: "/favicon.ico" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,

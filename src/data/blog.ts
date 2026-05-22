@@ -13,11 +13,13 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "best-areas-to-buy-plots-in-bangalore-2026",
     title: "Best Areas to Buy Plots in Bangalore (2026)",
-    excerpt: "Discover the top growth corridors in Bangalore, including Devanahalli and Sarjapur, where plot investments yield maximum returns.",
+    excerpt:
+      "Discover the top growth corridors in Bangalore, including Devanahalli and Sarjapur, where plot investments yield maximum returns.",
     date: "May 15, 2026",
     readTime: "5 min read",
     category: "Investment Advisory",
-    image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=800&auto=format&fit=crop",
     content: `
 # Best Areas to Buy Plots in Bangalore (2026)
 
@@ -43,16 +45,18 @@ With the development of the Bangalore-Mumbai Industrial Corridor, locations off 
 
 ### Conclusion
 Investing in land is all about timing and location. Focus on corridors aligned with major infrastructure projects (airports, metro lines, and ring roads) and always ensure the layout is RERA approved.
-    `
+    `,
   },
   {
     slug: "how-to-check-rera-registration-karnataka",
     title: "How to Check RERA Registration of a Layout in Karnataka",
-    excerpt: "A step-by-step guide to verifying RERA compliance, title deeds, and approval certificates for land plots in Karnataka.",
+    excerpt:
+      "A step-by-step guide to verifying RERA compliance, title deeds, and approval certificates for land plots in Karnataka.",
     date: "April 28, 2026",
     readTime: "4 min read",
     category: "Legal & RERA",
-    image: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=800&auto=format&fit=crop",
     content: `
 # How to Check RERA Registration of a Layout in Karnataka
 
@@ -75,16 +79,18 @@ Once the project details load, click on the project to open its dashboard. Verif
 
 ### Why KRERA Approval is Mandatory
 Buying KRERA-registered plots protects you against land disputes, layout plan alterations, and delayed development of promised amenities like water, roads, and electricity.
-    `
+    `,
   },
   {
     slug: "residential-vs-commercial-plots-which-is-better",
     title: "Residential vs Commercial Plots — Which is Better?",
-    excerpt: "Compare residential and commercial plots on appreciation rates, rental yields, investment budgets, and legal requirements.",
+    excerpt:
+      "Compare residential and commercial plots on appreciation rates, rental yields, investment budgets, and legal requirements.",
     date: "March 18, 2026",
     readTime: "6 min read",
     category: "Investment Advisory",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop",
     content: `
 # Residential vs Commercial Plots — Which is Better?
 
@@ -112,6 +118,6 @@ Commercial plots, situated on main roads, highways, or commercial zones, command
 
 ### The Verdict
 If you are looking for long-term safety, wealth preservation, or a future home, **residential plots** are the clear winner. However, if you are a seasoned investor looking for passive monthly cash flows through commercial leasing, and have a higher risk appetite and budget, **commercial plots** will yield far better returns.
-    `
-  }
+    `,
+  },
 ];

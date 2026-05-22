@@ -29,7 +29,7 @@ export default defineConfig(async ({ command, mode }) => {
       plugins.push(
         cloudflare({
           viteEnvironment: { name: "ssr" },
-        })
+        }),
       );
     } catch (e) {
       console.warn("Could not load @cloudflare/vite-plugin:", e);
