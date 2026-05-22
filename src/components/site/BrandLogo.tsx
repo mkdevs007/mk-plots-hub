@@ -1,24 +1,19 @@
+import logoUrl from "@/assets/logo.png";
+
 export function BrandLogo({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
-      {/* Icon: a gold/plum icon containing the letters "MK" */}
-      <div className="relative flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-[#DFC160] to-[#B8860B] shadow-md border border-[#EDD47A]/30 flex-shrink-0">
-        {/* Plum circle accent inside */}
-        <div className="absolute inset-[2px] rounded-md bg-[#200A2C] flex items-center justify-center">
-          <span className="font-display font-bold text-base md:text-lg tracking-wider text-[#DFC160]">
-            MK
-          </span>
-        </div>
-      </div>
+    <div className={`inline-flex items-center ${className}`}>
+      {/* Glassmorphic wrapping container */}
+      <div className="relative group overflow-hidden px-3.5 py-1.5 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-[#DFC160]/30 hover:bg-white/10 transition-all duration-500 shadow-md">
+        {/* Subtle gold radial background glow on hover */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(223,193,96,0.08),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-      {/* Text: MK Builders & Developers */}
-      <div className="flex flex-col justify-center leading-none">
-        <span className="font-display font-extrabold text-sm md:text-base tracking-[0.08em] text-[#DFC160] uppercase">
-          MK Builders
-        </span>
-        <span className="font-sans font-semibold text-[9px] md:text-[10px] tracking-[0.18em] text-white/90 uppercase mt-0.5">
-          & Developers
-        </span>
+        {/* Image logo */}
+        <img
+          src={logoUrl}
+          alt="MK Builders & Developers Logo"
+          className="h-7 md:h-8 w-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+        />
       </div>
     </div>
   );
