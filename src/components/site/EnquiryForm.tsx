@@ -59,6 +59,7 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
     }
     setErrors({});
     setLoading(true);
+    sessionStorage.setItem("callback_popup_dismissed", "true");
     setTimeout(() => {
       navigate({
         to: "/thank-you",

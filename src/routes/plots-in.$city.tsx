@@ -145,9 +145,9 @@ export const Route = createFileRoute("/plots-in/$city")({
           property: "og:title",
           content: `Premium Plots in ${data?.name} — MK Builders & Developers`,
         },
-        { property: "og:url", content: `/plots-in-${loaderData?.cityKey}` },
+        { property: "og:url", content: `/plots-in/${loaderData?.cityKey}` },
       ],
-      links: [{ rel: "canonical", href: `/plots-in-${loaderData?.cityKey}` }],
+      links: [{ rel: "canonical", href: `/plots-in/${loaderData?.cityKey}` }],
     };
   },
   component: CityHubPage,

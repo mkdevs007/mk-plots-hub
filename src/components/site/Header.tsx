@@ -39,7 +39,7 @@ export function Header() {
             <BrandLogo />
           </Link>
 
-          <ul className="hidden lg:flex items-center gap-4 lg:gap-6 xl:gap-8">
+          <ul className="hidden min-[960px]:flex items-center gap-3.5 xl:gap-6">
             {nav.map((n) => (
               <li key={n.to}>
                 <Link
@@ -62,7 +62,7 @@ export function Header() {
             </Link>
             <button
               onClick={() => setOpen(true)}
-              className="lg:hidden text-primary-foreground p-2 rounded-full hover:bg-white/5 transition"
+              className="min-[960px]:hidden text-primary-foreground p-2 rounded-full hover:bg-white/5 transition"
               aria-label="Open menu"
             >
               <Menu className="w-5 h-5" />
@@ -73,7 +73,7 @@ export function Header() {
 
       {/* Mobile Menu Overlay - rendered outside header to bypass viewport height & filter constraints */}
       {open && (
-        <div className="fixed inset-0 z-[60] lg:hidden">
+        <div className="fixed inset-0 z-[60] min-[960px]:hidden">
           <div
             className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={() => setOpen(false)}

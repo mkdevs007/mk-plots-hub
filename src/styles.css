@@ -96,9 +96,9 @@
 
   --gradient-hero: linear-gradient(
     180deg,
-    oklch(0.18 0.07 320 / 0.3) 0%,
-    oklch(0.14 0.05 320 / 0.7) 60%,
-    oklch(0.12 0.04 320 / 0.95) 100%
+    oklch(0.18 0.07 320 / 0.15) 0%,
+    oklch(0.14 0.05 320 / 0.4) 60%,
+    oklch(0.12 0.04 320 / 0.70) 100%
   );
   --gradient-gold: linear-gradient(135deg, oklch(0.81 0.13 85), oklch(0.72 0.13 75));
   --shadow-card: 0 8px 30px -10px oklch(0.08 0.03 320 / 0.5);

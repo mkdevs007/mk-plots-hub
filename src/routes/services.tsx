@@ -24,7 +24,7 @@ export const Route = createFileRoute("/services")({
       {
         name: "description",
         content:
-          "Layout development, plot sales, site development and investment advisory — end-to-end real estate services across Karnataka.",
+          "Layout development, plot sales, site development and investment advisory. End-to-end real estate services across Karnataka.",
       },
       { property: "og:title", content: "Services — MK Builders & Developers" },
       { property: "og:url", content: "/services" },
@@ -109,7 +109,7 @@ function Services() {
           </span>
           <h1 className="mt-4 font-display text-5xl md:text-7xl">Built for every plot need</h1>
           <p className="mt-5 max-w-2xl mx-auto text-primary-foreground/75 font-light leading-relaxed">
-            From land acquisition to layout approvals and registration — we handle every step with
+            From land acquisition to layout approvals and registration. We handle every step with
             absolute transparency.
           </p>
         </div>

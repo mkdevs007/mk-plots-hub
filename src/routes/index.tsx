@@ -169,13 +169,19 @@ function HomePage() {
   return (
     <SiteLayout>
       <section className="relative -mt-16 md:-mt-[88px] min-h-[100svh] flex items-center justify-center overflow-hidden">
-        <img
-          src={heroImg}
-          alt="Aerial drone view of premium MK Builders & Developers plot layout in Karnataka"
-          width={1920}
-          height={1080}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={heroImg}
           className="absolute inset-0 w-full h-full object-cover"
-        />
+        >
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-residential-suburb-structure-40078-large.mp4"
+            type="video/mp4"
+          />
+        </video>
         <div className="absolute inset-0 hero-overlay" />
         <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-8 text-center text-primary-foreground pt-24 pb-16">
           <span className="inline-flex items-center gap-2 text-gold text-xs md:text-sm font-semibold tracking-[0.25em] uppercase animate-fade-up">
