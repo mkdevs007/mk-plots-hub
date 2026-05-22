@@ -159,7 +159,7 @@ function ProjectDetail() {
 
   return (
     <SiteLayout>
-      <section className="relative -mt-16 md:-mt-[88px] h-[70vh] min-h-[480px] overflow-hidden">
+      <section className="relative -mt-20 md:-mt-[120px] h-[70vh] min-h-[480px] overflow-hidden">
         <img
           src={p.image}
           alt={`${p.name} aerial view`}
@@ -168,7 +168,7 @@ function ProjectDetail() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-between pt-24 pb-14 px-5 md:px-8 text-primary-foreground">
+        <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-between pt-28 md:pt-36 pb-14 px-5 md:px-8 text-primary-foreground">
           <Link
             to="/projects"
             className="self-start text-[11px] uppercase tracking-[0.22em] text-primary-foreground/70 hover:text-gold transition-colors font-semibold"

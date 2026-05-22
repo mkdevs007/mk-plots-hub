@@ -168,7 +168,7 @@ function HomePage() {
 
   return (
     <SiteLayout>
-      <section className="relative -mt-16 md:-mt-[88px] min-h-[100svh] flex items-center justify-center overflow-hidden">
+      <section className="relative -mt-20 md:-mt-[120px] min-h-[100svh] flex items-center justify-center overflow-hidden">
         <video
           autoPlay
           loop
@@ -183,7 +183,7 @@ function HomePage() {
           />
         </video>
         <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-8 text-center text-primary-foreground pt-24 pb-16">
+        <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-8 text-center text-primary-foreground pt-28 md:pt-36 pb-16">
           <span className="inline-flex items-center gap-2 text-gold text-xs md:text-sm font-semibold tracking-[0.25em] uppercase animate-fade-up">
             <span className="gold-divider" /> True • Trusted • Transparent{" "}
             <span className="gold-divider" />

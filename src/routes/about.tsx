@@ -27,7 +27,7 @@ function About() {
   return (
     <SiteLayout>
       {/* Premium Hero Section */}
-      <section className="relative -mt-16 md:-mt-[88px] pt-32 pb-20 md:pt-44 md:pb-28 bg-primary text-primary-foreground overflow-hidden">
+      <section className="relative -mt-20 md:-mt-[120px] pt-36 pb-20 md:pt-52 md:pb-28 bg-primary text-primary-foreground overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(184,134,11,0.15),rgba(0,0,0,0))]" />
         <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold tracking-[0.2em] uppercase mb-6">

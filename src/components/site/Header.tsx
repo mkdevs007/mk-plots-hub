@@ -34,9 +34,13 @@ export function Header() {
             : "bg-[#1C0624]/90 lg:bg-[#1C0624]/40 lg:backdrop-blur-md border-white/5"
         }`}
       >
-        <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-14 md:h-16">
+        <nav
+          className={`max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 transition-all duration-300 ${
+            scrolled ? "h-16 min-[960px]:h-20" : "h-20 min-[960px]:h-24"
+          }`}
+        >
           <Link to="/" className="flex items-center group">
-            <BrandLogo />
+            <BrandLogo scrolled={scrolled} />
           </Link>
 
           <ul className="hidden min-[960px]:flex items-center gap-3.5 xl:gap-6">
@@ -44,7 +48,7 @@ export function Header() {
               <li key={n.to}>
                 <Link
                   to={n.to}
-                  className="text-xs lg:text-sm font-medium text-primary-foreground/85 hover:text-gold transition relative"
+                  className="text-xs lg:text-sm font-medium tracking-wide text-primary-foreground/85 hover:text-gold transition relative font-nav"
                   activeProps={{ className: "text-gold font-semibold" }}
                 >
                   {n.label}
@@ -56,7 +60,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Link
               to="/contact"
-              className="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-full gold-gradient text-gold-foreground font-semibold text-xs hover:opacity-90 transition shadow-md"
+              className="hidden sm:inline-flex items-center justify-center px-4 py-2.5 rounded-full gold-gradient text-gold-foreground font-semibold text-xs hover:opacity-90 transition shadow-md font-nav tracking-wide"
             >
               Enquire Now
             </Link>
@@ -98,7 +102,7 @@ export function Header() {
                     <Link
                       to={n.to}
                       onClick={() => setOpen(false)}
-                      className="block py-2.5 px-4 text-primary-foreground/90 hover:text-gold hover:bg-white/5 rounded-full font-medium transition text-sm"
+                      className="block py-2.5 px-4 text-primary-foreground/90 hover:text-gold hover:bg-white/5 rounded-full font-medium transition text-sm font-nav tracking-wide"
                       activeProps={{ className: "text-gold font-semibold bg-white/5" }}
                     >
                       {n.label}
@@ -111,7 +115,7 @@ export function Header() {
               <Link
                 to="/contact"
                 onClick={() => setOpen(false)}
-                className="block text-center px-5 py-3 rounded-full gold-gradient text-gold-foreground font-semibold shadow-md transition hover:opacity-95 text-sm"
+                className="block text-center px-5 py-3 rounded-full gold-gradient text-gold-foreground font-semibold shadow-md transition hover:opacity-95 text-sm font-nav tracking-wide"
               >
                 Enquire Now
               </Link>
