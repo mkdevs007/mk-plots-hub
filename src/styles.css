@@ -51,26 +51,26 @@
   --radius: 0.5rem;
 
   /* Brand: deep purple (plum) + gold */
-  --background: oklch(0.98 0.01 320);
-  --foreground: oklch(0.15 0.06 320);
+  --background: oklch(0.12 0.04 320);
+  --foreground: oklch(0.96 0.01 320);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.06 320);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.06 320);
+  --card: oklch(0.15 0.05 320);
+  --card-foreground: oklch(0.96 0.01 320);
+  --popover: oklch(0.15 0.05 320);
+  --popover-foreground: oklch(0.96 0.01 320);
 
-  /* Primary = brand dark purple #3B1848 */
-  --primary: oklch(0.2 0.09 320);
-  --primary-foreground: oklch(0.98 0.01 320);
+  /* Primary = brand dark purple */
+  --primary: oklch(0.18 0.07 320);
+  --primary-foreground: oklch(0.96 0.01 320);
 
-  --secondary: oklch(0.95 0.02 320);
-  --secondary-foreground: oklch(0.2 0.09 320);
+  --secondary: oklch(0.14 0.045 320);
+  --secondary-foreground: oklch(0.96 0.01 320);
 
-  --muted: oklch(0.95 0.015 320);
-  --muted-foreground: oklch(0.5 0.06 320);
+  --muted: oklch(0.18 0.045 320);
+  --muted-foreground: oklch(0.75 0.03 320);
 
-  --accent: oklch(0.95 0.02 320);
-  --accent-foreground: oklch(0.2 0.09 320);
+  --accent: oklch(0.22 0.06 320);
+  --accent-foreground: oklch(0.98 0.01 320);
 
   /* Gold accent #DFC160 */
   --gold: oklch(0.81 0.13 85);
@@ -81,47 +81,47 @@
   --destructive: oklch(0.58 0.22 27);
   --destructive-foreground: oklch(0.98 0.01 320);
 
-  --border: oklch(0.88 0.02 320);
-  --input: oklch(0.92 0.02 320);
+  --border: oklch(0.22 0.06 320 / 0.4);
+  --input: oklch(0.16 0.05 320);
   --ring: oklch(0.81 0.13 85);
 
-  --badge-ongoing-bg: oklch(0.94 0.04 165);
-  --badge-ongoing-fg: oklch(0.42 0.09 165);
-  --badge-new-bg: oklch(0.94 0.04 245);
-  --badge-new-fg: oklch(0.42 0.13 245);
-  --badge-few-bg: oklch(0.94 0.05 80);
-  --badge-few-fg: oklch(0.45 0.11 60);
-  --badge-done-bg: oklch(0.88 0.005 80);
-  --badge-done-fg: oklch(0.38 0.005 80);
+  --badge-ongoing-bg: oklch(0.25 0.08 165 / 0.3);
+  --badge-ongoing-fg: oklch(0.75 0.12 165);
+  --badge-new-bg: oklch(0.25 0.08 245 / 0.3);
+  --badge-new-fg: oklch(0.75 0.12 245);
+  --badge-few-bg: oklch(0.25 0.08 80 / 0.3);
+  --badge-few-fg: oklch(0.81 0.13 85);
+  --badge-done-bg: oklch(0.2 0.02 80 / 0.3);
+  --badge-done-fg: oklch(0.65 0.02 80);
 
   --gradient-hero: linear-gradient(
     180deg,
-    oklch(0.2 0.09 320 / 0.25) 0%,
-    oklch(0.16 0.09 320 / 0.65) 60%,
-    oklch(0.12 0.08 320 / 0.92) 100%
+    oklch(0.18 0.07 320 / 0.3) 0%,
+    oklch(0.14 0.05 320 / 0.7) 60%,
+    oklch(0.12 0.04 320 / 0.95) 100%
   );
   --gradient-gold: linear-gradient(135deg, oklch(0.81 0.13 85), oklch(0.72 0.13 75));
-  --shadow-card: 0 8px 30px -10px oklch(0.15 0.06 320 / 0.15);
-  --shadow-card-hover: 0 20px 50px -15px oklch(0.15 0.06 320 / 0.3);
+  --shadow-card: 0 8px 30px -10px oklch(0.08 0.03 320 / 0.5);
+  --shadow-card-hover: 0 20px 50px -15px oklch(0.08 0.03 320 / 0.8);
 }
 
 .dark {
-  --background: oklch(0.12 0.06 320);
-  --foreground: oklch(0.98 0.01 320);
-  --card: oklch(0.16 0.08 320);
-  --card-foreground: oklch(0.98 0.01 320);
-  --popover: oklch(0.16 0.08 320);
-  --popover-foreground: oklch(0.98 0.01 320);
-  --primary: oklch(0.98 0.01 320);
-  --primary-foreground: oklch(0.16 0.08 320);
-  --secondary: oklch(0.22 0.07 320);
-  --secondary-foreground: oklch(0.98 0.01 320);
-  --muted: oklch(0.22 0.07 320);
-  --muted-foreground: oklch(0.7 0.04 320);
-  --accent: oklch(0.22 0.07 320);
+  --background: oklch(0.12 0.04 320);
+  --foreground: oklch(0.96 0.01 320);
+  --card: oklch(0.15 0.05 320);
+  --card-foreground: oklch(0.96 0.01 320);
+  --popover: oklch(0.15 0.05 320);
+  --popover-foreground: oklch(0.96 0.01 320);
+  --primary: oklch(0.18 0.07 320);
+  --primary-foreground: oklch(0.96 0.01 320);
+  --secondary: oklch(0.14 0.045 320);
+  --secondary-foreground: oklch(0.96 0.01 320);
+  --muted: oklch(0.18 0.045 320);
+  --muted-foreground: oklch(0.75 0.03 320);
+  --accent: oklch(0.22 0.06 320);
   --accent-foreground: oklch(0.98 0.01 320);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --border: oklch(0.22 0.06 320 / 0.4);
+  --input: oklch(0.16 0.05 320);
 }
 
 @layer base {
@@ -132,7 +132,7 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-background);
+    background: radial-gradient(circle at 50% 0%, oklch(0.18 0.07 320) 0%, oklch(0.12 0.04 320) 60%, oklch(0.08 0.03 320) 100%) attachment fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;

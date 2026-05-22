@@ -91,7 +91,7 @@ export function ProjectCard({ p }: { p: Project }) {
             to="/projects/$slug"
             params={{ slug: p.slug }}
             hash="layout-map"
-            className="flex-1 text-center px-4 py-2.5 rounded-md border border-primary/15 text-primary text-sm font-semibold hover:bg-primary hover:text-primary-foreground transition cursor-pointer"
+            className="flex-1 text-center px-4 py-2.5 rounded-md border border-gold/30 text-gold text-sm font-semibold hover:bg-gold hover:text-gold-foreground transition cursor-pointer"
           >
             View Layout
           </Link>
