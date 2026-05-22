@@ -39,7 +39,7 @@ const cityData: Record<
       {
         name: "Ravi Kumar",
         project: "MK Green Valley",
-        text: "Purchasing a plot in Devanahalli with MK Developers was the smoothest transaction of my life. Documentation and RERA approval details were completely upfront.",
+        text: "Purchasing a plot in Devanahalli with MK Builders & Developers was the smoothest transaction of my life. Documentation and RERA approval details were completely upfront.",
       },
     ],
   },
@@ -91,7 +91,7 @@ const cityData: Record<
       {
         name: "Suresh Patil",
         project: "MK Industrial Park",
-        text: "The layout has heavy-load power lines and wide roads for trucks. Perfect project delivery from MK Developers.",
+        text: "The layout has heavy-load power lines and wide roads for trucks. Perfect project delivery from MK Builders & Developers.",
       },
     ],
   },
@@ -134,12 +134,17 @@ export const Route = createFileRoute("/plots-in/$city")({
     const data = loaderData?.data;
     return {
       meta: [
-        { title: `Plots for Sale in ${data?.name ?? "Karnataka"} | Gated Layouts | MK Developers` },
+        {
+          title: `Plots for Sale in ${data?.name ?? "Karnataka"} | Gated Layouts | MK Builders & Developers`,
+        },
         {
           name: "description",
           content: `Explore RERA-approved plots and land layouts for sale in ${data?.name}. Starting price options, clear titles, premium amenities.`,
         },
-        { property: "og:title", content: `Premium Plots in ${data?.name} — MK Developers` },
+        {
+          property: "og:title",
+          content: `Premium Plots in ${data?.name} — MK Builders & Developers`,
+        },
         { property: "og:url", content: `/plots-in-${loaderData?.cityKey}` },
       ],
       links: [{ rel: "canonical", href: `/plots-in-${loaderData?.cityKey}` }],

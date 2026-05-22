@@ -1,8 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-
-import logo from "@/assets/logo.png";
+import { BrandLogo } from "@/components/site/BrandLogo";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -30,20 +29,16 @@ export function Header() {
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b ${
         scrolled
-          ? "bg-primary/85 backdrop-blur-lg border-white/10 shadow-lg"
-          : "bg-primary/40 backdrop-blur-md border-white/5"
+          ? "bg-[#1C0624]/95 backdrop-blur-lg border-white/10 shadow-lg"
+          : "bg-[#1C0624]/90 lg:bg-[#1C0624]/40 lg:backdrop-blur-md border-white/5"
       }`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-14 md:h-16">
         <Link to="/" className="flex items-center group">
-          <img
-            src={logo}
-            alt="MX Developer & Builders logo"
-            className="h-8 md:h-10 w-auto object-contain"
-          />
+          <BrandLogo />
         </Link>
 
-        <ul className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
+        <ul className="hidden lg:flex items-center gap-4 lg:gap-6 xl:gap-8">
           {nav.map((n) => (
             <li key={n.to}>
               <Link
@@ -66,7 +61,7 @@ export function Header() {
           </Link>
           <button
             onClick={() => setOpen(true)}
-            className="md:hidden text-primary-foreground p-2"
+            className="lg:hidden text-primary-foreground p-2"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
@@ -75,18 +70,22 @@ export function Header() {
       </nav>
 
       {open && (
-        <div className="fixed inset-0 z-[60] md:hidden">
+        <div className="fixed inset-0 z-[60] lg:hidden">
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute top-0 right-0 h-full w-72 bg-[#1A1A2E] border-l border-white/10 p-6 shadow-2xl animate-fade-up">
-            <div className="flex justify-end">
+          <div
+            className="absolute top-0 right-0 h-full w-72 border-l border-white/10 p-6 shadow-2xl animate-fade-up"
+            style={{ backgroundColor: "#1C0624" }}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <BrandLogo />
               <button onClick={() => setOpen(false)} className="text-primary-foreground p-2">
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <ul className="mt-6 flex flex-col gap-1">
+            <ul className="flex flex-col gap-1">
               {nav.map((n) => (
                 <li key={n.to}>
                   <Link

@@ -69,7 +69,7 @@ Navigate to the official Karnataka RERA website (rera.karnataka.gov.in). Avoid t
 Under the 'Services' or 'Registration' tab, click on "Project Status" or "Registered Projects". This will open a searchable database of all approved real estate developments in Karnataka.
 
 ## Step 3: Search Using the RERA Number or Developer Name
-Enter the RERA registration number (e.g., PRM/KA/RERA/...) or the builder's name (MK Developers) in the search bar. 
+Enter the RERA registration number (e.g., PRM/KA/RERA/...) or the builder's name (MK Builders & Developers) in the search bar. 
 
 ## Step 4: Verify Crucial Documents
 Once the project details load, click on the project to open its dashboard. Verify the following:

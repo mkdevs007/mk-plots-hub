@@ -55,7 +55,7 @@ export const Route = createFileRoute("/plots/$type")({
     const m = META[params.type];
     return {
       meta: [
-        { title: `${m?.title ?? "Plots"} | MK Developers` },
+        { title: `${m?.title ?? "Plots"} | MK Builders & Developers` },
         { name: "description", content: m?.description ?? "" },
         { property: "og:title", content: m?.title ?? "Plots" },
         { property: "og:url", content: `/plots/${params.type}` },

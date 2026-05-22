@@ -6,13 +6,13 @@ import { projects } from "@/data/projects";
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
-      { title: "Project Gallery — Drone Photos & Site Progress | MK Developers" },
+      { title: "Project Gallery — Drone Photos & Site Progress | MK Builders & Developers" },
       {
         name: "description",
         content:
-          "Aerial drone photos, site progress and walkthroughs from MK Developers layouts across Karnataka.",
+          "Aerial drone photos, site progress and walkthroughs from MK Builders & Developers layouts across Karnataka.",
       },
-      { property: "og:title", content: "Gallery — MK Developers" },
+      { property: "og:title", content: "Gallery — MK Builders & Developers" },
       { property: "og:url", content: "/gallery" },
     ],
     links: [{ rel: "canonical", href: "/gallery" }],

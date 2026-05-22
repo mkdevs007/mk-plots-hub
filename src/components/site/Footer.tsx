@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Linkedin, MapPin, Phone, Youtube } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { BrandLogo } from "@/components/site/BrandLogo";
 
 export function Footer() {
   return (
@@ -8,11 +8,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center">
-            <img
-              src={logo}
-              alt="MX Developer & Builders logo"
-              className="h-10 w-auto object-contain"
-            />
+            <BrandLogo />
           </div>
           <p className="mt-4 text-sm text-primary-foreground/70 leading-relaxed">
             True, Trusted, Transparent. Premium residential, commercial, agricultural & industrial
@@ -120,7 +116,7 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-foreground/50">
-          <p>© {new Date().getFullYear()} MK Developers. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MK Builders & Developers. All rights reserved.</p>
           <div className="flex gap-5">
             <a href="#" className="hover:text-gold">
               Privacy Policy

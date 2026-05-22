@@ -24,7 +24,7 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
     setLoading(true);
 
     // Prepare pre-filled WhatsApp message
-    const msg = `Hi MK Developers, I am ${name} (Phone: ${phone}). I would like to book a site visit for "${projectName}" on ${date} (${timeSlot} slot). Please confirm.`;
+    const msg = `Hi MK Builders & Developers, I am ${name} (Phone: ${phone}). I would like to book a site visit for "${projectName}" on ${date} (${timeSlot} slot). Please confirm.`;
     const href = whatsappHref(msg);
 
     setTimeout(() => {

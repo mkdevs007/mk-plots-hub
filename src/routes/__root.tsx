@@ -73,18 +73,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        title: "MK Developers — True, Trusted, Transparent | Premium Plots & Layouts in Karnataka",
+        title:
+          "MK Builders & Developers — True, Trusted, Transparent | Premium Plots & Layouts in Karnataka",
       },
       {
         name: "description",
         content:
           "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur. Own your future, plot by plot.",
       },
-      { name: "author", content: "MK Developers" },
-      { property: "og:title", content: "MK Developers — Premium Plots & Layouts in Karnataka" },
+      { name: "author", content: "MK Builders & Developers" },
+      {
+        property: "og:title",
+        content: "MK Builders & Developers — Premium Plots & Layouts in Karnataka",
+      },
       { property: "og:description", content: "RERA-approved plots across Karnataka." },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "MK Developers" },
+      { property: "og:site_name", content: "MK Builders & Developers" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

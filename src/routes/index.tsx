@@ -37,14 +37,15 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "MK Developers — True, Trusted, Transparent | Premium Plots & Layouts in Karnataka",
+        title:
+          "MK Builders & Developers — True, Trusted, Transparent | Premium Plots & Layouts in Karnataka",
       },
       {
         name: "description",
         content:
           "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur.",
       },
-      { property: "og:title", content: "MK Developers — Own Your Future, Plot by Plot" },
+      { property: "og:title", content: "MK Builders & Developers — Own Your Future, Plot by Plot" },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -122,7 +123,7 @@ const testimonials = [
     city: "Bangalore",
     project: "MK Green Valley",
     photo: testimonial1,
-    text: "The team was transparent at every step. Documents, RERA, registration — all smooth. Highly recommend MK Developers.",
+    text: "The team was transparent at every step. Documents, RERA, registration — all smooth. Highly recommend MK Builders & Developers.",
   },
   {
     name: "Anitha Reddy",
@@ -170,7 +171,7 @@ function HomePage() {
       <section className="relative -mt-16 md:-mt-[88px] min-h-[100svh] flex items-center justify-center overflow-hidden">
         <img
           src={heroImg}
-          alt="Aerial drone view of premium MK Developers plot layout in Karnataka"
+          alt="Aerial drone view of premium MK Builders & Developers plot layout in Karnataka"
           width={1920}
           height={1080}
           className="absolute inset-0 w-full h-full object-cover"
@@ -205,7 +206,7 @@ function HomePage() {
             </a>
             <a
               href={whatsappHref(
-                "Hi MK Developers, I would like to get more information about your premium plots.",
+                "Hi MK Builders & Developers, I would like to get more information about your premium plots.",
               )}
               target="_blank"
               rel="noreferrer"
@@ -289,7 +290,7 @@ function HomePage() {
             {playVideo ? (
               <iframe
                 src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1"
-                title="MK Developers Layout Tour"
+                title="MK Builders & Developers Layout Tour"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="w-full h-full border-0"
@@ -301,7 +302,7 @@ function HomePage() {
               >
                 <img
                   src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop"
-                  alt="MK Developers layout drone tour thumbnail"
+                  alt="MK Builders & Developers layout drone tour thumbnail"
                   className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/30" />
@@ -319,7 +320,10 @@ function HomePage() {
 
       <section className="py-20 md:py-28 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <SectionHeader eyebrow="Why MK Developers" title="Trust that's earned, not claimed" />
+          <SectionHeader
+            eyebrow="Why MK Builders & Developers"
+            title="Trust that's earned, not claimed"
+          />
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {usps.map((u) => (
               <div
@@ -358,7 +362,7 @@ function HomePage() {
             </a>
             <a
               href={whatsappHref(
-                "Hi MK Developers, I would like to get brochures and layout information.",
+                "Hi MK Builders & Developers, I would like to get brochures and layout information.",
               )}
               target="_blank"
               rel="noreferrer"

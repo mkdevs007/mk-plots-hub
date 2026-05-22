@@ -6,13 +6,15 @@ import entranceGateImg from "@/assets/entrance-gate.png";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About MK Developers — True, Trusted, Transparent | Plotted Communities" },
+      {
+        title: "About MK Builders & Developers — True, Trusted, Transparent | Plotted Communities",
+      },
       {
         name: "description",
         content:
           "MK Builders & Developers is a family-led firm with a quiet preference for doing fewer things, properly. Under sixteen years, we have delivered 15 layouts and 4,200+ plots across Karnataka.",
       },
-      { property: "og:title", content: "About — MK Developers" },
+      { property: "og:title", content: "About — MK Builders & Developers" },
       { property: "og:url", content: "/about" },
       { property: "og:image", content: entranceGateImg },
     ],
@@ -145,7 +147,7 @@ function About() {
                 M. Krishna
               </div>
               <div className="text-xs text-muted-foreground tracking-widest uppercase mt-1">
-                Founder, MK Developers
+                Founder, MK Builders & Developers
               </div>
             </div>
           </div>

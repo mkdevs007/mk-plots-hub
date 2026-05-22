@@ -22,7 +22,10 @@ export const Route = createFileRoute("/thank-you")({
     };
   },
   head: () => ({
-    meta: [{ title: "Thank You — MK Developers" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Thank You — MK Builders & Developers" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: ThankYou,
 });
@@ -30,11 +33,12 @@ export const Route = createFileRoute("/thank-you")({
 function ThankYou() {
   const { name, city, type } = Route.useSearch();
 
-  let whatsappMsg = "Hi MK Developers, I'm interested in your projects — please share details";
+  let whatsappMsg =
+    "Hi MK Builders & Developers, I'm interested in your projects — please share details";
   if (name && city && type) {
-    whatsappMsg = `Hi MK Developers, my name is ${name} and I am interested in ${city} ${type.toLowerCase()} plots. Please contact me.`;
+    whatsappMsg = `Hi MK Builders & Developers, my name is ${name} and I am interested in ${city} ${type.toLowerCase()} plots. Please contact me.`;
   } else if (name) {
-    whatsappMsg = `Hi MK Developers, my name is ${name} and I am interested in your projects. Please contact me.`;
+    whatsappMsg = `Hi MK Builders & Developers, my name is ${name} and I am interested in your projects. Please contact me.`;
   }
 
   return (

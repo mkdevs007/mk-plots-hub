@@ -20,13 +20,13 @@ import { PlotROICalculator } from "@/components/site/PlotROICalculator";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Our Services — Layout Development & Plot Sales | MK Developers" },
+      { title: "Our Services — Layout Development & Plot Sales | MK Builders & Developers" },
       {
         name: "description",
         content:
           "Layout development, plot sales, site development and investment advisory — end-to-end real estate services across Karnataka.",
       },
-      { property: "og:title", content: "Services — MK Developers" },
+      { property: "og:title", content: "Services — MK Builders & Developers" },
       { property: "og:url", content: "/services" },
     ],
     links: [{ rel: "canonical", href: "/services" }],

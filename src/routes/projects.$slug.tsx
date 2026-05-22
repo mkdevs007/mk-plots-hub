@@ -24,13 +24,13 @@ export const Route = createFileRoute("/projects/$slug")({
   head: ({ loaderData }) => ({
     meta: [
       {
-        title: `${loaderData?.project.name} — Plots in ${loaderData?.project.city} | MK Developers`,
+        title: `${loaderData?.project.name} — Plots in ${loaderData?.project.city} | MK Builders & Developers`,
       },
       {
         name: "description",
         content: `${loaderData?.project.name} — ${loaderData?.project.description} Starting ${loaderData?.project.startingPrice}.`,
       },
-      { property: "og:title", content: `${loaderData?.project.name} — MK Developers` },
+      { property: "og:title", content: `${loaderData?.project.name} — MK Builders & Developers` },
       { property: "og:description", content: loaderData?.project.description ?? "" },
       { property: "og:image", content: loaderData?.project.image ?? "" },
       { property: "og:type", content: "article" },

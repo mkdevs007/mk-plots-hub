@@ -14,13 +14,13 @@ import {
 export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
-      { title: "Plot Projects in Karnataka | MK Developers" },
+      { title: "Plot Projects in Karnataka | MK Builders & Developers" },
       {
         name: "description",
         content:
-          "Explore all MK Developers plot projects across Bangalore, Mysore, Hubli & Tumkur. Filter by city, plot type, status and budget.",
+          "Explore all MK Builders & Developers plot projects across Bangalore, Mysore, Hubli & Tumkur. Filter by city, plot type, status and budget.",
       },
-      { property: "og:title", content: "All Plot Projects — MK Developers" },
+      { property: "og:title", content: "All Plot Projects — MK Builders & Developers" },
       { property: "og:url", content: "/projects" },
     ],
     links: [{ rel: "canonical", href: "/projects" }],

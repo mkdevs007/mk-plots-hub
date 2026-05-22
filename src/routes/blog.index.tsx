@@ -7,13 +7,13 @@ import { Calendar, Clock, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
-      { title: "MK Developers Blog — Real Estate Guides & Advice" },
+      { title: "MK Builders & Developers Blog — Real Estate Guides & Advice" },
       {
         name: "description",
         content:
           "Expert guides, legal advice on RERA, investment analyses, and growth corridors for buying land and plots in Karnataka.",
       },
-      { property: "og:title", content: "Blog — MK Developers" },
+      { property: "og:title", content: "Blog — MK Builders & Developers" },
       { property: "og:url", content: "/blog" },
     ],
     links: [{ rel: "canonical", href: "/blog" }],
