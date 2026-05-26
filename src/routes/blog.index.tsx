@@ -1,10 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
-import { blogPosts } from "@/data/blog";
+import { getBlogs } from "@/lib/blogs";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/blog/")({
+  loader: async () => {
+    const posts = await getBlogs();
+    return { posts };
+  },
   head: () => ({
     meta: [
       { title: "MK Builders & Developers Blog — Real Estate Guides & Advice" },
@@ -22,6 +26,8 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogPage() {
+  const { posts } = Route.useLoaderData();
+
   return (
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center">
@@ -40,7 +46,7 @@ function BlogPage() {
           <SectionHeader eyebrow="Latest Articles" title="From our land experts" />
 
           <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post) => (
+            {posts.map((post) => (
               <article
                 key={post.slug}
                 className="group bg-card rounded-xl overflow-hidden border border-border shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 flex flex-col h-full"

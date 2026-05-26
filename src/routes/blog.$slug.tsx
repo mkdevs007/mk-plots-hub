@@ -1,12 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { blogPosts } from "@/data/blog";
+import { getBlogBySlug } from "@/lib/blogs";
 import { Calendar, Clock, ChevronLeft, Share2, Facebook, Twitter, Linkedin } from "lucide-react";
 
 export const Route = createFileRoute("/blog/$slug")({
-  loader: ({ params }) => {
-    const post = blogPosts.find((p) => p.slug === params.slug);
+  loader: async ({ params }) => {
+    const post = await getBlogBySlug(params.slug);
     if (!post) throw notFound();
     return { post };
   },

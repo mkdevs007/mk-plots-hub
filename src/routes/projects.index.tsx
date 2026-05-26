@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { SiteLayout } from "@/components/site/Layout";
 import { ProjectCard } from "@/components/site/ProjectCard";
-import { projects, cities } from "@/data/projects";
+import { getProjects } from "@/lib/projects";
+import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -12,6 +13,10 @@ import {
 } from "@/components/ui/select";
 
 export const Route = createFileRoute("/projects/")({
+  loader: async () => {
+    const list = await getProjects();
+    return { initialProjects: list };
+  },
   head: () => ({
     meta: [
       { title: "Plot Projects in Karnataka | MK Builders & Developers" },
@@ -32,6 +37,13 @@ const types = ["All", "Residential", "Commercial", "Agricultural", "Industrial"]
 const statuses = ["All", "Ongoing", "New Launch", "Few Plots Left", "Completed"] as const;
 
 function ProjectsPage() {
+  const { initialProjects } = Route.useLoaderData();
+  const { data: projects = initialProjects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+    initialData: initialProjects,
+  });
+
   const [city, setCity] = useState("All");
   const [type, setType] = useState<(typeof types)[number]>("All");
   const [status, setStatus] = useState<(typeof statuses)[number]>("All");
@@ -44,8 +56,10 @@ function ProjectsPage() {
           (type === "All" || p.type === type.toLowerCase()) &&
           (status === "All" || p.status === status),
       ),
-    [city, type, status],
+    [projects, city, type, status],
   );
+
+  const dynamicCities = Array.from(new Set(projects.map((p) => p.city)));
 
   return (
     <SiteLayout>
@@ -74,7 +88,7 @@ function ProjectsPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="All">All Cities</SelectItem>
-                  {cities.map((c) => (
+                  {dynamicCities.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>

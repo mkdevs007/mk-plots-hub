@@ -3,7 +3,8 @@ import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/lib/projects";
+import { useQuery } from "@tanstack/react-query";
 import { MapPin, TrendingUp, ShieldCheck, Landmark, Star, ArrowRight } from "lucide-react";
 
 // Custom details for each operating city
@@ -124,11 +125,12 @@ const cityData: Record<
 };
 
 export const Route = createFileRoute("/plots-in/$city")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const cityKey = params.city.toLowerCase();
     const data = cityData[cityKey];
     if (!data) throw notFound();
-    return { data, cityKey };
+    const list = await getProjects();
+    return { data, cityKey, initialProjects: list };
   },
   head: ({ loaderData }) => {
     const data = loaderData?.data;
@@ -154,7 +156,13 @@ export const Route = createFileRoute("/plots-in/$city")({
 });
 
 function CityHubPage() {
-  const { data, cityKey } = Route.useLoaderData();
+  const { data, cityKey, initialProjects } = Route.useLoaderData();
+  const { data: projects = initialProjects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+    initialData: initialProjects,
+  });
+
   const cityProjects = projects.filter((p) => p.city.toLowerCase() === cityKey);
 
   return (

@@ -3,7 +3,8 @@ import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { projects, cities } from "@/data/projects";
+import { getProjects } from "@/lib/projects";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import {
   Select,
@@ -47,9 +48,10 @@ const META: Record<string, { title: string; tagline: string; description: string
 };
 
 export const Route = createFileRoute("/plots/$type")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     if (!META[params.type]) throw notFound();
-    return { type: params.type };
+    const list = await getProjects();
+    return { type: params.type, initialProjects: list };
   },
   head: ({ params }) => {
     const m = META[params.type];
@@ -80,7 +82,13 @@ const typeNames: Record<string, string> = {
 };
 
 function PlotTypePage() {
-  const { type } = Route.useLoaderData();
+  const { type, initialProjects } = Route.useLoaderData();
+  const { data: projects = initialProjects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+    initialData: initialProjects,
+  });
+
   const navigate = useNavigate();
   const m = META[type]!;
 
@@ -119,7 +127,9 @@ function PlotTypePage() {
 
       return true;
     });
-  }, [type, city, status, budget, size]);
+  }, [projects, type, city, status, budget, size]);
+
+  const dynamicCities = Array.from(new Set(projects.map((p) => p.city)));
 
   return (
     <SiteLayout>
@@ -172,7 +182,7 @@ function PlotTypePage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="All">All Cities</SelectItem>
-                  {cities.map((c) => (
+                   {dynamicCities.map((c) => (
                     <SelectItem key={c} value={c}>
                       {c}
                     </SelectItem>

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound, useLocation } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { projects } from "@/data/projects";
+import { getProjectBySlug } from "@/lib/projects";
 import {
   MapPin,
   Ruler,
@@ -16,8 +16,8 @@ import { useState, useEffect } from "react";
 import { SiteVisitModal } from "@/components/site/SiteVisitModal";
 
 export const Route = createFileRoute("/projects/$slug")({
-  loader: ({ params }) => {
-    const project = projects.find((p) => p.slug === params.slug);
+  loader: async ({ params }) => {
+    const project = await getProjectBySlug(params.slug);
     if (!project) throw notFound();
     return { project };
   },
@@ -124,7 +124,6 @@ const progressTimeline = [
 
 function ProjectDetail() {
   const { project: p } = Route.useLoaderData();
-  const [selectedPlot, setSelectedPlot] = useState<InteractivePlot | null>(null);
   const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
 
   const location = useLocation();
@@ -144,18 +143,6 @@ function ProjectDetail() {
   }, [location.hash]);
 
   const sold = p.totalPlots - p.availablePlots;
-  const plotsList = mockPlots(p.priceLakh, p.sizes);
-
-  const statusColors = {
-    Available: {
-      bg: "bg-emerald-500",
-      text: "text-emerald-500",
-      svg: "#10b981",
-      svgHover: "#059669",
-    },
-    Booked: { bg: "bg-amber-500", text: "text-amber-500", svg: "#f59e0b", svgHover: "#d97706" },
-    Sold: { bg: "bg-rose-500", text: "text-rose-500", svg: "#f43f5e", svgHover: "#e11d48" },
-  };
 
   return (
     <SiteLayout>
@@ -213,141 +200,65 @@ function ProjectDetail() {
               <p className="mt-4 text-muted-foreground leading-relaxed text-lg">{p.description}</p>
             </div>
 
-            {/* Interactive Layout Availability Map */}
-            <div id="layout-map" className="mt-12 border-t border-border pt-12 scroll-mt-24">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h2 className="font-display text-3xl">Interactive Availability Map</h2>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Select a color-coded plot to view details and enquire.
-                  </p>
-                </div>
-                {/* Legend */}
-                <div className="flex gap-4 text-xs font-semibold">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-3.5 h-3.5 rounded bg-emerald-500" /> Available
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-3.5 h-3.5 rounded bg-amber-500" /> Booked
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-3.5 h-3.5 rounded bg-rose-500" /> Sold Out
-                  </span>
-                </div>
-              </div>
-
-              {/* SVG Map Container */}
-              <div className="mt-8 bg-secondary/30 rounded-2xl p-4 md:p-6 border border-border overflow-x-auto">
-                <div className="min-w-[720px] relative">
-                  <svg viewBox="0 0 720 280" className="w-full h-auto select-none">
-                    {/* Background layout road grid */}
-                    <rect x="0" y="100" width="720" height="30" fill="#e2e8f0" rx="4" />
-                    <text
-                      x="360"
-                      y="120"
-                      fill="#94a3b8"
-                      fontSize="10"
-                      fontWeight="bold"
-                      textAnchor="middle"
-                      letterSpacing="0.2em"
-                    >
-                      INTERNAL ROADWAY (30 FT)
-                    </text>
-
-                    {/* Plots */}
-                    {plotsList.map((plot) => (
-                      <g
-                        key={plot.id}
-                        className="cursor-pointer group"
-                        onClick={() => {
-                          setSelectedPlot(plot);
-                          if (plot.status !== "Sold") {
-                            const el = document.getElementById("enquiry");
-                            if (el) {
-                              el.scrollIntoView({ behavior: "smooth" });
-                            }
-                          }
-                        }}
-                      >
-                        <rect
-                          x={plot.x}
-                          y={plot.y}
-                          width={plot.w}
-                          height={plot.h}
-                          fill={
-                            selectedPlot?.id === plot.id ? "#b8860b" : statusColors[plot.status].svg
-                          }
-                          stroke="#ffffff"
-                          strokeWidth="2"
-                          rx="4"
-                          className="transition-all duration-300 hover:opacity-90"
-                        />
-                        <text
-                          x={plot.x + plot.w / 2}
-                          y={plot.y + plot.h / 2 - 2}
-                          fill="#ffffff"
-                          fontSize="12"
-                          fontWeight="bold"
-                          textAnchor="middle"
-                        >
-                          {plot.id}
-                        </text>
-                        <text
-                          x={plot.x + plot.w / 2}
-                          y={plot.y + plot.h / 2 + 14}
-                          fill="#ffffff"
-                          opacity="0.8"
-                          fontSize="9"
-                          textAnchor="middle"
-                        >
-                          {plot.size}
-                        </text>
-                      </g>
-                    ))}
-                  </svg>
-                </div>
-              </div>
-
-              {/* Selected Plot Info Card */}
-              {selectedPlot && (
-                <div className="mt-4 p-5 rounded-xl border border-border bg-card shadow-card animate-fade-up flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-display text-2xl font-bold text-foreground">
-                        Plot {selectedPlot.id}
-                      </span>
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${statusColors[selectedPlot.status].bg} text-white`}
-                      >
-                        {selectedPlot.status}
-                      </span>
+            {/* Walkthrough Video Section */}
+            {(p.videoUrl || (p.galleryVideos && p.galleryVideos.length > 0)) && (
+              <div className="mt-12 border-t border-border pt-12">
+                <h2 className="font-display text-3xl mb-6">Drone Tour & Walkthrough Videos</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {p.videoUrl && (
+                    <div className="relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
+                      <video
+                        src={p.videoUrl}
+                        controls
+                        className="w-full h-full object-cover"
+                        poster={p.image}
+                      />
+                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">
+                        Main Walkthrough
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Dimensions:{" "}
-                      <span className="font-semibold text-foreground">{selectedPlot.size}</span> |
-                      Estimated Value:{" "}
-                      <span className="font-semibold text-foreground">{selectedPlot.price}</span>
-                    </p>
-                  </div>
-                  <div className="flex gap-2 w-full sm:w-auto">
-                    <button
-                      onClick={() => setSelectedPlot(null)}
-                      className="px-4 py-2 text-xs rounded border border-border hover:bg-secondary text-muted-foreground"
-                    >
-                      Clear Selection
-                    </button>
-                    {selectedPlot.status !== "Sold" && (
-                      <a
-                        href={`#enquiry`}
-                        className="px-5 py-2 text-xs rounded gold-gradient text-gold-foreground font-semibold text-center"
-                      >
-                        Enquire for this plot
-                      </a>
-                    )}
-                  </div>
+                  )}
+                  {p.galleryVideos?.map((vUrl, index) => (
+                    <div key={vUrl} className="relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
+                      <video
+                        src={vUrl}
+                        controls
+                        className="w-full h-full object-cover"
+                        poster={p.image}
+                      />
+                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">
+                        Walkthrough #{index + 1}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
+            {/* Layout Gallery */}
+            {p.galleryImages && p.galleryImages.length > 0 && (
+              <div className="mt-12 border-t border-border pt-12">
+                <h2 className="font-display text-3xl mb-6">Gallery & Layout Views</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {p.galleryImages.map((imgUrl, index) => (
+                    <a
+                      key={imgUrl}
+                      href={imgUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="relative overflow-hidden rounded-xl group aspect-[4/3] border border-border bg-secondary/30 block"
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={`${p.name} gallery image ${index + 1}`}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="mt-12">
               <h2 className="font-display text-3xl">Plot availability</h2>
@@ -449,7 +360,7 @@ function ProjectDetail() {
                 Get plot availability, pricing & site visit slot.
               </p>
               <div className="mt-5">
-                <EnquiryForm compact plotId={selectedPlot?.id} projectName={p.name} />
+                <EnquiryForm compact projectName={p.name} />
               </div>
 
               {p.priceLakh > 0 && (

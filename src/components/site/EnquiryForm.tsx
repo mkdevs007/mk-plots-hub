@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { whatsappHref } from "./WhatsAppButton";
+import { submitEnquiry } from "@/lib/enquiries";
+import { toast } from "sonner";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Enter your name").max(80),
@@ -40,7 +42,7 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
     );
   }, [plotId, projectName]);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const data = {
@@ -60,7 +62,20 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
     setErrors({});
     setLoading(true);
     sessionStorage.setItem("callback_popup_dismissed", "true");
-    setTimeout(() => {
+    
+    try {
+      await submitEnquiry({
+        name: data.name,
+        phone: data.phone,
+        city: data.city,
+        plot_type: data.plotType,
+        message: data.message || undefined,
+        project_name: projectName,
+        plot_id: plotId,
+      });
+      
+      toast.success("Enquiry submitted successfully!");
+      
       navigate({
         to: "/thank-you",
         search: {
@@ -71,7 +86,11 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
           message: data.message || undefined,
         },
       });
-    }, 400);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Failed to submit enquiry. Please try again.");
+      setLoading(false);
+    }
   };
 
   const fieldCls =

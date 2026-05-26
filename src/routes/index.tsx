@@ -27,13 +27,18 @@ import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { whatsappHref } from "@/components/site/WhatsAppButton";
 import { PlotROICalculator } from "@/components/site/PlotROICalculator";
-import { projects, cities } from "@/data/projects";
+import { getProjects } from "@/lib/projects";
+import { useQuery } from "@tanstack/react-query";
 import { blogPosts } from "@/data/blog";
 import testimonial1 from "@/assets/testimonial-1.jpg";
 import testimonial2 from "@/assets/testimonial-2.jpg";
 import testimonial3 from "@/assets/testimonial-3.jpg";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const list = await getProjects();
+    return { initialProjects: list };
+  },
   head: () => ({
     meta: [
       {
@@ -142,8 +147,17 @@ const testimonials = [
 ];
 
 function HomePage() {
+  const { initialProjects } = Route.useLoaderData();
+  const { data: projects = initialProjects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+    initialData: initialProjects,
+  });
+
   const ongoing = projects.filter((p) => p.status !== "Completed").slice(0, 3);
   const [playVideo, setPlayVideo] = useState(false);
+
+  const dynamicCities = Array.from(new Set(projects.map((p) => p.city)));
 
   const galleryPhotos = [
     { image: project1, name: "MK Green Valley - Devanahalli" },
@@ -574,7 +588,7 @@ function HomePage() {
         <div className="max-w-5xl mx-auto text-center">
           <SectionHeader eyebrow="Our Presence" title="Cities we operate in" />
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            {cities.map((c) => (
+            {dynamicCities.map((c) => (
               <Link
                 key={c}
                 to="/projects"

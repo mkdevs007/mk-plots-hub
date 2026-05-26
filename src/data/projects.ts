@@ -20,6 +20,9 @@ export interface Project {
   amenities: string[];
   rera: string;
   image: string;
+  videoUrl?: string;
+  galleryImages?: string[];
+  galleryVideos?: string[];
   description: string;
 }
 
