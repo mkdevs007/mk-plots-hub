@@ -11,7 +11,16 @@ import {
   Calendar,
   Clock,
   AlertCircle,
+  Plane,
+  GraduationCap,
+  HeartPulse,
+  ShoppingBag,
+  Route as RouteIcon,
+  Train,
+  Building2,
 } from "lucide-react";
+import type { ComponentType } from "react";
+import type { NearbyCategory } from "@/data/projects";
 import { useState, useEffect } from "react";
 import { SiteVisitModal } from "@/components/site/SiteVisitModal";
 
@@ -88,39 +97,17 @@ const mockPlots = (priceLakh: number, sizes: string[]): InteractivePlot[] => {
   return list;
 };
 
-// Timeline updates for projects
-const progressTimeline = [
-  {
-    date: "Jan 2025",
-    title: "Land Acquisition & Boundary",
-    desc: "Acquisition finalized, boundary wall completed, and main security gates installed.",
-    done: true,
-  },
-  {
-    date: "Mar 2025",
-    title: "Road & Drainage Works",
-    desc: "80% of blacktop internal roads completed. Stormwater drainage grid installed.",
-    done: true,
-  },
-  {
-    date: "Jun 2025",
-    title: "Electrical & Water Infrastructure",
-    desc: "Underground electric cabling layed and connection to municipal water line initiated.",
-    done: false,
-  },
-  {
-    date: "Oct 2025",
-    title: "Parks & Landscaping",
-    desc: "Central community park, children's play area, and tree plantations scheduled.",
-    done: false,
-  },
-  {
-    date: "Jan 2026",
-    title: "Final Handover & Registration",
-    desc: "RERA handovers and plot registrations for first-batch buyers.",
-    done: false,
-  },
-];
+
+const nearbyCategoryMeta: Record<NearbyCategory, { label: string; icon: ComponentType<{ className?: string }>; color: string; bg: string }> = {
+  airport:  { label: "Airport",      icon: Plane,          color: "text-sky-500",    bg: "bg-sky-500/10" },
+  school:   { label: "School",       icon: GraduationCap,  color: "text-blue-500",   bg: "bg-blue-500/10" },
+  hospital: { label: "Hospital",     icon: HeartPulse,     color: "text-red-500",    bg: "bg-red-500/10" },
+  market:   { label: "Market",       icon: ShoppingBag,    color: "text-amber-500",  bg: "bg-amber-500/10" },
+  highway:  { label: "Highway",      icon: RouteIcon,      color: "text-orange-500", bg: "bg-orange-500/10" },
+  railway:  { label: "Railway",      icon: Train,          color: "text-purple-500", bg: "bg-purple-500/10" },
+  it_park:  { label: "IT / Tech Park", icon: Building2,    color: "text-emerald-500",bg: "bg-emerald-500/10" },
+  other:    { label: "Nearby Place", icon: MapPin,         color: "text-gold",       bg: "bg-gold/10" },
+};
 
 function ProjectDetail() {
   const { project: p } = Route.useLoaderData();
@@ -314,11 +301,42 @@ function ProjectDetail() {
               </div>
             </div>
 
-            {/* Development Progress Updates */}
+            {/* What's Nearby */}
+            {p.nearbyPlaces && p.nearbyPlaces.length > 0 && (
+              <div className="mt-12 border-t border-border pt-12">
+                <h2 className="font-display text-3xl mb-6">What's Nearby</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {p.nearbyPlaces.map((place, idx) => {
+                    const meta = nearbyCategoryMeta[place.category as NearbyCategory] ?? nearbyCategoryMeta.other;
+                    const Icon = meta.icon;
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border"
+                      >
+                        <span className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${meta.bg}`}>
+                          <Icon className={`w-5 h-5 ${meta.color}`} />
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-sm text-foreground truncate">{place.name}</p>
+                          <p className="text-xs text-muted-foreground font-nav uppercase tracking-wider mt-0.5">{meta.label}</p>
+                        </div>
+                        <span className="shrink-0 text-xs font-semibold font-nav px-2.5 py-1 rounded-full bg-gold/10 text-gold border border-gold/20">
+                          {place.distance}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Development Progress Updates — only if admin has added milestones */}
+            {p.progressTimeline && p.progressTimeline.length > 0 && (
             <div className="mt-12 border-t border-border pt-12">
               <h2 className="font-display text-3xl mb-8">Layout Construction Progress</h2>
               <div className="relative border-l-2 border-border ml-4 space-y-8">
-                {(p.progressTimeline && p.progressTimeline.length > 0 ? p.progressTimeline : progressTimeline).map((item, idx) => (
+                {p.progressTimeline.map((item, idx) => (
                   <div key={idx} className="relative pl-8">
                     {/* Circle marker */}
                     <span
@@ -344,6 +362,7 @@ function ProjectDetail() {
                 ))}
               </div>
             </div>
+            )}
 
             {/* Documents Section */}
             <div className="mt-12 p-6 rounded-xl bg-secondary/50 border border-border flex flex-wrap items-center justify-between gap-4">

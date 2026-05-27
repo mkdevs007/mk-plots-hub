@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { projects as mockProjectsList, Project, ProjectStatus, SizePrice, ProgressMilestone } from "@/data/projects";
+import { projects as mockProjectsList, Project, ProjectStatus, SizePrice, ProgressMilestone, NearbyPlace, NearbyCategory } from "@/data/projects";
 import { CloudinaryUpload } from "@/components/ui/CloudinaryUpload";
 import {
   Plus,
@@ -85,6 +85,7 @@ const fetchProjectsFromDb = async (): Promise<Project[]> => {
     description: dbItem.description,
     progressTimeline: dbItem.progress_timeline || [],
     layoutPdfUrl: dbItem.layout_pdf_url || "",
+    nearbyPlaces: dbItem.nearby_places || [],
   }));
 };
 
@@ -112,6 +113,7 @@ const saveProjectToDb = async (project: Project, isNew: boolean) => {
     description: project.description,
     progress_timeline: project.progressTimeline || [],
     layout_pdf_url: project.layoutPdfUrl || null,
+    nearby_places: project.nearbyPlaces || [],
   };
 
   if (!isSupabaseConfigured) {
@@ -183,7 +185,19 @@ const defaultFormState = (): Project => ({
   description: "",
   progressTimeline: [],
   layoutPdfUrl: "",
+  nearbyPlaces: [],
 });
+
+const NEARBY_CATEGORIES: { value: NearbyCategory; label: string }[] = [
+  { value: "airport", label: "Airport" },
+  { value: "railway", label: "Railway Station" },
+  { value: "highway", label: "Highway / Main Road" },
+  { value: "school", label: "School / College" },
+  { value: "hospital", label: "Hospital / Clinic" },
+  { value: "market", label: "Market / Mall" },
+  { value: "it_park", label: "IT Park / Tech Hub" },
+  { value: "other", label: "Other" },
+];
 
 function AdminDashboard() {
   const queryClient = useQueryClient();
@@ -203,6 +217,7 @@ function AdminDashboard() {
   const [showNewCityInput, setShowNewCityInput] = useState(false);
   const [sizePrices, setSizePrices] = useState<SizePrice[]>([]);
   const [progressTimeline, setProgressTimeline] = useState<ProgressMilestone[]>([]);
+  const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
 
   // React Query queries
   const { data: projects = [], isLoading, error: queryError } = useQuery({
@@ -243,6 +258,7 @@ function AdminDashboard() {
     setAmenitiesInput("Road, Water, Electricity, Security");
     setSizePrices([]);
     setProgressTimeline([]);
+    setNearbyPlaces([]);
     setShowNewCityInput(false);
     setIsOpen(true);
   };
@@ -254,6 +270,7 @@ function AdminDashboard() {
     setAmenitiesInput(project.amenities.join(", "));
     setSizePrices(project.sizePrices || []);
     setProgressTimeline(project.progressTimeline || []);
+    setNearbyPlaces(project.nearbyPlaces || []);
     setShowNewCityInput(false);
     setIsOpen(true);
   };
@@ -302,6 +319,7 @@ function AdminDashboard() {
       amenities,
       sizePrices: sizePrices.filter((r) => r.size.trim()),
       progressTimeline: progressTimeline.filter((m) => m.title.trim()),
+      nearbyPlaces: nearbyPlaces.filter((n) => n.name.trim()),
     };
 
     saveMutation.mutate({ project: finalProject, isNew: isNewProject });
@@ -854,6 +872,86 @@ function AdminDashboard() {
                         <button
                           type="button"
                           onClick={() => setSizePrices((prev) => prev.filter((_, i) => i !== idx))}
+                          className="p-1.5 text-muted-foreground hover:text-destructive transition rounded cursor-pointer shrink-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Nearby Places */}
+              <div className="md:col-span-2 border-t border-border/85 pt-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Nearby Landmarks & Distances
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Shown as "What's Nearby" on the project page — add key distances from the plot.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="border-border text-xs cursor-pointer"
+                    onClick={() =>
+                      setNearbyPlaces((prev) => [
+                        ...prev,
+                        { name: "", distance: "", category: "other" },
+                      ])
+                    }
+                  >
+                    <Plus className="w-3.5 h-3.5 mr-1" /> Add Place
+                  </Button>
+                </div>
+                {nearbyPlaces.length === 0 ? (
+                  <p className="text-xs text-muted-foreground/60 italic py-2">
+                    No nearby places added yet.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {nearbyPlaces.map((place, idx) => (
+                      <div key={idx} className="flex gap-2 items-center">
+                        <select
+                          value={place.category}
+                          onChange={(e) => {
+                            const updated = [...nearbyPlaces];
+                            updated[idx] = { ...updated[idx], category: e.target.value as NearbyCategory };
+                            setNearbyPlaces(updated);
+                          }}
+                          className="bg-background border border-border text-foreground text-sm rounded-md px-3 py-2 w-44 shrink-0 focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none"
+                        >
+                          {NEARBY_CATEGORIES.map((c) => (
+                            <option key={c.value} value={c.value}>{c.label}</option>
+                          ))}
+                        </select>
+                        <Input
+                          value={place.name}
+                          onChange={(e) => {
+                            const updated = [...nearbyPlaces];
+                            updated[idx] = { ...updated[idx], name: e.target.value };
+                            setNearbyPlaces(updated);
+                          }}
+                          placeholder="Place name (e.g. Kempegowda Airport)"
+                          className="bg-background border-border text-foreground text-sm flex-1"
+                        />
+                        <Input
+                          value={place.distance}
+                          onChange={(e) => {
+                            const updated = [...nearbyPlaces];
+                            updated[idx] = { ...updated[idx], distance: e.target.value };
+                            setNearbyPlaces(updated);
+                          }}
+                          placeholder="Distance (e.g. 8 km)"
+                          className="bg-background border-border text-foreground text-sm w-32 shrink-0"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setNearbyPlaces((prev) => prev.filter((_, i) => i !== idx))}
                           className="p-1.5 text-muted-foreground hover:text-destructive transition rounded cursor-pointer shrink-0"
                         >
                           <X className="w-4 h-4" />

@@ -49,6 +49,7 @@ export const getProjects = async (): Promise<Project[]> => {
     description: dbItem.description,
     progressTimeline: dbItem.progress_timeline || [],
     layoutPdfUrl: dbItem.layout_pdf_url || "",
+    nearbyPlaces: dbItem.nearby_places || [],
   }));
 };
 

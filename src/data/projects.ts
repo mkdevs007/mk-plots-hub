@@ -9,6 +9,22 @@ export interface SizePrice {
   price: string;
 }
 
+export type NearbyCategory =
+  | "airport"
+  | "school"
+  | "hospital"
+  | "market"
+  | "highway"
+  | "railway"
+  | "it_park"
+  | "other";
+
+export interface NearbyPlace {
+  name: string;
+  distance: string;
+  category: NearbyCategory;
+}
+
 export interface ProgressMilestone {
   date: string;
   title: string;
@@ -39,6 +55,7 @@ export interface Project {
   description: string;
   progressTimeline?: ProgressMilestone[];
   layoutPdfUrl?: string;
+  nearbyPlaces?: NearbyPlace[];
 }
 
 export const projects: Project[] = [
