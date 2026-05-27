@@ -1,7 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+// Helper to resolve environment variables in both Node.js server (process.env) and Vite client (import.meta.env)
+const getEnv = (key: string): string => {
+  if (typeof process !== "undefined" && process.env && process.env[key]) {
+    return process.env[key] || "";
+  }
+  // @ts-ignore
+  if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env[key]) {
+    // @ts-ignore
+    return import.meta.env[key] || "";
+  }
+  return "";
+};
+
+const supabaseUrl = getEnv("VITE_SUPABASE_URL");
+const supabaseAnonKey = getEnv("VITE_SUPABASE_ANON_KEY");
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 

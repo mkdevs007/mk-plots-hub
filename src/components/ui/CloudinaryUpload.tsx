@@ -11,8 +11,21 @@ interface CloudinaryUploadProps {
   multiple?: boolean;
 }
 
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+// Helper to resolve environment variables in both Node.js server (process.env) and Vite client (import.meta.env)
+const getEnv = (key: string): string => {
+  if (typeof process !== "undefined" && process.env && process.env[key]) {
+    return process.env[key] || "";
+  }
+  // @ts-ignore
+  if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env[key]) {
+    // @ts-ignore
+    return import.meta.env[key] || "";
+  }
+  return "";
+};
+
+const CLOUD_NAME = getEnv("VITE_CLOUDINARY_CLOUD_NAME");
+const UPLOAD_PRESET = getEnv("VITE_CLOUDINARY_UPLOAD_PRESET");
 
 export function CloudinaryUpload({ value, onChange, accept, label, multiple = false }: CloudinaryUploadProps) {
   const [dragActive, setDragActive] = useState(false);

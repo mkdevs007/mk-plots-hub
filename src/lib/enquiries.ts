@@ -55,6 +55,9 @@ const MOCK_ENQUIRIES: Enquiry[] = [
 
 // Helper to get local enquiries
 const getLocalEnquiries = (): Enquiry[] => {
+  if (typeof window === "undefined") {
+    return MOCK_ENQUIRIES;
+  }
   const local = localStorage.getItem(LOCAL_STORAGE_KEY);
   if (local) {
     return JSON.parse(local);
@@ -85,6 +88,7 @@ export const submitEnquiry = async (
   }
 
   // Fallback to local storage
+  if (typeof window === "undefined") return;
   const currentList = getLocalEnquiries();
   const newEnquiry: Enquiry = {
     ...enquiryData,
@@ -140,6 +144,7 @@ export const updateEnquiryStatus = async (
     return;
   }
 
+  if (typeof window === "undefined") return;
   const currentList = getLocalEnquiries();
   const updatedList = currentList.map((item) =>
     item.id === id ? { ...item, status } : item
@@ -155,6 +160,7 @@ export const deleteEnquiry = async (id: number): Promise<void> => {
     return;
   }
 
+  if (typeof window === "undefined") return;
   const currentList = getLocalEnquiries();
   const filteredList = currentList.filter((item) => item.id !== id);
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filteredList));

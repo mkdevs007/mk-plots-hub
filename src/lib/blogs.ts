@@ -5,6 +5,9 @@ const LOCAL_STORAGE_KEY = "mk_blogs";
 
 // Helper to get local blogs
 const getLocalBlogs = (): BlogPost[] => {
+  if (typeof window === "undefined") {
+    return mockBlogPosts;
+  }
   const local = localStorage.getItem(LOCAL_STORAGE_KEY);
   if (local) {
     return JSON.parse(local);
@@ -104,6 +107,7 @@ export const saveBlog = async (blog: BlogPost, isNew: boolean): Promise<void> =>
   }
 
   // Fallback to local storage
+  if (typeof window === "undefined") return;
   const currentList = getLocalBlogs();
   let updatedList: BlogPost[];
 
@@ -127,6 +131,7 @@ export const deleteBlog = async (slug: string): Promise<void> => {
     return;
   }
 
+  if (typeof window === "undefined") return;
   const currentList = getLocalBlogs();
   const filteredList = currentList.filter((b) => b.slug !== slug);
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filteredList));

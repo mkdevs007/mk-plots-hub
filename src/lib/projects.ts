@@ -4,6 +4,9 @@ import { projects as mockProjectsList, Project, ProjectStatus } from "@/data/pro
 // Shared function to retrieve projects from either Supabase or fallback local storage
 export const getProjects = async (): Promise<Project[]> => {
   if (!isSupabaseConfigured) {
+    if (typeof window === "undefined") {
+      return mockProjectsList;
+    }
     const local = localStorage.getItem("mk_projects");
     if (local) {
       return JSON.parse(local);
