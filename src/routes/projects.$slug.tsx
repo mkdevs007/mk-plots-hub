@@ -158,12 +158,12 @@ function ProjectDetail() {
         <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-between pt-28 md:pt-36 pb-14 px-5 md:px-8 text-primary-foreground">
           <Link
             to="/projects"
-            className="self-start text-[11px] uppercase tracking-[0.22em] text-primary-foreground/70 hover:text-gold transition-colors font-semibold"
+            className="self-start text-[11px] uppercase tracking-[0.22em] text-primary-foreground/70 hover:text-gold transition-colors font-semibold font-nav"
           >
             ← Back to all projects
           </Link>
           <div>
-            <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+            <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase">
               {p.status}
             </span>
             <h1 className="mt-3 font-display text-5xl md:text-7xl">{p.name}</h1>
@@ -213,7 +213,7 @@ function ProjectDetail() {
                         className="w-full h-full object-cover"
                         poster={p.image}
                       />
-                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">
+                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold font-nav tracking-widest px-2.5 py-1 rounded-full uppercase">
                         Main Walkthrough
                       </div>
                     </div>
@@ -226,7 +226,7 @@ function ProjectDetail() {
                         className="w-full h-full object-cover"
                         poster={p.image}
                       />
-                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">
+                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold font-nav tracking-widest px-2.5 py-1 rounded-full uppercase">
                         Walkthrough #{index + 1}
                       </div>
                     </div>
@@ -272,12 +272,16 @@ function ProjectDetail() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {p.sizes.map((sz: string, i: number) => (
-                      <tr key={sz}>
-                        <td className="px-5 py-3 font-medium">{sz}</td>
-                        <td className="px-5 py-3">
-                          {p.priceLakh === 0 ? "Sold Out" : `From ₹${p.priceLakh + i * 4} Lakh`}
-                        </td>
+                    {(p.sizePrices && p.sizePrices.length > 0
+                      ? p.sizePrices
+                      : p.sizes.map((size: string, i: number) => ({
+                          size,
+                          price: p.priceLakh === 0 ? "Sold Out" : `From ₹${p.priceLakh + i * 4} Lakh`,
+                        }))
+                    ).map((row: { size: string; price: string }) => (
+                      <tr key={row.size}>
+                        <td className="px-5 py-3 font-medium">{row.size}</td>
+                        <td className="px-5 py-3">{row.price}</td>
                         <td className="px-5 py-3">
                           <span
                             className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${p.priceLakh === 0 ? "bg-badge-done-bg text-badge-done-fg" : "bg-badge-ongoing-bg text-badge-ongoing-fg"}`}
@@ -314,14 +318,14 @@ function ProjectDetail() {
             <div className="mt-12 border-t border-border pt-12">
               <h2 className="font-display text-3xl mb-8">Layout Construction Progress</h2>
               <div className="relative border-l-2 border-border ml-4 space-y-8">
-                {progressTimeline.map((item, idx) => (
+                {(p.progressTimeline && p.progressTimeline.length > 0 ? p.progressTimeline : progressTimeline).map((item, idx) => (
                   <div key={idx} className="relative pl-8">
                     {/* Circle marker */}
                     <span
                       className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-background flex items-center justify-center ${item.done ? "bg-gold" : "bg-muted"}`}
                     />
                     <div>
-                      <span className="text-xs font-bold text-gold uppercase tracking-wider">
+                      <span className="text-xs font-bold font-nav text-gold uppercase tracking-wider">
                         {item.date}
                       </span>
                       <h4 className="font-display text-xl text-foreground font-semibold mt-0.5 flex items-center gap-2">
@@ -347,9 +351,24 @@ function ProjectDetail() {
                 <h3 className="font-display text-xl">Layout Plan & Documents</h3>
                 <p className="text-sm text-muted-foreground mt-1">RERA: {p.rera}</p>
               </div>
-              <button className="inline-flex items-center gap-2 px-5 py-3 rounded-md gold-gradient text-gold-foreground font-semibold hover:opacity-95 transition">
-                <Download className="w-4 h-4" /> Download Layout PDF
-              </button>
+              {p.layoutPdfUrl ? (
+                <a
+                  href={p.layoutPdfUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  download
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-md gold-gradient text-gold-foreground font-semibold font-nav hover:opacity-95 transition"
+                >
+                  <Download className="w-4 h-4" /> Download Layout PDF
+                </a>
+              ) : (
+                <button
+                  disabled
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-secondary border border-border text-muted-foreground font-semibold cursor-not-allowed opacity-60 text-sm"
+                >
+                  <Download className="w-4 h-4" /> PDF Coming Soon
+                </button>
+              )}
             </div>
           </div>
 
@@ -366,7 +385,7 @@ function ProjectDetail() {
               {p.priceLakh > 0 && (
                 <button
                   onClick={() => setIsVisitModalOpen(true)}
-                  className="w-full mt-4 py-3 border-2 border-gold text-gold hover:bg-gold hover:text-gold-foreground font-semibold rounded-md transition text-sm text-center"
+                  className="w-full mt-4 py-3 border-2 border-gold text-gold hover:bg-gold hover:text-gold-foreground font-semibold font-nav rounded-md transition text-sm text-center"
                 >
                   Book Free Site Visit
                 </button>

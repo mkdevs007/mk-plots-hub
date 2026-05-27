@@ -4,6 +4,18 @@ import project3 from "@/assets/project-3.jpg";
 
 export type ProjectStatus = "Ongoing" | "New Launch" | "Few Plots Left" | "Completed";
 
+export interface SizePrice {
+  size: string;
+  price: string;
+}
+
+export interface ProgressMilestone {
+  date: string;
+  title: string;
+  desc: string;
+  done: boolean;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -13,6 +25,7 @@ export interface Project {
   landmark: string;
   type: "residential" | "commercial" | "agricultural" | "industrial";
   sizes: string[];
+  sizePrices?: SizePrice[];
   totalPlots: number;
   availablePlots: number;
   startingPrice: string;
@@ -24,6 +37,8 @@ export interface Project {
   galleryImages?: string[];
   galleryVideos?: string[];
   description: string;
+  progressTimeline?: ProgressMilestone[];
+  layoutPdfUrl?: string;
 }
 
 export const projects: Project[] = [

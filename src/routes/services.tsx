@@ -104,7 +104,7 @@ function Services() {
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(184,134,11,0.15),rgba(0,0,0,0))]" />
         <div className="relative z-10 max-w-3xl mx-auto">
-          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+          <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase">
             What we do
           </span>
           <h1 className="mt-4 font-display text-5xl md:text-7xl">Built for every plot need</h1>

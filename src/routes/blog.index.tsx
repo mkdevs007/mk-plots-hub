@@ -31,7 +31,7 @@ function BlogPage() {
   return (
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center">
-        <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+        <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase">
           Knowledge Hub
         </span>
         <h1 className="mt-4 font-display text-5xl md:text-7xl">Insights & Guides</h1>

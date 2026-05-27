@@ -42,7 +42,7 @@ export function PlotROICalculator() {
       {/* Title Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6 relative z-10">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-gold font-semibold text-xs uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-gold font-semibold font-nav text-xs uppercase tracking-widest">
             <Sparkles className="w-4 h-4 animate-pulse" /> Live Wealth Estimator
           </div>
           <h3 className="font-display text-3xl text-white">Plot ROI Calculator</h3>

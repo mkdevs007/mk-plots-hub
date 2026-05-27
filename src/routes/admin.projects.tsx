@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
-import { projects as mockProjectsList, Project, ProjectStatus } from "@/data/projects";
+import { projects as mockProjectsList, Project, ProjectStatus, SizePrice, ProgressMilestone } from "@/data/projects";
 import { CloudinaryUpload } from "@/components/ui/CloudinaryUpload";
 import {
   Plus,
@@ -13,7 +13,8 @@ import {
   ExternalLink,
   Loader2,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,6 +71,7 @@ const fetchProjectsFromDb = async (): Promise<Project[]> => {
     landmark: dbItem.landmark || "",
     type: dbItem.type as any,
     sizes: dbItem.sizes || [],
+    sizePrices: dbItem.size_prices || [],
     totalPlots: dbItem.total_plots,
     availablePlots: dbItem.available_plots,
     startingPrice: dbItem.starting_price,
@@ -81,6 +83,8 @@ const fetchProjectsFromDb = async (): Promise<Project[]> => {
     galleryImages: dbItem.gallery_images || [],
     galleryVideos: dbItem.gallery_videos || [],
     description: dbItem.description,
+    progressTimeline: dbItem.progress_timeline || [],
+    layoutPdfUrl: dbItem.layout_pdf_url || "",
   }));
 };
 
@@ -94,6 +98,7 @@ const saveProjectToDb = async (project: Project, isNew: boolean) => {
     landmark: project.landmark,
     type: project.type,
     sizes: project.sizes,
+    size_prices: project.sizePrices || [],
     total_plots: project.totalPlots,
     available_plots: project.availablePlots,
     starting_price: project.startingPrice,
@@ -105,6 +110,8 @@ const saveProjectToDb = async (project: Project, isNew: boolean) => {
     gallery_images: project.galleryImages || [],
     gallery_videos: project.galleryVideos || [],
     description: project.description,
+    progress_timeline: project.progressTimeline || [],
+    layout_pdf_url: project.layoutPdfUrl || null,
   };
 
   if (!isSupabaseConfigured) {
@@ -162,6 +169,7 @@ const defaultFormState = (): Project => ({
   landmark: "",
   type: "residential",
   sizes: ["30x40", "30x50"],
+  sizePrices: [],
   totalPlots: 100,
   availablePlots: 100,
   startingPrice: "₹15 Lakh",
@@ -173,6 +181,8 @@ const defaultFormState = (): Project => ({
   galleryImages: [],
   galleryVideos: [],
   description: "",
+  progressTimeline: [],
+  layoutPdfUrl: "",
 });
 
 function AdminDashboard() {
@@ -191,6 +201,8 @@ function AdminDashboard() {
   const [sizesInput, setSizesInput] = useState("30x40, 30x50");
   const [amenitiesInput, setAmenitiesInput] = useState("Road, Water, Electricity, Security");
   const [showNewCityInput, setShowNewCityInput] = useState(false);
+  const [sizePrices, setSizePrices] = useState<SizePrice[]>([]);
+  const [progressTimeline, setProgressTimeline] = useState<ProgressMilestone[]>([]);
 
   // React Query queries
   const { data: projects = [], isLoading, error: queryError } = useQuery({
@@ -229,6 +241,8 @@ function AdminDashboard() {
     setFormValues(defaultFormState());
     setSizesInput("30x40, 30x50");
     setAmenitiesInput("Road, Water, Electricity, Security");
+    setSizePrices([]);
+    setProgressTimeline([]);
     setShowNewCityInput(false);
     setIsOpen(true);
   };
@@ -238,6 +252,8 @@ function AdminDashboard() {
     setFormValues(project);
     setSizesInput(project.sizes.join(", "));
     setAmenitiesInput(project.amenities.join(", "));
+    setSizePrices(project.sizePrices || []);
+    setProgressTimeline(project.progressTimeline || []);
     setShowNewCityInput(false);
     setIsOpen(true);
   };
@@ -284,6 +300,8 @@ function AdminDashboard() {
       ...formValues,
       sizes,
       amenities,
+      sizePrices: sizePrices.filter((r) => r.size.trim()),
+      progressTimeline: progressTimeline.filter((m) => m.title.trim()),
     };
 
     saveMutation.mutate({ project: finalProject, isNew: isNewProject });
@@ -750,7 +768,7 @@ function AdminDashboard() {
                   value={formValues.image}
                   onChange={(url) => setFormValues((v) => ({ ...v, image: url }))}
                 />
-                
+
                 <CloudinaryUpload
                   label="Main Walkthrough Video"
                   accept="video/*"
@@ -773,6 +791,177 @@ function AdminDashboard() {
                   value={formValues.galleryVideos || []}
                   onChange={(urls) => setFormValues((v) => ({ ...v, galleryVideos: urls }))}
                 />
+
+                <div className="md:col-span-2">
+                  <CloudinaryUpload
+                    label="Layout Plan PDF (Download button on project page)"
+                    accept=".pdf,application/pdf"
+                    value={formValues.layoutPdfUrl || ""}
+                    onChange={(url) => setFormValues((v) => ({ ...v, layoutPdfUrl: url }))}
+                  />
+                </div>
+              </div>
+
+              {/* Per-size Pricing */}
+              <div className="md:col-span-2 border-t border-border/85 pt-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Plot Availability Pricing (per size)
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Set exact prices per size shown on the project page. If left empty, prices are auto-calculated from the base price above.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="border-border text-xs cursor-pointer"
+                    onClick={() => setSizePrices((prev) => [...prev, { size: "", price: "" }])}
+                  >
+                    <Plus className="w-3.5 h-3.5 mr-1" /> Add Row
+                  </Button>
+                </div>
+                {sizePrices.length === 0 ? (
+                  <p className="text-xs text-muted-foreground/60 italic py-2">
+                    No size pricing set — auto-calculated from base price.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {sizePrices.map((row, idx) => (
+                      <div key={idx} className="flex gap-2 items-center">
+                        <Input
+                          value={row.size}
+                          onChange={(e) => {
+                            const updated = [...sizePrices];
+                            updated[idx] = { ...updated[idx], size: e.target.value };
+                            setSizePrices(updated);
+                          }}
+                          placeholder="Size (e.g. 30x40)"
+                          className="bg-background border-border text-foreground text-sm"
+                        />
+                        <Input
+                          value={row.price}
+                          onChange={(e) => {
+                            const updated = [...sizePrices];
+                            updated[idx] = { ...updated[idx], price: e.target.value };
+                            setSizePrices(updated);
+                          }}
+                          placeholder="Price (e.g. ₹18 Lakh)"
+                          className="bg-background border-border text-foreground text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setSizePrices((prev) => prev.filter((_, i) => i !== idx))}
+                          className="p-1.5 text-muted-foreground hover:text-destructive transition rounded cursor-pointer shrink-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Construction Progress Timeline */}
+              <div className="md:col-span-2 border-t border-border/85 pt-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Layout Construction Progress
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Timeline milestones shown on the project detail page. Leave empty to use default.
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="border-border text-xs cursor-pointer"
+                    onClick={() =>
+                      setProgressTimeline((prev) => [
+                        ...prev,
+                        { date: "", title: "", desc: "", done: false },
+                      ])
+                    }
+                  >
+                    <Plus className="w-3.5 h-3.5 mr-1" /> Add Milestone
+                  </Button>
+                </div>
+                {progressTimeline.length === 0 ? (
+                  <p className="text-xs text-muted-foreground/60 italic py-2">
+                    No milestones added — default timeline will be shown.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {progressTimeline.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="relative rounded-xl border border-border bg-background p-4 space-y-2.5"
+                      >
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setProgressTimeline((prev) => prev.filter((_, i) => i !== idx))
+                          }
+                          className="absolute top-3 right-3 p-1 text-muted-foreground hover:text-destructive transition rounded cursor-pointer"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        <div className="grid grid-cols-2 gap-2 pr-8">
+                          <Input
+                            value={item.date}
+                            onChange={(e) => {
+                              const updated = [...progressTimeline];
+                              updated[idx] = { ...updated[idx], date: e.target.value };
+                              setProgressTimeline(updated);
+                            }}
+                            placeholder="Date (e.g. Jan 2025)"
+                            className="bg-secondary/30 border-border text-foreground text-sm"
+                          />
+                          <Input
+                            value={item.title}
+                            onChange={(e) => {
+                              const updated = [...progressTimeline];
+                              updated[idx] = { ...updated[idx], title: e.target.value };
+                              setProgressTimeline(updated);
+                            }}
+                            placeholder="Milestone title"
+                            className="bg-secondary/30 border-border text-foreground text-sm"
+                          />
+                        </div>
+                        <Textarea
+                          value={item.desc}
+                          onChange={(e) => {
+                            const updated = [...progressTimeline];
+                            updated[idx] = { ...updated[idx], desc: e.target.value };
+                            setProgressTimeline(updated);
+                          }}
+                          placeholder="Brief description of work done or planned..."
+                          rows={2}
+                          className="bg-secondary/30 border-border text-foreground text-sm"
+                        />
+                        <label className="flex items-center gap-2 cursor-pointer w-fit">
+                          <input
+                            type="checkbox"
+                            checked={item.done}
+                            onChange={(e) => {
+                              const updated = [...progressTimeline];
+                              updated[idx] = { ...updated[idx], done: e.target.checked };
+                              setProgressTimeline(updated);
+                            }}
+                            className="w-4 h-4 accent-gold cursor-pointer"
+                          />
+                          <span className="text-xs text-muted-foreground font-medium">
+                            Mark as completed
+                          </span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 

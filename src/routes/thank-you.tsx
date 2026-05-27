@@ -58,13 +58,13 @@ function ThankYou() {
               href={whatsappHref(whatsappMsg)}
               target="_blank"
               rel="noreferrer"
-              className="px-7 py-3.5 rounded-md bg-whatsapp text-white font-semibold"
+              className="px-7 py-3.5 rounded-md bg-whatsapp text-white font-semibold font-nav"
             >
               Chat on WhatsApp
             </a>
             <Link
               to="/projects"
-              className="px-7 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold"
+              className="px-7 py-3.5 rounded-md gold-gradient text-gold-foreground font-semibold font-nav"
             >
               Explore Projects
             </Link>

@@ -53,7 +53,7 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
         </button>
 
         <div className="mb-6">
-          <div className="flex items-center gap-1 text-gold text-xs font-semibold tracking-wider uppercase mb-1">
+          <div className="flex items-center gap-1 text-gold text-xs font-semibold font-nav tracking-wider uppercase mb-1">
             <Sparkles className="w-3.5 h-3.5" /> Gated Community Site Visit
           </div>
           <h3 className="font-display text-2xl text-foreground">Book site visit</h3>
@@ -129,7 +129,7 @@ export function SiteVisitModal({ projectName, isOpen, onClose }: SiteVisitModalP
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-4 py-3.5 rounded-full gold-gradient text-gold-foreground font-semibold flex items-center justify-center gap-2 hover:opacity-95 transition disabled:opacity-60 text-sm"
+            className="w-full mt-4 py-3.5 rounded-full gold-gradient text-gold-foreground font-semibold font-nav flex items-center justify-center gap-2 hover:opacity-95 transition disabled:opacity-60 text-sm"
           >
             <Calendar className="w-4 h-4" />
             {loading ? "Scheduling..." : "Confirm & Send WhatsApp"}

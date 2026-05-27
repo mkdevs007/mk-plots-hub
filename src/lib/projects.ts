@@ -35,6 +35,7 @@ export const getProjects = async (): Promise<Project[]> => {
     landmark: dbItem.landmark || "",
     type: dbItem.type as any,
     sizes: dbItem.sizes || [],
+    sizePrices: dbItem.size_prices || [],
     totalPlots: dbItem.total_plots,
     availablePlots: dbItem.available_plots,
     startingPrice: dbItem.starting_price,
@@ -46,6 +47,8 @@ export const getProjects = async (): Promise<Project[]> => {
     galleryImages: dbItem.gallery_images || [],
     galleryVideos: dbItem.gallery_videos || [],
     description: dbItem.description,
+    progressTimeline: dbItem.progress_timeline || [],
+    layoutPdfUrl: dbItem.layout_pdf_url || "",
   }));
 };
 

@@ -135,7 +135,7 @@ function BlogPostDetail() {
             <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 md:left-10 md:right-10 text-white">
-              <span className="px-3 py-1 rounded-full bg-gold text-gold-foreground text-xs font-semibold uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-full bg-gold text-gold-foreground text-xs font-semibold font-nav uppercase tracking-wider">
                 {post.category}
               </span>
               <h1 className="font-display text-3xl md:text-5xl lg:text-6xl mt-4 leading-tight font-bold">

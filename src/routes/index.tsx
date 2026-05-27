@@ -198,7 +198,7 @@ function HomePage() {
         </video>
         <div className="absolute inset-0 hero-overlay" />
         <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-8 text-center text-primary-foreground pt-28 md:pt-36 pb-16">
-          <span className="inline-flex items-center gap-2 text-gold text-xs md:text-sm font-semibold tracking-[0.25em] uppercase animate-fade-up">
+          <span className="inline-flex items-center gap-2 text-gold text-xs md:text-sm font-semibold font-nav tracking-[0.25em] uppercase animate-fade-up">
             <span className="gold-divider" /> True • Trusted • Transparent{" "}
             <span className="gold-divider" />
           </span>
@@ -214,13 +214,13 @@ function HomePage() {
           <div className="mt-10 flex flex-col sm:flex-row gap-3.5 justify-center items-center animate-fade-up w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">
             <Link
               to="/projects"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full gold-gradient text-gold-foreground font-semibold shadow-card hover:scale-[1.02] transition text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full gold-gradient text-gold-foreground font-semibold font-nav shadow-card hover:scale-[1.02] transition text-sm"
             >
               Explore Projects <ArrowRight className="w-4 h-4" />
             </Link>
             <a
               href="#enquiry"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-white/40 text-white font-semibold backdrop-blur-sm hover:bg-white hover:text-primary transition text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-white/40 text-white font-semibold font-nav backdrop-blur-sm hover:bg-white hover:text-primary transition text-sm"
             >
               Reach Out to Us
             </a>
@@ -230,7 +230,7 @@ function HomePage() {
               )}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-whatsapp text-white font-semibold hover:opacity-90 transition shadow-md text-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-whatsapp text-white font-semibold font-nav hover:opacity-90 transition shadow-md text-sm"
             >
               Get Plot Info
             </a>
@@ -244,7 +244,7 @@ function HomePage() {
           {stats.map((s) => (
             <div key={s.label} className="text-center">
               <div className="font-display text-3xl md:text-5xl text-gold">{s.value}</div>
-              <div className="mt-1 text-xs md:text-sm text-primary-foreground/70 tracking-wider uppercase">
+              <div className="mt-1 text-xs md:text-sm text-primary-foreground/70 font-nav tracking-wider uppercase">
                 {s.label}
               </div>
             </div>
@@ -363,7 +363,7 @@ function HomePage() {
       <section className="py-16 md:py-20 px-5 md:px-8 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(184,134,11,0.12),rgba(0,0,0,0))]" />
         <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
-          <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">
+          <span className="text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase">
             Connect With Us
           </span>
           <h2 className="font-display text-4xl md:text-5xl tracking-tight leading-tight">
@@ -376,7 +376,7 @@ function HomePage() {
           <div className="pt-4 flex flex-wrap justify-center gap-3">
             <a
               href="#enquiry"
-              className="inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 rounded-full gold-gradient text-gold-foreground font-semibold text-sm hover:opacity-95 transition hover:scale-[1.02]"
+              className="inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 rounded-full gold-gradient text-gold-foreground font-semibold font-nav text-sm hover:opacity-95 transition hover:scale-[1.02]"
             >
               Reach Out to Us
             </a>
@@ -386,7 +386,7 @@ function HomePage() {
               )}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full border border-white/20 hover:bg-white hover:text-primary transition font-semibold text-sm"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full border border-white/20 hover:bg-white hover:text-primary transition font-semibold font-nav text-sm"
             >
               Get Plot Information
             </a>
@@ -456,7 +456,7 @@ function HomePage() {
       <section className="py-20 md:py-28 px-5 md:px-8 bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="flex items-center justify-center gap-3 text-gold text-xs font-semibold tracking-[0.2em] uppercase">
+            <div className="flex items-center justify-center gap-3 text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase">
               <span className="gold-divider" /> Buyer Stories <span className="gold-divider" />
             </div>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
@@ -519,7 +519,7 @@ function HomePage() {
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <span className="absolute top-4 left-4 bg-primary/90 backdrop-blur-sm text-gold text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
+                  <span className="absolute top-4 left-4 bg-primary/90 backdrop-blur-sm text-gold text-[10px] font-bold font-nav tracking-widest px-3 py-1 rounded-full uppercase">
                     {post.category}
                   </span>
                 </div>

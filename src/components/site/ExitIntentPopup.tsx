@@ -51,7 +51,7 @@ export function ExitIntentPopup() {
           <span className="inline-flex w-12 h-12 rounded-full gold-gradient items-center justify-center text-gold-foreground mb-3 shadow-md">
             <PhoneCall className="w-5 h-5" />
           </span>
-          <div className="flex items-center justify-center gap-1.5 text-gold text-xs font-semibold tracking-wider uppercase mb-1">
+          <div className="flex items-center justify-center gap-1.5 text-gold text-xs font-semibold font-nav tracking-wider uppercase mb-1">
             <Sparkles className="w-3.5 h-3.5" /> Exclusive Offer Inside
           </div>
           <h3 className="font-display text-3xl text-foreground">Before you go...</h3>

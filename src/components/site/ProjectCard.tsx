@@ -28,7 +28,7 @@ export function ProjectCard({ p }: { p: Project }) {
               to="/projects/$slug"
               params={{ slug: p.slug }}
               hash="layout-map"
-              className="px-5 py-2.5 rounded-full gold-gradient text-gold-foreground font-semibold text-xs tracking-wider uppercase shadow-md transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
+              className="px-5 py-2.5 rounded-full gold-gradient text-gold-foreground font-semibold font-nav text-xs tracking-wider uppercase shadow-md transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
             >
               View Layout Map
             </Link>
@@ -36,17 +36,17 @@ export function ProjectCard({ p }: { p: Project }) {
               to="/projects/$slug"
               params={{ slug: p.slug }}
               hash="enquiry"
-              className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs tracking-wider uppercase border border-white/20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 cursor-pointer"
+              className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold font-nav text-xs tracking-wider uppercase border border-white/20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 cursor-pointer"
             >
               Enquire Now
             </Link>
           </div>
           <span
-            className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold ${badgeClass[p.status]}`}
+            className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold font-nav ${badgeClass[p.status]}`}
           >
             {p.status}
           </span>
-          <span className="absolute top-4 right-4 bg-primary/85 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+          <span className="absolute top-4 right-4 bg-primary/85 text-primary-foreground text-xs font-semibold font-nav px-3 py-1 rounded-full backdrop-blur-sm">
             {p.startingPrice}
           </span>
         </div>
@@ -91,7 +91,7 @@ export function ProjectCard({ p }: { p: Project }) {
             to="/projects/$slug"
             params={{ slug: p.slug }}
             hash="layout-map"
-            className="flex-1 text-center px-4 py-2.5 rounded-full border border-gold/30 text-gold text-sm font-semibold hover:bg-gold hover:text-gold-foreground transition cursor-pointer"
+            className="flex-1 text-center px-4 py-2.5 rounded-full border border-gold/30 text-gold text-sm font-semibold font-nav hover:bg-gold hover:text-gold-foreground transition cursor-pointer"
           >
             View Layout
           </Link>
@@ -99,7 +99,7 @@ export function ProjectCard({ p }: { p: Project }) {
             to="/projects/$slug"
             params={{ slug: p.slug }}
             hash="enquiry"
-            className="flex-1 text-center px-4 py-2.5 rounded-full gold-gradient text-gold-foreground text-sm font-semibold hover:opacity-90 transition cursor-pointer"
+            className="flex-1 text-center px-4 py-2.5 rounded-full gold-gradient text-gold-foreground text-sm font-semibold font-nav hover:opacity-90 transition cursor-pointer"
           >
             Enquire
           </Link>

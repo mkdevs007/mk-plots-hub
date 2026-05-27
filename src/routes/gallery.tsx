@@ -538,7 +538,7 @@ function Gallery() {
         {/* Ambient background glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,134,11,0.08),rgba(0,0,0,0))] pointer-events-none" />
         <div className="relative z-10 max-w-4xl mx-auto">
-          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+          <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase">
             In Pictures & Videos
           </span>
           <h1 className="mt-4 font-display text-4xl md:text-6xl lg:text-7xl leading-tight">
@@ -577,7 +577,7 @@ function Gallery() {
                       onClick={() => setActiveTab(tab)}
                       className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
                         activeTab === tab
-                          ? "gold-gradient text-gold-foreground font-semibold"
+                          ? "gold-gradient text-gold-foreground font-semibold font-nav"
                           : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                       }`}
                     >
@@ -663,7 +663,7 @@ function Gallery() {
 
                       {/* Glassmorphic hover overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                        <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-wider uppercase font-semibold">
+                        <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-wider uppercase font-semibold font-nav">
                           <MapPin className="w-3.5 h-3.5 shrink-0" />
                           <span>
                             {item.location} • {item.category}
@@ -695,7 +695,7 @@ function Gallery() {
                   <button
                     onClick={handleLoadMore}
                     disabled={isLoadingMore}
-                    className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-border text-foreground font-semibold hover:border-gold hover:text-gold transition-all duration-300 min-w-44 text-sm disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-border text-foreground font-semibold font-nav hover:border-gold hover:text-gold transition-all duration-300 min-w-44 text-sm disabled:opacity-60"
                   >
                     {isLoadingMore ? (
                       <>

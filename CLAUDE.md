@@ -153,7 +153,12 @@ CSS variables defined in `src/styles.css` under `@theme inline`.
 **Font usage rules — enforce always:**
 - `font-display` → h1, h2, h3, h4, `.font-display`, stat numbers, hero headings
 - `font-sans` (default) → body prose, descriptions, form inputs, table data, muted text
-- `font-nav` → nav links, all CTA buttons, eyebrow labels, badges, price tags, uppercase tracking text
+- `font-nav` → nav links, all CTA buttons, eyebrow labels (uppercase + tracking), status badges, price tags, all `uppercase tracking-*` spans
+
+**`font-nav` checklist — add it every time you write:**
+- Any `<span>` / `<div>` with `uppercase tracking-*` (eyebrow labels, category chips, stat labels)
+- Any `<button>` or `<a>` with `gold-gradient`, `bg-whatsapp`, `rounded-full font-semibold`, or border CTAs
+- Any badge/pill with `rounded-full text-xs font-semibold`
 
 **Never use** Inter, Plus Jakarta Sans, or Cormorant Garamond — they have been replaced.
 

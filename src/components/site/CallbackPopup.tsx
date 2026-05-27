@@ -45,7 +45,7 @@ export function CallbackPopup() {
           {/* Header Tagline with Gold Divider Lines */}
           <div className="flex items-center justify-center gap-2 mb-2">
             <div className="h-[1px] w-6 bg-gold/50" />
-            <span className="text-gold text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase">
+            <span className="text-gold text-[10px] md:text-xs font-semibold font-nav tracking-[0.2em] uppercase">
               Get a Callback
             </span>
             <div className="h-[1px] w-6 bg-gold/50" />

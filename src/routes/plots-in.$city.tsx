@@ -170,7 +170,7 @@ function CityHubPage() {
       {/* Hero */}
       <section className="bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center relative overflow-hidden">
         <div className="max-w-5xl mx-auto z-10 relative">
-          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase flex items-center justify-center gap-1.5">
+          <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase flex items-center justify-center gap-1.5">
             <MapPin className="w-4.5 h-4.5" /> Regional Hub — {data.name}
           </span>
           <h1 className="mt-4 font-display text-5xl md:text-7xl text-balance">{data.tagline}</h1>
@@ -241,7 +241,7 @@ function CityHubPage() {
       <section className="py-20 px-5 md:px-8 bg-primary text-primary-foreground">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <span className="text-gold text-xs font-semibold tracking-widest uppercase">
+            <span className="text-gold text-xs font-semibold font-nav tracking-widest uppercase">
               Investor Success
             </span>
             <h2 className="font-display text-4xl mt-2">What buyers in {data.name} say</h2>

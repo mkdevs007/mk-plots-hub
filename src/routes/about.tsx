@@ -30,7 +30,7 @@ function About() {
       <section className="relative -mt-20 md:-mt-[120px] pt-36 pb-20 md:pt-52 md:pb-28 bg-primary text-primary-foreground overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(184,134,11,0.15),rgba(0,0,0,0))]" />
         <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold tracking-[0.2em] uppercase mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase mb-6">
             About MK
           </div>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[1.1] text-balance">
@@ -58,7 +58,7 @@ function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 text-white z-10 flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-                <span className="text-xs md:text-sm tracking-wider uppercase font-semibold text-white/90 drop-shadow-md">
+                <span className="text-xs md:text-sm tracking-wider uppercase font-semibold font-nav text-white/90 drop-shadow-md">
                   MK community entrance gate
                 </span>
               </div>
@@ -72,7 +72,7 @@ function About() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 justify-center mb-4">
             <span className="gold-divider" />
-            <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">
+            <span className="text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase">
               OUR STORY
             </span>
             <span className="gold-divider" />
@@ -118,7 +118,7 @@ function About() {
                 <div className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground font-bold tracking-tight">
                   {stat.count}
                 </div>
-                <div className="text-[10px] md:text-xs text-muted-foreground tracking-[0.2em] font-semibold uppercase mt-2">
+                <div className="text-[10px] md:text-xs text-muted-foreground tracking-[0.2em] font-semibold font-nav uppercase mt-2">
                   {stat.label}
                 </div>
               </div>
@@ -146,7 +146,7 @@ function About() {
               <div className="text-foreground font-display text-lg md:text-xl font-medium tracking-wide">
                 M. Krishna
               </div>
-              <div className="text-xs text-muted-foreground tracking-widest uppercase mt-1">
+              <div className="text-xs text-muted-foreground font-nav tracking-widest uppercase mt-1">
                 Founder, MK Builders & Developers
               </div>
             </div>
@@ -158,7 +158,7 @@ function About() {
       <section className="py-20 px-5 md:px-8 bg-secondary/30 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+            <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase">
               Trust & Veracity
             </span>
             <h2 className="mt-3 font-display text-3xl md:text-4xl text-foreground">

@@ -13,7 +13,7 @@ export function SectionHeader({
     <div className={`max-w-3xl ${center ? "mx-auto text-center" : ""}`}>
       {eyebrow && (
         <div
-          className={`flex items-center gap-3 text-gold text-xs font-semibold tracking-[0.2em] uppercase ${center ? "justify-center" : ""}`}
+          className={`flex items-center gap-3 text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase ${center ? "justify-center" : ""}`}
         >
           <span className="gold-divider" />
           {eyebrow}

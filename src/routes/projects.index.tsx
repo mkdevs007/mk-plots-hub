@@ -65,7 +65,7 @@ function ProjectsPage() {
     <SiteLayout>
       <section className="bg-primary text-primary-foreground py-16 md:py-24 px-5 md:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <span className="text-gold text-xs font-semibold tracking-[0.25em] uppercase">
+          <span className="text-gold text-xs font-semibold font-nav tracking-[0.25em] uppercase">
             Our Projects
           </span>
           <h1 className="mt-4 font-display text-5xl md:text-6xl">Find your perfect plot</h1>
