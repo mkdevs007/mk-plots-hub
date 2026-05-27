@@ -46,9 +46,11 @@ export function ProjectCard({ p }: { p: Project }) {
           >
             {p.status}
           </span>
-          <span className="absolute top-4 right-4 bg-primary/85 text-primary-foreground text-xs font-semibold font-nav px-3 py-1 rounded-full backdrop-blur-sm">
-            {p.startingPrice}
-          </span>
+          {p.startingPrice && (
+            <span className="absolute top-4 right-4 bg-primary/85 text-primary-foreground text-xs font-semibold font-nav px-3 py-1 rounded-full backdrop-blur-sm">
+              {p.startingPrice}
+            </span>
+          )}
         </div>
 
         <div className="p-6">

@@ -74,8 +74,8 @@ const fetchProjectsFromDb = async (): Promise<Project[]> => {
     sizePrices: dbItem.size_prices || [],
     totalPlots: dbItem.total_plots,
     availablePlots: dbItem.available_plots,
-    startingPrice: dbItem.starting_price,
-    priceLakh: Number(dbItem.price_lakh),
+    startingPrice: dbItem.starting_price || undefined,
+    priceLakh: dbItem.price_lakh !== null && dbItem.price_lakh !== undefined ? Number(dbItem.price_lakh) : undefined,
     amenities: dbItem.amenities || [],
     rera: dbItem.rera || "",
     image: dbItem.image,
@@ -102,8 +102,8 @@ const saveProjectToDb = async (project: Project, isNew: boolean) => {
     size_prices: project.sizePrices || [],
     total_plots: project.totalPlots,
     available_plots: project.availablePlots,
-    starting_price: project.startingPrice,
-    price_lakh: project.priceLakh,
+    starting_price: project.startingPrice || "",
+    price_lakh: project.priceLakh !== undefined && project.priceLakh !== null && !isNaN(project.priceLakh) ? project.priceLakh : 0,
     amenities: project.amenities,
     rera: project.rera,
     image: project.image,
@@ -174,8 +174,8 @@ const defaultFormState = (): Project => ({
   sizePrices: [],
   totalPlots: 100,
   availablePlots: 100,
-  startingPrice: "₹15 Lakh",
-  priceLakh: 15,
+  startingPrice: "",
+  priceLakh: undefined,
   amenities: ["Road", "Water", "Electricity", "Security"],
   rera: "",
   image: "",
@@ -739,11 +739,10 @@ function AdminDashboard() {
                   Starting Price label
                 </label>
                 <Input
-                  value={formValues.startingPrice}
+                  value={formValues.startingPrice ?? ""}
                   onChange={(e) => setFormValues((v) => ({ ...v, startingPrice: e.target.value }))}
                   placeholder="E.g. ₹18 Lakh or Sold Out"
                   className="bg-background border-border text-foreground"
-                  required
                 />
               </div>
 
@@ -754,13 +753,12 @@ function AdminDashboard() {
                 <Input
                   type="number"
                   step="0.01"
-                  value={formValues.priceLakh}
+                  value={formValues.priceLakh ?? ""}
                   onChange={(e) =>
-                    setFormValues((v) => ({ ...v, priceLakh: parseFloat(e.target.value) || 0 }))
+                    setFormValues((v) => ({ ...v, priceLakh: e.target.value ? parseFloat(e.target.value) : undefined }))
                   }
                   className="bg-background border-border text-foreground"
                   min={0}
-                  required
                 />
               </div>
 

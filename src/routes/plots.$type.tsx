@@ -109,6 +109,7 @@ function PlotTypePage() {
 
       // Budget filter
       if (budget !== "All") {
+        if (p.priceLakh === undefined || p.priceLakh === null) return false;
         if (p.priceLakh === 0) return false; // Sold out
         if (budget === "Under 15 Lakh" && p.priceLakh >= 15) return false;
         if (budget === "15 - 25 Lakh" && (p.priceLakh < 15 || p.priceLakh > 25)) return false;

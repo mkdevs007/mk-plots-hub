@@ -6,7 +6,7 @@ import { toast } from "sonner";
 interface CloudinaryUploadProps {
   value: string | string[];
   onChange: (url: any) => void;
-  accept: "image/*" | "video/*";
+  accept: "image/*" | "video/*" | string;
   label: string;
   multiple?: boolean;
 }

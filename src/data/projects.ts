@@ -44,8 +44,8 @@ export interface Project {
   sizePrices?: SizePrice[];
   totalPlots: number;
   availablePlots: number;
-  startingPrice: string;
-  priceLakh: number;
+  startingPrice?: string;
+  priceLakh?: number;
   amenities: string[];
   rera: string;
   image: string;

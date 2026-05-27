@@ -37,7 +37,7 @@ export const Route = createFileRoute("/projects/$slug")({
       },
       {
         name: "description",
-        content: `${loaderData?.project.name} — ${loaderData?.project.description} Starting ${loaderData?.project.startingPrice}.`,
+        content: `${loaderData?.project.name} — ${loaderData?.project.description}${loaderData?.project.startingPrice ? ` Starting ${loaderData?.project.startingPrice}` : ""}.`,
       },
       { property: "og:title", content: `${loaderData?.project.name} — MK Builders & Developers` },
       { property: "og:description", content: loaderData?.project.description ?? "" },
@@ -168,9 +168,9 @@ function ProjectDetail() {
               {[
                 { icon: Ruler, label: "Total Plots", value: p.totalPlots },
                 { icon: CheckCircle2, label: "Available", value: p.availablePlots },
-                { icon: MapPin, label: "Starting", value: p.startingPrice },
+                p.startingPrice ? { icon: MapPin, label: "Starting", value: p.startingPrice } : null,
                 { icon: Shield, label: "RERA ID", value: p.rera ? "Approved" : "Under Process" },
-              ].map((s) => (
+              ].filter((item): item is { icon: any; label: string; value: any } => item !== null).map((s) => (
                 <div
                   key={s.label}
                   className="p-5 rounded-xl bg-secondary/50 border border-border text-center"
@@ -263,7 +263,13 @@ function ProjectDetail() {
                       ? p.sizePrices
                       : p.sizes.map((size: string, i: number) => ({
                           size,
-                          price: p.priceLakh === 0 ? "Sold Out" : `From ₹${p.priceLakh + i * 4} Lakh`,
+                          price: (() => {
+                            if (p.priceLakh !== undefined && p.priceLakh !== null && !isNaN(p.priceLakh) && p.priceLakh > 0) {
+                              return `From ₹${p.priceLakh + i * 4} Lakh`;
+                            }
+                            const isSoldOut = p.status === "Completed" || p.startingPrice === "Sold Out";
+                            return isSoldOut ? "Sold Out" : "Contact Us";
+                          })()
                         }))
                     ).map((row: { size: string; price: string }) => (
                       <tr key={row.size}>
@@ -271,9 +277,9 @@ function ProjectDetail() {
                         <td className="px-5 py-3">{row.price}</td>
                         <td className="px-5 py-3">
                           <span
-                            className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${p.priceLakh === 0 ? "bg-badge-done-bg text-badge-done-fg" : "bg-badge-ongoing-bg text-badge-ongoing-fg"}`}
+                            className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${p.status === "Completed" || p.startingPrice === "Sold Out" ? "bg-badge-done-bg text-badge-done-fg" : "bg-badge-ongoing-bg text-badge-ongoing-fg"}`}
                           >
-                            {p.priceLakh === 0 ? "Sold Out" : "Available"}
+                            {p.status === "Completed" || p.startingPrice === "Sold Out" ? "Sold Out" : "Available"}
                           </span>
                         </td>
                       </tr>
@@ -401,7 +407,7 @@ function ProjectDetail() {
                 <EnquiryForm compact projectName={p.name} />
               </div>
 
-              {p.priceLakh > 0 && (
+              {p.status !== "Completed" && (
                 <button
                   onClick={() => setIsVisitModalOpen(true)}
                   className="w-full mt-4 py-3 border-2 border-gold text-gold hover:bg-gold hover:text-gold-foreground font-semibold font-nav rounded-md transition text-sm text-center"
