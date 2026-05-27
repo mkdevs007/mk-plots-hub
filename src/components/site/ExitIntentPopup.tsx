@@ -38,7 +38,7 @@ export function ExitIntentPopup() {
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closePopup} />
 
       {/* Modal Content */}
-      <div className="relative bg-card border border-border rounded-2xl p-6 md:p-8 max-w-xl w-full shadow-card-hover animate-fade-up z-10">
+      <div className="relative bg-card border border-border rounded-2xl p-6 md:p-8 max-w-xl w-full shadow-card-hover animate-fade-up z-10 overflow-y-auto max-h-[90svh]">
         <button
           onClick={closePopup}
           className="absolute top-4 right-4 p-1.5 text-muted-foreground hover:text-foreground rounded-full hover:bg-secondary/80 transition"

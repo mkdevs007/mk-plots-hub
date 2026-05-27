@@ -240,7 +240,7 @@ function HomePage() {
       </section>
 
       <section className="bg-primary text-primary-foreground">
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-10 grid grid-cols-2 md:grid-cols-5 gap-6">
+        <div className="max-w-7xl mx-auto px-5 md:px-8 py-10 grid grid-cols-3 md:grid-cols-5 gap-6">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
               <div className="font-display text-3xl md:text-5xl text-gold">{s.value}</div>

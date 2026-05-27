@@ -6,20 +6,15 @@ export function CallbackPopup() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    // Prevent popup if already dismissed or if enquiry has been submitted
-    const dismissed = sessionStorage.getItem("callback_popup_dismissed");
-    if (dismissed === "true") return;
-
     const timer = setTimeout(() => {
       setShow(true);
-    }, 10000); // Trigger after 10 seconds
+    }, 500); // Trigger shortly after page load
 
     return () => clearTimeout(timer);
   }, []);
 
   const closePopup = () => {
     setShow(false);
-    sessionStorage.setItem("callback_popup_dismissed", "true");
   };
 
   if (!show) return null;
@@ -33,7 +28,7 @@ export function CallbackPopup() {
       />
 
       {/* Popup Modal Box */}
-      <div className="relative bg-[#1C0624] border border-white/10 rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl animate-fade-up z-10 overflow-hidden">
+      <div className="relative bg-[#1C0624] border border-white/10 rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl animate-fade-up z-10 overflow-x-hidden overflow-y-auto max-h-[90svh]">
         {/* Subtle radial glow background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(184,134,11,0.12),rgba(0,0,0,0))] pointer-events-none" />
 

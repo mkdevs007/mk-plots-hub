@@ -61,7 +61,6 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
     }
     setErrors({});
     setLoading(true);
-    sessionStorage.setItem("callback_popup_dismissed", "true");
     
     try {
       await submitEnquiry({
@@ -121,7 +120,7 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
       <div className={compact ? "" : "md:col-span-2"}>
         <textarea
           name="message"
-          rows={3}
+          rows={compact ? 2 : 3}
           placeholder="Message (optional)"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
