@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { projects as mockProjectsList, Project, ProjectStatus, SizePrice, ProgressMilestone, NearbyPlace, NearbyCategory } from "@/data/projects";
+import { parseApproval } from "@/lib/projects";
 import { CloudinaryUpload } from "@/components/ui/CloudinaryUpload";
 import {
   Plus,
@@ -218,6 +219,8 @@ function AdminDashboard() {
   const [sizePrices, setSizePrices] = useState<SizePrice[]>([]);
   const [progressTimeline, setProgressTimeline] = useState<ProgressMilestone[]>([]);
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
+  const [approvalType, setApprovalType] = useState<"RERA" | "DTCP" | "MUDA">("RERA");
+  const [approvalNumber, setApprovalNumber] = useState<string>("");
 
   // React Query queries
   const { data: projects = [], isLoading, error: queryError } = useQuery({
@@ -260,6 +263,8 @@ function AdminDashboard() {
     setProgressTimeline([]);
     setNearbyPlaces([]);
     setShowNewCityInput(false);
+    setApprovalType("RERA");
+    setApprovalNumber("");
     setIsOpen(true);
   };
 
@@ -272,6 +277,9 @@ function AdminDashboard() {
     setProgressTimeline(project.progressTimeline || []);
     setNearbyPlaces(project.nearbyPlaces || []);
     setShowNewCityInput(false);
+    const apprv = parseApproval(project.rera);
+    setApprovalType(apprv.type);
+    setApprovalNumber(apprv.number);
     setIsOpen(true);
   };
 
@@ -313,8 +321,11 @@ function AdminDashboard() {
       .map((a) => a.trim())
       .filter(Boolean);
 
+    const reraCombined = `${approvalType}|${(approvalNumber || "").trim()}`;
+
     const finalProject: Project = {
       ...formValues,
+      rera: reraCombined,
       sizes,
       amenities,
       sizePrices: sizePrices.filter((r) => r.size.trim()),
@@ -666,16 +677,37 @@ function AdminDashboard() {
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  RERA approval ID
-                </label>
-                <Input
-                  value={formValues.rera}
-                  onChange={(e) => setFormValues((v) => ({ ...v, rera: e.target.value }))}
-                  placeholder="E.g. PRM/KA/RERA/..."
-                  className="bg-background border-border text-foreground"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Approval Type
+                  </label>
+                  <Select
+                    value={approvalType}
+                    onValueChange={(val: any) => setApprovalType(val)}
+                  >
+                    <SelectTrigger className="bg-background border-border text-foreground">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="RERA">RERA Approved</SelectItem>
+                      <SelectItem value="DTCP">DTCP Approved</SelectItem>
+                      <SelectItem value="MUDA">MUDA Approved</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Approval No. (Optional)
+                  </label>
+                  <Input
+                    value={approvalNumber}
+                    onChange={(e) => setApprovalNumber(e.target.value)}
+                    placeholder="E.g. PRM/KA/RERA/..."
+                    className="bg-background border-border text-foreground"
+                  />
+                </div>
               </div>
 
               <div className="space-y-1.5">

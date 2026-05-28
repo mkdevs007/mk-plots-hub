@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -36,28 +37,59 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
 
+  const isChunkLoadError = 
+    error?.message?.includes("Failed to fetch dynamically imported module") ||
+    error?.message?.includes("Importing a module script failed") ||
+    error?.message?.includes("dynamic import");
+
+  useEffect(() => {
+    if (isChunkLoadError) {
+      const lastReload = sessionStorage.getItem("last-chunk-reload");
+      const now = Date.now();
+      if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
+        sessionStorage.setItem("last-chunk-reload", now.toString());
+        window.location.reload();
+      }
+    }
+  }, [isChunkLoadError]);
+
+  const isDev = process.env.NODE_ENV === "development";
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
+      <div className="max-w-xl w-full text-center">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground font-display">
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+
+        {isDev && (
+          <div className="mt-6 p-5 rounded-xl border border-destructive/20 bg-destructive/5 text-left font-mono text-xs overflow-auto max-h-64 shadow-md">
+            <div className="text-destructive font-bold mb-2">Dev Mode Error Details:</div>
+            <div className="text-foreground/90 font-semibold">{error?.name}: {error?.message}</div>
+            {error?.stack && (
+              <pre className="mt-3 text-[10px] text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                {error.stack}
+              </pre>
+            )}
+          </div>
+        )}
+
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 cursor-pointer"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-full border border-border bg-card px-6 py-2.5 text-sm font-semibold text-foreground transition-all hover:bg-accent cursor-pointer"
           >
             Go home
           </a>

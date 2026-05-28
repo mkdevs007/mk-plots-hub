@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound, useLocation } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { getProjectBySlug } from "@/lib/projects";
+import { getProjectBySlug, parseApproval } from "@/lib/projects";
 import {
   MapPin,
   Ruler,
@@ -169,7 +169,14 @@ function ProjectDetail() {
                 { icon: Ruler, label: "Total Plots", value: p.totalPlots },
                 { icon: CheckCircle2, label: "Available", value: p.availablePlots },
                 p.startingPrice ? { icon: MapPin, label: "Starting", value: p.startingPrice } : null,
-                { icon: Shield, label: "RERA ID", value: p.rera ? "Approved" : "Under Process" },
+                (() => {
+                  const approval = parseApproval(p.rera);
+                  return {
+                    icon: Shield,
+                    label: `${approval.type} Status`,
+                    value: p.rera ? "Approved" : "Under Process",
+                  };
+                })(),
               ].filter((item): item is { icon: any; label: string; value: any } => item !== null).map((s) => (
                 <div
                   key={s.label}
@@ -374,7 +381,20 @@ function ProjectDetail() {
             <div className="mt-12 p-6 rounded-xl bg-secondary/50 border border-border flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h3 className="font-display text-xl">Layout Plan & Documents</h3>
-                <p className="text-sm text-muted-foreground mt-1">RERA: {p.rera}</p>
+                {(() => {
+                  const approval = parseApproval(p.rera);
+                  if (!p.rera) {
+                    return <p className="text-sm text-muted-foreground mt-1">Status: Under Process</p>;
+                  }
+                  if (!approval.number) {
+                    return <p className="text-sm text-muted-foreground mt-1">{approval.type} Approved</p>;
+                  }
+                  return (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {approval.type} Approval: {approval.number}
+                    </p>
+                  );
+                })()}
               </div>
               {p.layoutPdfUrl ? (
                 <a

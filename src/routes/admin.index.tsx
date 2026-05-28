@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { projects as mockProjectsList, Project, ProjectStatus } from "@/data/projects";
 import { getEnquiries, Enquiry } from "@/lib/enquiries";
+import { parseApproval } from "@/lib/projects";
 import {
   Building,
   Inbox,
@@ -109,7 +110,7 @@ function AdminOverview() {
   const totalAvailablePlots = projects.reduce((acc, curr) => acc + curr.availablePlots, 0);
   const totalPlotsCount = projects.reduce((acc, curr) => acc + curr.totalPlots, 0);
 
-  const reraApprovedSites = projects.filter((p) => p.rera && p.rera.trim().length > 0).length;
+  const approvedSites = projects.filter((p) => p.rera && p.rera.trim().length > 0).length;
 
   // --- DATA PREPARATION FOR CHARTS ---
   // 1. Leads by Status
@@ -203,10 +204,10 @@ function AdminOverview() {
             color: "border-border/80 text-gold bg-secondary/10",
           },
           {
-            title: "RERA Approved",
-            value: reraApprovedSites,
+            title: "Approved Layouts",
+            value: approvedSites,
             icon: ShieldCheck,
-            desc: "Registered layouts",
+            desc: "RERA, DTCP & MUDA layouts",
             color: "border-border/80 text-gold bg-secondary/10",
           },
         ].map((card, idx) => {

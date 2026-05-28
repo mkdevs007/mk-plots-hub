@@ -1,5 +1,4 @@
-@import "tailwindcss" source(none);
-@source "../src";
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -52,25 +51,25 @@
   --radius: 0.5rem;
 
   /* Brand: deep purple (plum) + gold */
-  --background: oklch(0.11 0.065 315);
+  --background: oklch(0.15 0.08 315);
   --foreground: oklch(0.96 0.015 315);
 
-  --card: oklch(0.14 0.08 315);
+  --card: oklch(0.18 0.09 315);
   --card-foreground: oklch(0.96 0.015 315);
-  --popover: oklch(0.14 0.08 315);
+  --popover: oklch(0.18 0.09 315);
   --popover-foreground: oklch(0.96 0.015 315);
 
   /* Primary = brand dark purple */
-  --primary: oklch(0.16 0.10 315);
+  --primary: oklch(0.22 0.11 315);
   --primary-foreground: oklch(0.97 0.01 315);
 
-  --secondary: oklch(0.13 0.075 315);
+  --secondary: oklch(0.17 0.085 315);
   --secondary-foreground: oklch(0.96 0.015 315);
 
-  --muted: oklch(0.17 0.055 315);
+  --muted: oklch(0.21 0.06 315);
   --muted-foreground: oklch(0.78 0.03 315);
 
-  --accent: oklch(0.20 0.09 315);
+  --accent: oklch(0.26 0.10 315);
   --accent-foreground: oklch(0.98 0.01 315);
 
   /* Gold accent #DFC160 */
@@ -82,8 +81,8 @@
   --destructive: oklch(0.58 0.22 27);
   --destructive-foreground: oklch(0.98 0.01 315);
 
-  --border: oklch(0.22 0.08 315 / 0.4);
-  --input: oklch(0.14 0.08 315);
+  --border: oklch(0.28 0.08 315 / 0.4);
+  --input: oklch(0.18 0.09 315);
   --ring: oklch(0.81 0.13 85);
 
   --badge-ongoing-bg: oklch(0.25 0.08 165 / 0.3);
@@ -97,32 +96,32 @@
 
   --gradient-hero: linear-gradient(
     180deg,
-    oklch(0.16 0.10 315 / 0.15) 0%,
-    oklch(0.13 0.075 315 / 0.4) 60%,
-    oklch(0.11 0.065 315 / 0.70) 100%
+    oklch(0.22 0.11 315 / 0.15) 0%,
+    oklch(0.17 0.085 315 / 0.4) 60%,
+    oklch(0.15 0.08 315 / 0.70) 100%
   );
   --gradient-gold: linear-gradient(135deg, oklch(0.81 0.13 85), oklch(0.72 0.13 75));
-  --shadow-card: 0 8px 30px -10px oklch(0.08 0.04 315 / 0.5);
-  --shadow-card-hover: 0 20px 50px -15px oklch(0.08 0.04 315 / 0.8);
+  --shadow-card: 0 8px 30px -10px oklch(0.12 0.05 315 / 0.5);
+  --shadow-card-hover: 0 20px 50px -15px oklch(0.12 0.05 315 / 0.8);
 }
 
 .dark {
-  --background: oklch(0.11 0.065 315);
+  --background: oklch(0.15 0.08 315);
   --foreground: oklch(0.96 0.015 315);
-  --card: oklch(0.14 0.08 315);
+  --card: oklch(0.18 0.09 315);
   --card-foreground: oklch(0.96 0.015 315);
-  --popover: oklch(0.14 0.08 315);
+  --popover: oklch(0.18 0.09 315);
   --popover-foreground: oklch(0.96 0.015 315);
-  --primary: oklch(0.16 0.10 315);
+  --primary: oklch(0.22 0.11 315);
   --primary-foreground: oklch(0.97 0.01 315);
-  --secondary: oklch(0.13 0.075 315);
+  --secondary: oklch(0.17 0.085 315);
   --secondary-foreground: oklch(0.96 0.015 315);
-  --muted: oklch(0.17 0.055 315);
+  --muted: oklch(0.21 0.06 315);
   --muted-foreground: oklch(0.78 0.03 315);
-  --accent: oklch(0.20 0.09 315);
+  --accent: oklch(0.26 0.10 315);
   --accent-foreground: oklch(0.98 0.01 315);
-  --border: oklch(0.22 0.08 315 / 0.4);
-  --input: oklch(0.14 0.08 315);
+  --border: oklch(0.28 0.08 315 / 0.4);
+  --input: oklch(0.18 0.09 315);
 }
 
 @layer base {
@@ -137,9 +136,9 @@
     background-color: var(--background);
     background-image: radial-gradient(
       circle at 50% 0%,
-      oklch(0.18 0.11 315) 0%,
-      oklch(0.13 0.075 315) 60%,
-      oklch(0.09 0.055 315) 100%
+      oklch(0.24 0.12 315) 0%,
+      oklch(0.17 0.085 315) 60%,
+      oklch(0.12 0.06 315) 100%
     );
     background-attachment: fixed;
     color: var(--color-foreground);
