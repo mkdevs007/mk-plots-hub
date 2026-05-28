@@ -197,7 +197,7 @@ function PlotTypePage() {
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
                 Status
               </label>
-              <Select value={status} onValueChange={setStatus}>
+              <Select value={status} onValueChange={(val) => setStatus(val as any)}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
                 </SelectTrigger>
@@ -216,7 +216,7 @@ function PlotTypePage() {
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
                 Budget
               </label>
-              <Select value={budget} onValueChange={setBudget}>
+              <Select value={budget} onValueChange={(val) => setBudget(val as any)}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
                 </SelectTrigger>
@@ -235,7 +235,7 @@ function PlotTypePage() {
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
                 Plot Size
               </label>
-              <Select value={size} onValueChange={setSize}>
+              <Select value={size} onValueChange={(val) => setSize(val as any)}>
                 <SelectTrigger className="h-11 bg-background border-border text-foreground hover:bg-secondary/40 font-medium w-full">
                   <SelectValue placeholder="All" />
                 </SelectTrigger>

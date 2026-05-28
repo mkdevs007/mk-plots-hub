@@ -113,22 +113,22 @@ export function Footer() {
           <h4 className="font-display text-lg text-gold mb-4">Plot Types</h4>
           <ul className="space-y-2 text-sm text-primary-foreground/70">
             <li>
-              <Link to="/plots/residential" className="hover:text-gold">
+              <Link to="/plots/$type" params={{ type: "residential" }} className="hover:text-gold">
                 Residential Plots
               </Link>
             </li>
             <li>
-              <Link to="/plots/commercial" className="hover:text-gold">
+              <Link to="/plots/$type" params={{ type: "commercial" }} className="hover:text-gold">
                 Commercial Plots
               </Link>
             </li>
             <li>
-              <Link to="/plots/agricultural" className="hover:text-gold">
+              <Link to="/plots/$type" params={{ type: "agricultural" }} className="hover:text-gold">
                 Agricultural Plots
               </Link>
             </li>
             <li>
-              <Link to="/plots/industrial" className="hover:text-gold">
+              <Link to="/plots/$type" params={{ type: "industrial" }} className="hover:text-gold">
                 Industrial Plots
               </Link>
             </li>

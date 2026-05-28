@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, Ruler, Shield } from "lucide-react";
 import type { Project, ProjectStatus } from "@/data/projects";
+import { parseApproval } from "@/lib/projects";
 
 const badgeClass: Record<ProjectStatus, string> = {
   Ongoing: "bg-badge-ongoing-bg text-badge-ongoing-fg",
@@ -81,7 +82,7 @@ export function ProjectCard({ p }: { p: Project }) {
               <Ruler className="w-3.5 h-3.5 text-gold" /> {p.availablePlots} of {p.totalPlots} plots
             </div>
             <div className="flex items-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-gold" /> RERA Approved
+              <Shield className="w-3.5 h-3.5 text-gold" /> {parseApproval(p.rera).type} Approved
             </div>
           </div>
         </div>

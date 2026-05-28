@@ -58,3 +58,45 @@ export const getProjectBySlug = async (slug: string): Promise<Project | null> =>
   const allProjects = await getProjects();
   return allProjects.find((p) => p.slug === slug) || null;
 };
+
+export interface ApprovalDetails {
+  type: "RERA" | "DTCP" | "MUDA";
+  number: string;
+}
+
+export function parseApproval(reraString: string | undefined | null): ApprovalDetails {
+  const str = (reraString || "").trim();
+  if (str.includes("|")) {
+    const [type, num] = str.split("|");
+    const parsedType = (type || "RERA").trim().toUpperCase();
+    return {
+      type: (parsedType === "DTCP" || parsedType === "MUDA" ? parsedType : "RERA") as any,
+      number: (num || "").trim(),
+    };
+  }
+
+  // Backwards compatibility for existing plain RERA numbers or empty strings
+  if (!str) {
+    return {
+      type: "RERA",
+      number: "",
+    };
+  }
+
+  // If the string starts with "RERA", "DTCP", or "MUDA" case-insensitive
+  const upper = str.toUpperCase();
+  if (upper.startsWith("RERA:")) {
+    return { type: "RERA", number: str.slice(5).trim() };
+  }
+  if (upper.startsWith("DTCP:")) {
+    return { type: "DTCP", number: str.slice(5).trim() };
+  }
+  if (upper.startsWith("MUDA:")) {
+    return { type: "MUDA", number: str.slice(5).trim() };
+  }
+
+  return {
+    type: "RERA",
+    number: str,
+  };
+}

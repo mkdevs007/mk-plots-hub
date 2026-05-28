@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import heroImg from "@/assets/hero-aerial.jpg";
 import project1 from "@/assets/project-1.jpg";
 import project2 from "@/assets/project-2.jpg";
@@ -26,7 +26,6 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { whatsappHref } from "@/components/site/WhatsAppButton";
-import { PlotROICalculator } from "@/components/site/PlotROICalculator";
 import { getProjects } from "@/lib/projects";
 import { useQuery } from "@tanstack/react-query";
 import { blogPosts } from "@/data/blog";
@@ -71,25 +70,29 @@ const plotTypes = [
     icon: Home,
     title: "Residential Plots",
     desc: "Homes & gated communities",
-    to: "/plots/residential" as const,
+    to: "/plots/$type" as const,
+    type: "residential" as const,
   },
   {
     icon: Store,
     title: "Commercial Plots",
     desc: "Shops, offices & showrooms",
-    to: "/plots/commercial" as const,
+    to: "/plots/$type" as const,
+    type: "commercial" as const,
   },
   {
     icon: Trees,
     title: "Agricultural Plots",
     desc: "Farm land & agri investments",
-    to: "/plots/agricultural" as const,
+    to: "/plots/$type" as const,
+    type: "agricultural" as const,
   },
   {
     icon: Factory,
     title: "Industrial Plots",
     desc: "Warehouses & industrial zones",
-    to: "/plots/industrial" as const,
+    to: "/plots/$type" as const,
+    type: "industrial" as const,
   },
 ];
 
@@ -155,30 +158,70 @@ function HomePage() {
   });
 
   const ongoing = projects.filter((p) => p.status !== "Completed").slice(0, 3);
-  const [playVideo, setPlayVideo] = useState(false);
 
   const dynamicCities = Array.from(new Set(projects.map((p) => p.city)));
 
-  const galleryPhotos = [
-    { image: project1, name: "MK Green Valley - Devanahalli" },
-    { image: project2, name: "MK Royal Heights - Mysore" },
-    { image: project3, name: "MK Agri Estates - Tumkur" },
-    {
-      image:
-        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop",
-      name: "Premium Gated Communities",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop",
-      name: "Lush Parks & Amenities",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1444653389962-8149286c578a?q=80&w=800&auto=format&fit=crop",
-      name: "MK Industrial Park - Hubli",
-    },
-  ];
+  const galleryPhotos = useMemo(() => {
+    const list: { image: string; name: string }[] = [];
+    projects.forEach((p) => {
+      if (p.image) {
+        list.push({ image: p.image, name: `${p.name} - Layout View` });
+      }
+      if (p.galleryImages && p.galleryImages.length > 0) {
+        p.galleryImages.forEach((img, idx) => {
+          list.push({ image: img, name: `${p.name} - Site View #${idx + 1}` });
+        });
+      }
+    });
+
+    // Fallback if no images exist in DB
+    if (list.length === 0) {
+      return [
+        { image: project1, name: "MK Green Valley - Devanahalli" },
+        { image: project2, name: "MK Royal Heights - Mysore" },
+        { image: project3, name: "MK Agri Estates - Tumkur" },
+        {
+          image:
+            "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop",
+          name: "Premium Gated Communities",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop",
+          name: "Lush Parks & Amenities",
+        },
+        {
+          image:
+            "https://images.unsplash.com/photo-1444653389962-8149286c578a?q=80&w=800&auto=format&fit=crop",
+          name: "MK Industrial Park - Hubli",
+        },
+      ];
+    }
+    return list.slice(0, 6);
+  }, [projects]);
+
+  const virtualTours = useMemo(() => {
+    const tours: { videoUrl: string; title: string; projectImage: string }[] = [];
+    projects.forEach((p) => {
+      if (p.videoUrl) {
+        tours.push({
+          videoUrl: p.videoUrl,
+          title: `${p.name} - Main Walkthrough`,
+          projectImage: p.image,
+        });
+      }
+      if (p.galleryVideos && p.galleryVideos.length > 0) {
+        p.galleryVideos.forEach((vid, idx) => {
+          tours.push({
+            videoUrl: vid,
+            title: `${p.name} - Walkthrough #${idx + 1}`,
+            projectImage: p.image,
+          });
+        });
+      }
+    });
+    return tours;
+  }, [projects]);
 
   return (
     <SiteLayout>
@@ -252,7 +295,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8">
+      <section className="py-12 md:py-16 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             eyebrow="Now Selling"
@@ -275,7 +318,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8 bg-secondary/50">
+      <section className="py-12 md:py-16 px-5 md:px-8 bg-secondary/50">
         <div className="max-w-7xl mx-auto">
           <SectionHeader eyebrow="What We Offer" title="A plot for every ambition" />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -283,6 +326,7 @@ function HomePage() {
               <Link
                 key={t.title}
                 to={t.to}
+                params={{ type: t.type }}
                 className="group bg-card rounded-xl p-8 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500"
               >
                 <span className="inline-flex w-14 h-14 rounded-xl gold-gradient items-center justify-center text-gold-foreground">
@@ -299,46 +343,38 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8 bg-card border-y border-border">
+      <section className="py-12 md:py-16 px-5 md:px-8 bg-card border-y border-border">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
             eyebrow="Virtual Tour"
             title="Walkthrough our layouts"
             description="Take a high-definition drone tour of our ongoing gated communities and plot developments from the comfort of your home."
           />
-          <div className="mt-12 relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border group bg-black">
-            {playVideo ? (
-              <iframe
-                src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1"
-                title="MK Builders & Developers Layout Tour"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full border-0"
-              />
-            ) : (
-              <div
-                className="absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center"
-                onClick={() => setPlayVideo(true)}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop"
-                  alt="MK Builders & Developers layout drone tour thumbnail"
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-black/30" />
-                <span className="relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white flex items-center justify-center group-hover:scale-110 group-hover:bg-gold group-hover:border-gold transition-all duration-300 shadow-lg animate-pulse-soft">
-                  <Play className="w-8 h-8 md:w-10 md:h-10 fill-current text-white translate-x-0.5" />
-                </span>
-                <span className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium tracking-wide">
-                  2:30 Min Walkthrough
-                </span>
-              </div>
-            )}
-          </div>
+          {virtualTours.length > 0 ? (
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {virtualTours.slice(0, 4).map((tour, idx) => (
+                <div key={idx} className="relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
+                  <video
+                    src={tour.videoUrl}
+                    controls
+                    className="w-full h-full object-cover"
+                    poster={tour.projectImage}
+                  />
+                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold font-nav tracking-widest px-2.5 py-1 rounded-full uppercase">
+                    {tour.title}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center py-10 text-muted-foreground text-sm">
+              No videos uploaded yet. Drone tours will appear here once added in the admin panel.
+            </p>
+          )}
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8">
+      <section className="py-12 md:py-16 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             eyebrow="Why MK Builders & Developers"
@@ -400,20 +436,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8 bg-secondary/50 border-y border-border">
-        <div className="max-w-7xl mx-auto">
-          <SectionHeader
-            eyebrow="Wealth Generator"
-            title="Maximize your land investment"
-            description="Unlike depreciating assets, land grows in value. Calculate your returns over time."
-          />
-          <div className="mt-14">
-            <PlotROICalculator />
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 md:py-28 px-5 md:px-8">
+      <section className="py-12 md:py-16 px-5 md:px-8">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             eyebrow="Gallery Teaser"
@@ -421,26 +444,37 @@ function HomePage() {
             description="Take a visual tour through our meticulously developed plots and surrounding landscapes."
           />
           <div className="mt-14 grid gap-4 grid-cols-2 md:grid-cols-3">
-            {galleryPhotos.map((p, i) => (
-              <div
-                key={i}
-                className={`relative overflow-hidden rounded-xl group aspect-[4/3] ${
-                  i === 0 || i === 4 ? "md:col-span-2 md:row-span-1" : ""
-                }`}
-              >
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/95 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-5">
-                  <span className="text-primary-foreground font-display text-lg font-semibold">
-                    {p.name}
-                  </span>
+            {galleryPhotos.map((p, i) => {
+              // Custom grid classes for Bento effect
+              let gridClasses = "relative overflow-hidden rounded-2xl group border border-border/30 bg-card/20 transition-all duration-500 hover:border-gold/30";
+              if (i === 0) {
+                // First item: Hero size
+                gridClasses += " col-span-2 md:col-span-2 md:row-span-2 aspect-[16/10] md:aspect-auto md:h-full";
+              } else if (i === 5) {
+                // Last item: Wide bottom on mobile, normal on desktop
+                gridClasses += " col-span-2 md:col-span-1 aspect-[16/10] md:aspect-[4/3]";
+              } else {
+                // Other items
+                gridClasses += " col-span-1 aspect-[4/3]";
+              }
+
+              return (
+                <div key={i} className={gridClasses}>
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700"
+                  />
+                  {/* Glassmorphic hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end p-5">
+                    <span className="text-primary-foreground font-display text-lg font-semibold tracking-wide">
+                      {p.name}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="mt-12 text-center">
             <Link
@@ -453,7 +487,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8 bg-primary text-primary-foreground">
+      <section className="py-12 md:py-16 px-5 md:px-8 bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-3 text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase">
@@ -497,7 +531,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 px-5 md:px-8 bg-secondary/30 border-y border-border">
+      <section className="py-12 md:py-16 px-5 md:px-8 bg-secondary/30 border-y border-border">
         <div className="max-w-7xl mx-auto">
           <SectionHeader
             eyebrow="Knowledge Hub"
@@ -554,7 +588,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section id="enquiry" className="py-20 md:py-28 px-5 md:px-8">
+      <section id="enquiry" className="py-12 md:py-16 px-5 md:px-8">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           <div>
             <SectionHeader
