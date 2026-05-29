@@ -212,12 +212,13 @@ function ProjectDetail() {
             {(p.videoUrl || (p.galleryVideos && p.galleryVideos.length > 0)) && (
               <div className="mt-12 border-t border-border pt-12">
                 <h2 className="font-display text-3xl mb-6">Drone Tour & Walkthrough Videos</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-6">
                   {p.videoUrl && (
-                    <div className="relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
+                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
                       <video
                         src={p.videoUrl}
                         controls
+                        playsInline
                         className="w-full h-full object-cover"
                         poster={p.image}
                       />
@@ -226,19 +227,24 @@ function ProjectDetail() {
                       </div>
                     </div>
                   )}
-                  {p.galleryVideos?.map((vUrl, index) => (
-                    <div key={vUrl} className="relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
-                      <video
-                        src={vUrl}
-                        controls
-                        className="w-full h-full object-cover"
-                        poster={p.image}
-                      />
-                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold font-nav tracking-widest px-2.5 py-1 rounded-full uppercase">
-                        Walkthrough #{index + 1}
-                      </div>
+                  {p.galleryVideos && p.galleryVideos.length > 0 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {p.galleryVideos.map((vUrl, index) => (
+                        <div key={vUrl} className="relative aspect-video rounded-2xl overflow-hidden shadow-card-hover border border-border bg-black">
+                          <video
+                            src={vUrl}
+                            controls
+                            playsInline
+                            className="w-full h-full object-cover"
+                            poster={p.image}
+                          />
+                          <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold font-nav tracking-widest px-2.5 py-1 rounded-full uppercase">
+                            Walkthrough #{index + 1}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             )}

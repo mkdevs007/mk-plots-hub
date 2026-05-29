@@ -6,15 +6,22 @@ export function CallbackPopup() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    // Check if the user has already dismissed the popup in this session
+    const dismissed = sessionStorage.getItem("mk_callback_popup_dismissed");
+    if (dismissed === "true") {
+      return;
+    }
+
     const timer = setTimeout(() => {
       setShow(true);
-    }, 500); // Trigger shortly after page load
+    }, 15000); // 15 seconds delay
 
     return () => clearTimeout(timer);
   }, []);
 
   const closePopup = () => {
     setShow(false);
+    sessionStorage.setItem("mk_callback_popup_dismissed", "true");
   };
 
   if (!show) return null;
@@ -75,7 +82,7 @@ export function CallbackPopup() {
           </div>
 
           {/* Embedded Callback Form */}
-          <EnquiryForm compact />
+          <EnquiryForm compact onSuccess={closePopup} />
         </div>
       </div>
     </div>

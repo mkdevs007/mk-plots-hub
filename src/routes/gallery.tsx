@@ -274,6 +274,7 @@ function Gallery() {
                         <video
                           src={item.src}
                           controls
+                          playsInline
                           className="w-full h-full object-cover"
                           poster={item.projectImage}
                         />

@@ -357,6 +357,7 @@ function HomePage() {
                   <video
                     src={tour.videoUrl}
                     controls
+                    playsInline
                     className="w-full h-full object-cover"
                     poster={tour.projectImage}
                   />

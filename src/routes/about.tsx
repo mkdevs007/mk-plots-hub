@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
-import { Award, ShieldCheck, MapPin, CheckCircle, Heart, Building2, Trees } from "lucide-react";
+import { Award, ShieldCheck, MapPin, CheckCircle, Heart, Building2, Trees, Facebook, Instagram } from "lucide-react";
 import entranceGateImg from "@/assets/entrance-gate.png";
 
 export const Route = createFileRoute("/about")({
@@ -199,6 +199,39 @@ function About() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Social Media Follow Section */}
+      <section className="py-20 px-5 md:px-8 bg-background border-t border-border/60">
+        <div className="max-w-xl mx-auto text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold font-nav tracking-[0.2em] uppercase">
+            Follow Our Journey
+          </div>
+          <h2 className="font-display text-3xl md:text-4xl text-foreground">
+            Connect With Us Online
+          </h2>
+          <p className="text-sm text-muted-foreground leading-relaxed font-light">
+            Stay updated with our latest layout launches, drone walkthroughs, and development milestones across Karnataka.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pt-2">
+            <a
+              href="https://www.facebook.com/profile.php?id=61590258489993"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-card hover:bg-secondary border border-border text-foreground hover:text-gold transition font-nav font-semibold text-sm shadow-sm"
+            >
+              <Facebook className="w-4.5 h-4.5 text-[#1877F2]" /> Facebook
+            </a>
+            <a
+              href="https://www.instagram.com/mk_builders_developers?igsh=emRtNnhsZnRkdzdh"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-card hover:bg-secondary border border-border text-foreground hover:text-gold transition font-nav font-semibold text-sm shadow-sm"
+            >
+              <Instagram className="w-4.5 h-4.5 text-[#E1306C]" /> Instagram
+            </a>
           </div>
         </div>
       </section>

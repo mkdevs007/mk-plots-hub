@@ -20,9 +20,10 @@ interface EnquiryFormProps {
   compact?: boolean;
   plotId?: string;
   projectName?: string;
+  onSuccess?: () => void;
 }
 
-export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFormProps) {
+export function EnquiryForm({ compact = false, plotId, projectName, onSuccess }: EnquiryFormProps) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -74,6 +75,9 @@ export function EnquiryForm({ compact = false, plotId, projectName }: EnquiryFor
       });
       
       toast.success("Enquiry submitted successfully!");
+      if (onSuccess) {
+        onSuccess();
+      }
       
       navigate({
         to: "/thank-you",
