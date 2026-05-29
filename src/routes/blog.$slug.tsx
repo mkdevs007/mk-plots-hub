@@ -164,9 +164,9 @@ function BlogPostDetail() {
                   <Share2 className="w-4 h-4 text-gold" /> Share this article:
                 </span>
                 <div className="flex gap-2">
-                  <button className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition">
+                  <a href="https://www.facebook.com/profile.php?id=61590258489993" target="_blank" rel="noreferrer" className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition">
                     <Facebook className="w-4 h-4" />
-                  </button>
+                  </a>
                   <button className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition">
                     <Twitter className="w-4 h-4" />
                   </button>
