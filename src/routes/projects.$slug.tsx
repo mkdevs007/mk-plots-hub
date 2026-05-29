@@ -18,6 +18,7 @@ import {
   Route as RouteIcon,
   Train,
   Building2,
+  ExternalLink,
 } from "lucide-react";
 import type { ComponentType } from "react";
 import type { NearbyCategory } from "@/data/projects";
@@ -25,6 +26,7 @@ import { useState, useEffect } from "react";
 import { SiteVisitModal } from "@/components/site/SiteVisitModal";
 
 export const Route = createFileRoute("/projects/$slug")({
+  staleTime: 0,
   loader: async ({ params }) => {
     const project = await getProjectBySlug(params.slug);
     if (!project) throw notFound();
@@ -154,9 +156,21 @@ function ProjectDetail() {
               {p.status}
             </span>
             <h1 className="mt-3 font-display text-5xl md:text-7xl">{p.name}</h1>
-            <p className="mt-3 text-primary-foreground/80 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-gold" /> {p.area}, {p.city} — {p.landmark}
-            </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3">
+              <p className="text-primary-foreground/80 flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-gold" /> {p.area}, {p.city} — {p.landmark}
+              </p>
+              {p.mapLink && (
+                <a
+                  href={p.mapLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-nav font-bold text-gold hover:text-gold/90 hover:bg-gold/20 hover:border-gold/30 transition-all shrink-0 bg-gold/10 border border-gold/20 px-3 py-1 rounded-full backdrop-blur-sm shadow-sm"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> View on Google Maps
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </section>
