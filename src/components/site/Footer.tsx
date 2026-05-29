@@ -48,8 +48,8 @@ export function Footer() {
           </p>
           <div className="mt-6 flex gap-3">
             {[
-              { Icon: InstagramIcon, label: "Instagram", href: "#" },
-              { Icon: FacebookIcon, label: "Facebook", href: "#" },
+              { Icon: InstagramIcon, label: "Instagram", href: "https://www.instagram.com/mk_builders_developers/" },
+              { Icon: FacebookIcon, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61590258489993" },
               { Icon: YoutubeIcon, label: "YouTube", href: "#" },
               { Icon: LinkedinIcon, label: "LinkedIn", href: "#" },
               { Icon: WhatsAppIcon, label: "WhatsApp", href: whatsappHref() },
@@ -57,7 +57,7 @@ export function Footer() {
               <a
                 key={label}
                 href={href}
-                target={label === "WhatsApp" ? "_blank" : undefined}
+                target={["WhatsApp", "Instagram", "Facebook"].includes(label) ? "_blank" : undefined}
                 rel="noreferrer"
                 aria-label={label}
                 className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center hover:bg-gold hover:text-gold-foreground hover:border-gold transition"
