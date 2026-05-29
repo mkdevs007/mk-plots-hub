@@ -87,6 +87,8 @@ const fetchProjectsFromDb = async (): Promise<Project[]> => {
     progressTimeline: dbItem.progress_timeline || [],
     layoutPdfUrl: dbItem.layout_pdf_url || "",
     nearbyPlaces: dbItem.nearby_places || [],
+    faqs: dbItem.faqs || [],
+    mapLink: dbItem.map_link || "",
   }));
 };
 
@@ -115,6 +117,8 @@ const saveProjectToDb = async (project: Project, isNew: boolean) => {
     progress_timeline: project.progressTimeline || [],
     layout_pdf_url: project.layoutPdfUrl || null,
     nearby_places: project.nearbyPlaces || [],
+    faqs: project.faqs || [],
+    map_link: project.mapLink || null,
   };
 
   if (!isSupabaseConfigured) {
@@ -187,6 +191,7 @@ const defaultFormState = (): Project => ({
   progressTimeline: [],
   layoutPdfUrl: "",
   nearbyPlaces: [],
+  mapLink: "",
 });
 
 const NEARBY_CATEGORIES: { value: NearbyCategory; label: string }[] = [
@@ -219,7 +224,7 @@ function AdminDashboard() {
   const [sizePrices, setSizePrices] = useState<SizePrice[]>([]);
   const [progressTimeline, setProgressTimeline] = useState<ProgressMilestone[]>([]);
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
-  const [approvalType, setApprovalType] = useState<"RERA" | "DTCP" | "MUDA">("RERA");
+  const [approvalType, setApprovalType] = useState<"RERA" | "DTCP" | "MUDA" | "BDA">("RERA");
   const [approvalNumber, setApprovalNumber] = useState<string>("");
 
   // React Query queries
@@ -693,6 +698,7 @@ function AdminDashboard() {
                       <SelectItem value="RERA">RERA Approved</SelectItem>
                       <SelectItem value="DTCP">DTCP Approved</SelectItem>
                       <SelectItem value="MUDA">MUDA Approved</SelectItem>
+                      <SelectItem value="BDA">BDA Approved</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -791,6 +797,18 @@ function AdminDashboard() {
                   }
                   className="bg-background border-border text-foreground"
                   min={0}
+                />
+              </div>
+
+              <div className="md:col-span-2 space-y-1.5">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Google Maps Location Link
+                </label>
+                <Input
+                  value={formValues.mapLink ?? ""}
+                  onChange={(e) => setFormValues((v) => ({ ...v, mapLink: e.target.value }))}
+                  placeholder="E.g. https://maps.app.goo.gl/..."
+                  className="bg-background border-border text-foreground"
                 />
               </div>
 

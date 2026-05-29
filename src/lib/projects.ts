@@ -9,7 +9,30 @@ export const getProjects = async (): Promise<Project[]> => {
     }
     const local = localStorage.getItem("mk_projects");
     if (local) {
-      return JSON.parse(local);
+      try {
+        const parsed = JSON.parse(local) as Project[];
+        let updated = false;
+        const synced = parsed.map((p) => {
+          const mock = mockProjectsList.find((m) => m.slug === p.slug);
+          if (mock) {
+            let merged = { ...p };
+            for (const key of Object.keys(mock) as Array<keyof Project>) {
+              if (p[key] === undefined || p[key] === null || p[key] === "") {
+                (merged as any)[key] = mock[key];
+                updated = true;
+              }
+            }
+            return merged;
+          }
+          return p;
+        });
+        if (updated) {
+          localStorage.setItem("mk_projects", JSON.stringify(synced));
+        }
+        return synced;
+      } catch (e) {
+        console.error("Error parsing local storage projects:", e);
+      }
     }
     localStorage.setItem("mk_projects", JSON.stringify(mockProjectsList));
     return mockProjectsList;
@@ -50,6 +73,8 @@ export const getProjects = async (): Promise<Project[]> => {
     progressTimeline: dbItem.progress_timeline || [],
     layoutPdfUrl: dbItem.layout_pdf_url || "",
     nearbyPlaces: dbItem.nearby_places || [],
+    faqs: dbItem.faqs || [],
+    mapLink: dbItem.map_link || "",
   }));
 };
 
@@ -60,7 +85,7 @@ export const getProjectBySlug = async (slug: string): Promise<Project | null> =>
 };
 
 export interface ApprovalDetails {
-  type: "RERA" | "DTCP" | "MUDA";
+  type: "RERA" | "DTCP" | "MUDA" | "BDA";
   number: string;
 }
 
@@ -70,7 +95,7 @@ export function parseApproval(reraString: string | undefined | null): ApprovalDe
     const [type, num] = str.split("|");
     const parsedType = (type || "RERA").trim().toUpperCase();
     return {
-      type: (parsedType === "DTCP" || parsedType === "MUDA" ? parsedType : "RERA") as any,
+      type: (parsedType === "DTCP" || parsedType === "MUDA" || parsedType === "BDA" ? parsedType : "RERA") as any,
       number: (num || "").trim(),
     };
   }
@@ -83,7 +108,7 @@ export function parseApproval(reraString: string | undefined | null): ApprovalDe
     };
   }
 
-  // If the string starts with "RERA", "DTCP", or "MUDA" case-insensitive
+  // If the string starts with "RERA", "DTCP", "MUDA", or "BDA" case-insensitive
   const upper = str.toUpperCase();
   if (upper.startsWith("RERA:")) {
     return { type: "RERA", number: str.slice(5).trim() };
@@ -93,6 +118,9 @@ export function parseApproval(reraString: string | undefined | null): ApprovalDe
   }
   if (upper.startsWith("MUDA:")) {
     return { type: "MUDA", number: str.slice(5).trim() };
+  }
+  if (upper.startsWith("BDA:")) {
+    return { type: "BDA", number: str.slice(4).trim() };
   }
 
   return {
