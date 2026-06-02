@@ -89,6 +89,85 @@ export interface ApprovalDetails {
   number: string;
 }
 
+// ─── SEO URL Helpers ────────────────────────────────────────────────────────
+
+/**
+ * Derives a location-first URL slug: {area-slug}-{project-slug}
+ * e.g. "Kenchanapura, Nagarabhavi Ext." + "mk-brhat-samruddhi"
+ *      → "kenchanapura-nagarabhavi-ext-mk-brhat-samruddhi"
+ * Works automatically for admin-added projects.
+ */
+export function generateLocationSlug(project: Project): string {
+  const areaSlug = project.area
+    .replace(/\./g, "")        // "R.T." → "RT"
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  return `${areaSlug}-${project.slug}`;
+}
+
+/** Find a project by its computed location slug */
+export async function getProjectByLocationSlug(
+  locationSlug: string,
+): Promise<Project | null> {
+  const all = await getProjects();
+  return all.find((p) => generateLocationSlug(p) === locationSlug) ?? null;
+}
+
+/**
+ * Build a rich keyword string from every piece of project data.
+ * Used in the <meta name="keywords"> tag on project landing pages.
+ */
+export function generateProjectKeywords(project: Project): string {
+  const approval = parseApproval(project.rera);
+  const areaTerms = project.area
+    .split(",")
+    .map((a) => a.trim())
+    .filter(Boolean);
+  const kws: string[] = [];
+
+  areaTerms.forEach((area) => {
+    kws.push(`plots in ${area}`);
+    kws.push(`sites for sale in ${area}`);
+    kws.push(`${area} ${project.type} plots`);
+    kws.push(`${area} plots for sale`);
+  });
+
+  kws.push(
+    `plots in ${project.city}`,
+    `${project.city} plots for sale`,
+    `${project.city} ${project.type} plots`,
+    `${approval.type} approved plots ${project.city}`,
+    `RERA approved plots ${project.city}`,
+    `gated community plots ${project.city}`,
+    `${project.type} plots Karnataka`,
+    `${project.type} sites Karnataka`,
+  );
+
+  project.sizes.forEach((size) => kws.push(`${size} ${project.type} plot`));
+
+  if (project.landmark) kws.push(`plots near ${project.landmark}`);
+
+  (project.nearbyPlaces ?? []).slice(0, 5).forEach((pl) =>
+    kws.push(`plots near ${pl.name}`),
+  );
+
+  if (project.startingPrice) {
+    kws.push(`plots starting ${project.startingPrice}`);
+  }
+
+  kws.push(
+    "MK Builders Developers",
+    "MK Builders Bangalore",
+    "buy plots Karnataka",
+    "plotted development Karnataka",
+  );
+
+  return [...new Set(kws)].join(", ");
+}
+
 export function parseApproval(reraString: string | undefined | null): ApprovalDetails {
   const str = (reraString || "").trim();
   if (str.includes("|")) {

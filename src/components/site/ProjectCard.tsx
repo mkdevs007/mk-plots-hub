@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, Ruler, Shield } from "lucide-react";
 import type { Project, ProjectStatus } from "@/data/projects";
-import { parseApproval } from "@/lib/projects";
+import { parseApproval, generateLocationSlug } from "@/lib/projects";
 
 const badgeClass: Record<ProjectStatus, string> = {
   Ongoing: "bg-badge-ongoing-bg text-badge-ongoing-fg",
@@ -26,16 +26,16 @@ export function ProjectCard({ p }: { p: Project }) {
           {/* Hover overlay with CTAs (separate anchors inside div) */}
           <div className="absolute inset-0 bg-primary/60 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 p-4 z-10">
             <Link
-              to="/projects/$slug"
-              params={{ slug: p.slug }}
+              to="/$locationProject"
+              params={{ locationProject: generateLocationSlug(p) }}
               hash="layout-map"
               className="px-5 py-2.5 rounded-full gold-gradient text-gold-foreground font-semibold font-nav text-xs tracking-wider uppercase shadow-md transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
             >
               View Layout Map
             </Link>
             <Link
-              to="/projects/$slug"
-              params={{ slug: p.slug }}
+              to="/$locationProject"
+              params={{ locationProject: generateLocationSlug(p) }}
               hash="enquiry"
               className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold font-nav text-xs tracking-wider uppercase border border-white/20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 cursor-pointer"
             >
@@ -56,8 +56,8 @@ export function ProjectCard({ p }: { p: Project }) {
 
         <div className="p-6">
           <Link
-            to="/projects/$slug"
-            params={{ slug: p.slug }}
+            to="/$locationProject"
+            params={{ locationProject: generateLocationSlug(p) }}
             className="hover:text-gold transition-colors"
           >
             <h3 className="font-display text-2xl text-foreground leading-tight">{p.name}</h3>
@@ -91,16 +91,16 @@ export function ProjectCard({ p }: { p: Project }) {
       <div className="px-6 pb-6 mt-auto">
         <div className="flex gap-2">
           <Link
-            to="/projects/$slug"
-            params={{ slug: p.slug }}
+            to="/$locationProject"
+            params={{ locationProject: generateLocationSlug(p) }}
             hash="layout-map"
             className="flex-1 text-center px-4 py-2.5 rounded-full border border-gold/30 text-gold text-sm font-semibold font-nav hover:bg-gold hover:text-gold-foreground transition cursor-pointer"
           >
             View Layout
           </Link>
           <Link
-            to="/projects/$slug"
-            params={{ slug: p.slug }}
+            to="/$locationProject"
+            params={{ locationProject: generateLocationSlug(p) }}
             hash="enquiry"
             className="flex-1 text-center px-4 py-2.5 rounded-full gold-gradient text-gold-foreground text-sm font-semibold font-nav hover:opacity-90 transition cursor-pointer"
           >
