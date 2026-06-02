@@ -187,7 +187,7 @@ function Gallery() {
   return (
     <SiteLayout>
       {/* Page Header banner */}
-      <section className="relative bg-[#1C0624] text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center overflow-hidden">
+      <section className="relative bg-primary text-primary-foreground py-20 md:py-28 px-5 md:px-8 text-center overflow-hidden">
         {/* Ambient background glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,134,11,0.08),rgba(0,0,0,0))] pointer-events-none" />
         <div className="relative z-10 max-w-4xl mx-auto">

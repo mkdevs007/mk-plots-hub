@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { projects as mockProjectsList, Project, ProjectStatus, SizePrice, ProgressMilestone, NearbyPlace, NearbyCategory } from "@/data/projects";
-import { parseApproval } from "@/lib/projects";
+import { parseApproval, generateLocationSlug } from "@/lib/projects";
 import { CloudinaryUpload } from "@/components/ui/CloudinaryUpload";
 import {
   Plus,
@@ -16,6 +16,8 @@ import {
   CheckCircle,
   AlertCircle,
   X,
+  Copy,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -209,6 +211,7 @@ function AdminDashboard() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCity, setFilterCity] = useState("All");
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   
   // Dialog controls
   const [isOpen, setIsOpen] = useState(false);
@@ -491,11 +494,31 @@ function AdminDashboard() {
                       {project.startingPrice}
                     </td>
                     <td className="px-6 py-4 text-right">
+                      {/* SEO URL pill — copy for Meta Ads / Google */}
+                      <div className="mb-2 flex items-center justify-end gap-1.5">
+                        <span className="text-[10px] font-nav text-muted-foreground/60 truncate max-w-[180px]">
+                          /{generateLocationSlug(project)}
+                        </span>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(`https://themkdevelopers.com/${generateLocationSlug(project)}`);
+                            setCopiedSlug(project.slug);
+                            setTimeout(() => setCopiedSlug(null), 2000);
+                          }}
+                          title="Copy landing page URL for Meta Ads"
+                          className="p-1 text-muted-foreground hover:text-gold transition rounded cursor-pointer"
+                        >
+                          {copiedSlug === project.slug
+                            ? <Check className="w-3.5 h-3.5 text-emerald-500" />
+                            : <Copy className="w-3.5 h-3.5" />}
+                        </button>
+                      </div>
                       <div className="flex items-center justify-end gap-2">
                         <a
-                          href={`/projects/${project.slug}`}
+                          href={`/${generateLocationSlug(project)}`}
                           target="_blank"
                           rel="noreferrer"
+                          title="Open live landing page"
                           className="p-2 text-muted-foreground hover:text-gold transition rounded-lg hover:bg-secondary"
                         >
                           <ExternalLink className="w-4 h-4" />

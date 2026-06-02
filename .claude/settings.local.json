@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"C:\\\\Users\\\\Ravi Desai\\\\Downloads\\\\MK Gold\\\\mkgold.in\\\\app\\\\\\(marketing\\)\")",
+      "Bash(ls \"C:\\\\Users\\\\Ravi Desai\\\\Downloads\\\\MK Gold\\\\mkgold.in\\\\app\\\\\\(lp\\)\")",
+      "Bash(ls \"C:\\\\Users\\\\Ravi Desai\\\\Downloads\\\\MK Gold\\\\mkgold.in\\\\app\\\\\\(lp\\)\\\\lp\" && ls \"C:\\\\Users\\\\Ravi Desai\\\\Downloads\\\\MK Gold\\\\mkgold.in\\\\components\\\\sections\")"
+    ]
+  }
+}

@@ -34,7 +34,7 @@ export function PlotROICalculator() {
   };
 
   return (
-    <div className="bg-[#1C0624] border border-gold/20 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] max-w-5xl mx-auto space-y-8 text-primary-foreground relative overflow-hidden">
+    <div className="bg-primary border border-gold/20 rounded-3xl p-6 md:p-8 shadow-card-hover max-w-5xl mx-auto space-y-8 text-primary-foreground relative overflow-hidden">
       {/* Glowing background circles for visual depth */}
       <div className="absolute top-0 right-0 w-72 h-72 bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />

@@ -35,7 +35,7 @@ export function CallbackPopup() {
       />
 
       {/* Popup Modal Box */}
-      <div className="relative bg-[#1C0624] border border-white/10 rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl animate-fade-up z-10 overflow-x-hidden overflow-y-auto max-h-[90svh]">
+      <div className="relative bg-primary border border-white/10 rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl animate-fade-up z-10 overflow-x-hidden overflow-y-auto max-h-[90svh]">
         {/* Subtle radial glow background */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(184,134,11,0.12),rgba(0,0,0,0))] pointer-events-none" />
 

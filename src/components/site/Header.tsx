@@ -30,8 +30,8 @@ export function Header() {
       <header
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b ${
           scrolled
-            ? "bg-[#1C0624]/95 backdrop-blur-lg border-white/10 shadow-lg"
-            : "bg-[#1C0624]/90 lg:bg-[#1C0624]/40 lg:backdrop-blur-md border-white/5"
+            ? "bg-[#512561]/95 backdrop-blur-lg border-white/10 shadow-lg"
+            : "bg-[#512561]/90 lg:bg-[#512561]/40 lg:backdrop-blur-md border-white/5"
         }`}
       >
         <nav
@@ -84,7 +84,7 @@ export function Header() {
           />
           <div
             className="absolute top-0 right-0 h-dvh w-72 border-l border-white/10 p-6 shadow-2xl flex flex-col justify-between"
-            style={{ backgroundColor: "#1C0624" }}
+            style={{ backgroundColor: "#512561" }}
           >
             <div>
               <div className="flex justify-between items-center mb-6">
