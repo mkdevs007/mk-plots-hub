@@ -139,11 +139,11 @@ export function Footer() {
           <h4 className="font-display text-lg text-gold mb-4">Reach Us</h4>
           <ul className="space-y-3 text-sm text-primary-foreground/70">
             <li className="flex gap-2">
-              <Phone className="w-4 h-4 mt-0.5 text-gold" /> +91 99999 99999
+              <Phone className="w-4 h-4 mt-0.5 text-gold" />
+              <a href="tel:+917090090057" className="hover:text-gold transition">+91 70900 90057</a>
             </li>
             <li className="flex gap-2">
-              <MapPin className="w-4 h-4 mt-0.5 text-gold" /> 4th Floor, MG Road, Bangalore,
-              Karnataka 560001
+              <MapPin className="w-4 h-4 mt-0.5 text-gold shrink-0" /> 3rd Block, 29, 2nd, 1st Main Rd, 3rd Stage, Basaveshwar Nagar, Bengaluru, Karnataka 560079
             </li>
           </ul>
           <p className="mt-5 text-xs text-primary-foreground/50 leading-relaxed">

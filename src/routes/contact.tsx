@@ -44,8 +44,8 @@ function Contact() {
                 {
                   icon: <Phone className="w-5 h-5" />,
                   label: "Call us",
-                  value: "+91 99999 99999",
-                  href: "tel:+919999999999",
+                  value: "+91 70900 90057",
+                  href: "tel:+917090090057",
                   external: false,
                 },
                 {
@@ -62,14 +62,14 @@ function Contact() {
                 {
                   icon: <Mail className="w-5 h-5" />,
                   label: "Email",
-                  value: "info@mkdevelopers.in",
-                  href: "mailto:info@mkdevelopers.in",
+                  value: "info@themkdevelopers.com",
+                  href: "mailto:info@themkdevelopers.com",
                   external: false,
                 },
                 {
                   icon: <MapPin className="w-5 h-5" />,
                   label: "Office",
-                  value: "4th Floor, MG Road, Bangalore 560001",
+                  value: "3rd Block, 29, 2nd, 1st Main Rd, 3rd Stage, Basaveshwar Nagar, Bengaluru, Karnataka 560079",
                   href: undefined,
                   external: false,
                 },
