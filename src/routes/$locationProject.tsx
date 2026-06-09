@@ -305,6 +305,9 @@ function ProjectLandingPage() {
 
   // Analytics — fire on every project page view
   useEffect(() => {
+    // Project pages are high-intent — always show the callback popup regardless
+    // of whether it was dismissed on a previous page in this session
+    sessionStorage.removeItem("mk_callback_popup_dismissed");
     captureUtm();
     fbqTrack("ViewContent", {
       content_name: p.name,

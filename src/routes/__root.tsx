@@ -114,6 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur. Own your future, plot by plot.",
       },
       { name: "author", content: "MK Builders & Developers" },
+      { name: "google-site-verification", content: "4oZEtZ8YGN8zvxHntshVLmjGzm5wE8det1VEyuim4s8" },
       {
         property: "og:title",
         content: "MK Builders & Developers — Premium Plots & Layouts in Karnataka",
@@ -122,6 +123,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "MK Builders & Developers" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=G-QZVRQEXYG9",
+        async: true,
+      },
+      {
+        children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-QZVRQEXYG9');`,
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
