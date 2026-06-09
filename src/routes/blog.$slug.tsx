@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { getBlogBySlug } from "@/lib/blogs";
-import { Calendar, Clock, ChevronLeft, Share2, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Calendar, Clock, ChevronLeft, Share2, Facebook, Twitter } from "lucide-react";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
@@ -169,9 +169,6 @@ function BlogPostDetail() {
                   </a>
                   <button className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition">
                     <Twitter className="w-4 h-4" />
-                  </button>
-                  <button className="p-2 rounded-full border border-border hover:border-gold hover:text-gold transition">
-                    <Linkedin className="w-4 h-4" />
                   </button>
                 </div>
               </div>
