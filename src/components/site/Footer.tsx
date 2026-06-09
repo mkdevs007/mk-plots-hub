@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, Mail, Phone } from "lucide-react";
 import { BrandLogo } from "@/components/site/BrandLogo";
 import { whatsappHref } from "@/components/site/WhatsAppButton";
 
@@ -141,6 +141,10 @@ export function Footer() {
             <li className="flex gap-2">
               <Phone className="w-4 h-4 mt-0.5 text-gold" />
               <a href="tel:+917090090057" className="hover:text-gold transition">+91 70900 90057</a>
+            </li>
+            <li className="flex gap-2">
+              <Mail className="w-4 h-4 mt-0.5 text-gold shrink-0" />
+              <a href="mailto:info@themkdevelopers.com" className="hover:text-gold transition break-all">info@themkdevelopers.com</a>
             </li>
             <li className="flex gap-2">
               <MapPin className="w-4 h-4 mt-0.5 text-gold shrink-0" /> 3rd Block, 29, 2nd, 1st Main Rd, 3rd Stage, Basaveshwar Nagar, Bengaluru, Karnataka 560079

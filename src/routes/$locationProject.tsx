@@ -577,7 +577,7 @@ function ProjectLandingPage() {
       {/* ════════════════════════════════════════════════════════════
           MAIN CONTENT — two-column on desktop
       ════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 px-5 md:px-8">
+      <section className="pt-16 pb-28 md:py-24 px-5 md:px-8">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_380px] gap-12 xl:gap-16">
 
           {/* ── LEFT COLUMN ── */}
