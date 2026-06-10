@@ -31,7 +31,7 @@ export function Header() {
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b ${
           scrolled
             ? "bg-[#512561]/95 backdrop-blur-lg border-white/10 shadow-lg"
-            : "bg-[#512561]/90 lg:bg-[#512561]/40 lg:backdrop-blur-md border-white/5"
+            : "bg-[#512561]/95 border-white/5"
         }`}
       >
         <nav

@@ -419,7 +419,7 @@ function ProjectLandingPage() {
       {/* ════════════════════════════════════════════════════════════
           HERO — Full viewport
       ════════════════════════════════════════════════════════════ */}
-      <section className="relative -mt-20 md:-mt-[120px] h-[90vh] min-h-[600px] max-h-[860px] overflow-hidden">
+      <section className="relative h-[90vh] min-h-[600px] max-h-[860px] overflow-hidden">
         {/* Hero image */}
         <img
           src={p.image}
@@ -435,7 +435,7 @@ function ProjectLandingPage() {
           style={{ backgroundImage: "repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)", backgroundSize: "20px 20px" }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-between pt-28 md:pt-36 pb-12 px-5 md:px-8">
+        <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-between pt-24 md:pt-28 pb-24 md:pb-20 px-5 md:px-8">
           {/* Breadcrumb */}
           <nav
             aria-label="breadcrumb"
@@ -457,7 +457,7 @@ function ProjectLandingPage() {
           {/* Main hero content */}
           <div className="max-w-4xl">
             {/* Badges row */}
-            <div className="flex flex-wrap items-center gap-3 mb-5 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            <div className="flex flex-wrap items-center gap-3 mb-4 animate-fade-up" style={{ animationDelay: "0.1s" }}>
               <span className={`px-3 py-1 rounded-full text-xs font-bold font-nav ${statusBadgeClass}`}>
                 {p.status}
               </span>
@@ -471,7 +471,7 @@ function ProjectLandingPage() {
 
             {/* Project name */}
             <h1
-              className="font-display text-6xl sm:text-7xl md:text-8xl text-white leading-none tracking-tight animate-fade-up"
+              className="font-display text-5xl sm:text-6xl md:text-7xl text-white leading-none tracking-tight animate-fade-up"
               style={{ animationDelay: "0.2s" }}
             >
               {p.name}
@@ -479,7 +479,7 @@ function ProjectLandingPage() {
 
             {/* Location */}
             <p
-              className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-4 text-white/75 text-sm font-nav animate-fade-up"
+              className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3 text-white/75 text-sm font-nav animate-fade-up"
               style={{ animationDelay: "0.3s" }}
             >
               <span className="flex items-center gap-1.5">
@@ -502,7 +502,7 @@ function ProjectLandingPage() {
             {/* Price */}
             {p.startingPrice && p.startingPrice !== "Sold Out" && (
               <p
-                className="mt-3 font-display text-3xl md:text-4xl text-gold animate-fade-up"
+                className="mt-2 font-display text-2xl md:text-3xl text-gold animate-fade-up"
                 style={{ animationDelay: "0.35s" }}
               >
                 Starting {p.startingPrice}
@@ -511,13 +511,13 @@ function ProjectLandingPage() {
 
             {/* Hero CTAs */}
             <div
-              className="mt-7 flex flex-col sm:flex-row gap-4 animate-fade-up"
+              className="mt-5 flex flex-wrap sm:flex-row gap-3 animate-fade-up"
               style={{ animationDelay: "0.45s" }}
             >
               {p.status !== "Completed" && (
                 <button
                   onClick={() => setIsVisitModalOpen(true)}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full gold-gradient text-gold-foreground font-bold font-nav text-sm hover:opacity-95 hover:scale-[1.02] transition-all shadow-lg min-h-[52px]"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full gold-gradient text-gold-foreground font-bold font-nav text-sm hover:opacity-95 hover:scale-[1.02] transition-all shadow-lg min-h-[44px]"
                 >
                   <Calendar className="w-4 h-4" /> Book Free Site Visit
                 </button>
@@ -527,13 +527,13 @@ function ProjectLandingPage() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_hero" }); }}
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-whatsapp text-white font-bold font-nav text-sm hover:opacity-90 transition-all shadow-lg min-h-[52px]"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-whatsapp text-white font-bold font-nav text-sm hover:opacity-90 transition-all shadow-lg min-h-[44px]"
               >
                 <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
               </a>
               <a
                 href="#enquiry"
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border-2 border-white/50 text-white font-bold font-nav text-sm hover:bg-white/10 transition-all min-h-[52px]"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border-2 border-white/50 text-white font-bold font-nav text-sm hover:bg-white/10 transition-all min-h-[44px]"
               >
                 Enquire Now
               </a>
