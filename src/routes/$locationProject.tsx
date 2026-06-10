@@ -445,7 +445,7 @@ function ProjectLandingPage() {
               <Home className="w-3 h-3" /> Home
             </Link>
             <ChevronRight className="w-3 h-3" />
-            <Link to="/projects/" className="hover:text-gold transition-colors">Projects</Link>
+            <Link to="/projects" className="hover:text-gold transition-colors">Projects</Link>
             <ChevronRight className="w-3 h-3" />
             <Link to="/plots-in/$city" params={{ city: p.city.toLowerCase() }} className="hover:text-gold transition-colors">
               {p.city}
@@ -955,7 +955,7 @@ function ProjectLandingPage() {
             )}
 
             <Link
-              to="/projects/"
+              to="/projects"
               className="block text-center text-sm text-muted-foreground hover:text-[#512561] transition-colors font-nav py-1"
             >
               ← View all projects
