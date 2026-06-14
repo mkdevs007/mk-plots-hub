@@ -42,6 +42,9 @@ import {
   ArrowRight,
   Layers,
   Clock,
+  X,
+  ChevronLeft,
+  Eye,
 } from "lucide-react";
 
 // ─── Route ──────────────────────────────────────────────────────────────────
@@ -289,6 +292,52 @@ function ProjectLandingPage() {
   const [nearbyFilter, setNearbyFilter] = useState<NearbyCategory | "all">("all");
   const location = useLocation();
   useScrollReveal();
+
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setLightboxIndex((prev) =>
+          prev !== null && p.galleryImages
+            ? (prev - 1 + p.galleryImages.length) % p.galleryImages.length
+            : null
+        );
+      }
+      if (e.key === "ArrowRight") {
+        setLightboxIndex((prev) =>
+          prev !== null && p.galleryImages
+            ? (prev + 1) % p.galleryImages.length
+            : null
+        );
+      }
+      if (e.key === "Escape") {
+        setLightboxIndex(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxIndex, p.galleryImages]);
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) =>
+      prev !== null && p.galleryImages
+        ? (prev - 1 + p.galleryImages.length) % p.galleryImages.length
+        : null
+    );
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) =>
+      prev !== null && p.galleryImages
+        ? (prev + 1) % p.galleryImages.length
+        : null
+    );
+  };
 
   // Smooth scroll to anchor on load
   useEffect(() => {
@@ -678,12 +727,11 @@ function ProjectLandingPage() {
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {p.galleryImages.map((imgUrl, idx) => (
-                    <a
+                    <button
                       key={imgUrl}
-                      href={imgUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`reveal-scale stagger-${Math.min((idx % 4) + 1, 4)} relative overflow-hidden rounded-2xl group aspect-[4/3] border border-border shadow-sm block bg-[#EDE7F5]`}
+                      type="button"
+                      onClick={() => setLightboxIndex(idx)}
+                      className={`reveal-scale stagger-${Math.min((idx % 4) + 1, 4)} relative overflow-hidden rounded-2xl group aspect-[4/3] border border-border shadow-sm block bg-[#EDE7F5] w-full text-left cursor-pointer focus:outline-none`}
                     >
                       <img
                         src={imgUrl}
@@ -691,8 +739,13 @@ function ProjectLandingPage() {
                         loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-[#512561]/0 group-hover:bg-[#512561]/20 transition-colors duration-300" />
-                    </a>
+                      {/* Premium glassmorphic view badge on hover */}
+                      <div className="absolute inset-0 bg-[#512561]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span className="inline-flex items-center gap-1.5 text-xs text-white bg-[#512561]/80 backdrop-blur-xs px-3.5 py-1.5 rounded-full font-medium shadow-lg transition-transform duration-300 translate-y-2 group-hover:translate-y-0">
+                          <Eye className="w-3.5 h-3.5 text-gold" /> View Photo
+                        </span>
+                      </div>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -1048,6 +1101,77 @@ function ProjectLandingPage() {
         isOpen={isVisitModalOpen}
         onClose={() => setIsVisitModalOpen(false)}
       />
+
+      {/* Lightbox Modal Dialog Portal */}
+      {lightboxIndex !== null && p.galleryImages && p.galleryImages[lightboxIndex] && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col justify-between items-center p-4 md:p-8 animate-fade"
+          onClick={() => setLightboxIndex(null)}
+        >
+          {/* Top Control Bar */}
+          <div className="w-full flex items-center justify-between z-10 text-white/80">
+            <div className="text-xs md:text-sm font-medium tracking-wide font-nav">
+              Photo View ({lightboxIndex + 1} of {p.galleryImages.length})
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(null)}
+              className="p-2 hover:bg-white/10 hover:text-white rounded-full transition cursor-pointer"
+              aria-label="Close Lightbox"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Media Center Content */}
+          <div className="relative flex items-center justify-center w-full max-w-5xl h-[65vh] md:h-[75vh]">
+            {/* Left Button */}
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="absolute left-0 md:-left-16 z-25 p-3 rounded-full bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition cursor-pointer"
+              aria-label="Previous Media"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            {/* Main Media wrapper */}
+            <div
+              className="relative max-w-full max-h-full flex items-center justify-center overflow-hidden rounded-lg bg-black/40 border border-white/5"
+              onClick={(e) => e.stopPropagation()} // Prevent closing
+            >
+              <img
+                src={p.galleryImages[lightboxIndex]}
+                alt={`${p.name} — gallery image ${lightboxIndex + 1}`}
+                className="max-w-full max-h-[65vh] md:max-h-[75vh] object-contain select-none"
+              />
+            </div>
+
+            {/* Right Button */}
+            <button
+              type="button"
+              onClick={handleNext}
+              className="absolute right-0 md:-right-16 z-25 p-3 rounded-full bg-white/5 hover:bg-white/15 text-white/80 hover:text-white transition cursor-pointer"
+              aria-label="Next Media"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Bottom Title & Details Bar */}
+          <div className="w-full text-center max-w-lg mx-auto z-10 p-4">
+            <h2 className="font-display text-xl md:text-2xl text-primary-foreground font-semibold">
+              {p.name}
+            </h2>
+            <div className="mt-1 flex items-center justify-center gap-2 text-xs text-primary-foreground/60 tracking-wider font-nav">
+              <span>{p.area}, {p.city}</span>
+              <span>•</span>
+              <span>Site View #{lightboxIndex + 1}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </SiteLayout>
   );
 }
