@@ -56,12 +56,7 @@ export function ProjectCard({ p }: { p: Project }) {
             </Link>
           </div>
 
-          {/* Glassmorphic Project Status Badges */}
-          <span
-            className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold font-nav shadow-sm z-20 ${statusBadgeClass[p.status]}`}
-          >
-            {p.status}
-          </span>
+
           {p.startingPrice && (
             <span className="absolute top-4 right-4 bg-black/60 text-gold text-xs font-semibold font-nav px-3 py-1 rounded-full border border-gold/30 backdrop-blur-md z-20">
               {p.startingPrice}

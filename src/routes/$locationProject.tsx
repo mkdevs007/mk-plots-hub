@@ -298,12 +298,10 @@ function ProjectLandingPage() {
     if (p.galleryImages && p.galleryImages.length > 0) {
       list.push(...p.galleryImages);
     }
-    // Also include the main image if it's not already in the list
-    if (p.image && !list.includes(p.image)) {
-      list.unshift(p.image); // Put main image first
+    if (list.length === 0 && p.image) {
+      list.push(p.image);
     }
     if (list.length === 0) {
-      // Ultimate fallback if no image at all
       list.push("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200");
     }
     return list;
