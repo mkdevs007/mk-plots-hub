@@ -1,5 +1,5 @@
 import { useState, useRef, DragEvent, ChangeEvent } from "react";
-import { UploadCloud, File, X, CheckCircle2, Film, ArrowUp, ArrowDown } from "lucide-react";
+import { UploadCloud, File, X, CheckCircle2, Film, ArrowLeft, ArrowRight } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
@@ -236,6 +236,39 @@ export function CloudinaryUpload({ value, onChange, accept, label, multiple = fa
     onChange(multiple ? updated : updated[0]);
   };
 
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleSortStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleSortOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleSortEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleSortDrop = (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+    const updated = [...valuesArray];
+    const draggedItem = updated[draggedIndex];
+    
+    updated.splice(draggedIndex, 1);
+    updated.splice(targetIndex, 0, draggedItem);
+    
+    onChange(multiple ? updated : updated[0]);
+    handleSortEnd();
+  };
+
   return (
     <div className="space-y-3">
       <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -244,70 +277,91 @@ export function CloudinaryUpload({ value, onChange, accept, label, multiple = fa
 
       {/* Grid of uploaded items */}
       {valuesArray.length > 0 && (
-        <div className="grid grid-cols-2 gap-3 mb-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mb-2">
           {valuesArray.map((url, index) => (
             <div
               key={index}
-              className="relative group rounded-xl border border-border bg-muted/40 p-3 flex items-center justify-between gap-3 animate-fade-up"
+              draggable={multiple && valuesArray.length > 1}
+              onDragStart={(e) => handleSortStart(e, index)}
+              onDragOver={(e) => handleSortOver(e, index)}
+              onDragEnd={handleSortEnd}
+              onDrop={(e) => handleSortDrop(e, index)}
+              className={`relative group aspect-square rounded-xl overflow-hidden border bg-muted/40 animate-fade-up shadow-sm transition-all duration-300 cursor-grab active:cursor-grabbing ${
+                index === draggedIndex ? "opacity-35 border-dashed border-gold" : "border-border hover:border-gold/50"
+              } ${
+                index === dragOverIndex && index !== draggedIndex ? "border-gold scale-102 ring-2 ring-gold/20" : ""
+              }`}
             >
-              <div className="flex items-center gap-2.5 overflow-hidden">
-                {isVideo ? (
-                  <div className="w-10 h-10 rounded bg-gold/10 flex items-center justify-center text-gold shrink-0">
-                    <Film className="w-5 h-5" />
-                  </div>
-                ) : (
-                  <img
+              {/* Media Preview */}
+              {isVideo ? (
+                <div className="w-full h-full bg-black/10 flex items-center justify-center relative">
+                  <video
                     src={url}
-                    alt="Asset preview"
-                    className="w-10 h-10 rounded object-cover border border-border shrink-0"
+                    className="w-full h-full object-cover"
+                    muted
+                    playsInline
                   />
-                )}
-                <div className="overflow-hidden">
-                  <p className="text-[11px] font-semibold truncate text-foreground">
-                    Asset #{index + 1}
-                  </p>
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[9px] text-gold hover:underline truncate block"
-                  >
-                    View asset
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 shrink-0">
-                {multiple && valuesArray.length > 1 && (
-                  <div className="flex items-center gap-0.5 mr-1">
-                    <button
-                      type="button"
-                      disabled={index === 0}
-                      onClick={() => moveFile(index, -1)}
-                      className="p-1 rounded hover:bg-secondary text-muted-foreground disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
-                      title="Move Up"
-                    >
-                      <ArrowUp className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      disabled={index === valuesArray.length - 1}
-                      onClick={() => moveFile(index, 1)}
-                      className="p-1 rounded hover:bg-secondary text-muted-foreground disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
-                      title="Move Down"
-                    >
-                      <ArrowDown className="w-3.5 h-3.5" />
-                    </button>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/25">
+                    <Film className="w-6 h-6 text-white drop-shadow-md" />
                   </div>
-                )}
-                <button
-                  type="button"
-                  onClick={() => removeFile(index)}
-                  className="p-1 rounded-full hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition cursor-pointer"
-                  title="Remove Asset"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
+                </div>
+              ) : (
+                <img
+                  src={url}
+                  alt={`Asset ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              )}
+
+              {/* View/External Link Indicator (hover reveal overlay) */}
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10"
+                title="View full asset"
+              >
+                <span className="text-[10px] text-white bg-black/70 px-2.5 py-1 rounded-full backdrop-blur-xs border border-white/10 shadow-sm font-semibold uppercase tracking-wider">
+                  View
+                </span>
+              </a>
+
+              {/* Delete Button (Floating Top-Right) */}
+              <button
+                type="button"
+                onClick={() => removeFile(index)}
+                className="absolute top-1.5 right-1.5 z-20 p-1.5 rounded-full bg-black/60 hover:bg-destructive text-white hover:text-white backdrop-blur-sm transition shadow-md cursor-pointer border border-white/5"
+                title="Remove asset"
+              >
+                <X className="w-3 h-3" />
+              </button>
+
+              {/* Reorder Buttons (Floating Bottom Center) */}
+              {multiple && valuesArray.length > 1 && (
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 bg-black/65 p-1 rounded-full backdrop-blur-sm shadow-md border border-white/10">
+                  <button
+                    type="button"
+                    disabled={index === 0}
+                    onClick={() => moveFile(index, -1)}
+                    className="p-0.5 rounded-full hover:bg-gold/80 text-white disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
+                    title="Move Left"
+                  >
+                    <ArrowLeft className="w-3 h-3" />
+                  </button>
+                  <span className="text-[9px] font-semibold text-white px-1 select-none">
+                    {index + 1}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={index === valuesArray.length - 1}
+                    onClick={() => moveFile(index, 1)}
+                    className="p-0.5 rounded-full hover:bg-gold/80 text-white disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
+                    title="Move Right"
+                  >
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
