@@ -1,5 +1,5 @@
 import { useState, useRef, DragEvent, ChangeEvent } from "react";
-import { UploadCloud, File, X, CheckCircle2, Film } from "lucide-react";
+import { UploadCloud, File, X, CheckCircle2, Film, ArrowUp, ArrowDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
@@ -224,6 +224,18 @@ export function CloudinaryUpload({ value, onChange, accept, label, multiple = fa
     }
   };
 
+  const moveFile = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= valuesArray.length) return;
+    
+    const updated = [...valuesArray];
+    const temp = updated[index];
+    updated[index] = updated[newIndex];
+    updated[newIndex] = temp;
+    
+    onChange(multiple ? updated : updated[0]);
+  };
+
   return (
     <div className="space-y-3">
       <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -264,13 +276,38 @@ export function CloudinaryUpload({ value, onChange, accept, label, multiple = fa
                   </a>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => removeFile(index)}
-                className="p-1 rounded-full hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
+              <div className="flex items-center gap-1 shrink-0">
+                {multiple && valuesArray.length > 1 && (
+                  <div className="flex items-center gap-0.5 mr-1">
+                    <button
+                      type="button"
+                      disabled={index === 0}
+                      onClick={() => moveFile(index, -1)}
+                      className="p-1 rounded hover:bg-secondary text-muted-foreground disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
+                      title="Move Up"
+                    >
+                      <ArrowUp className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={index === valuesArray.length - 1}
+                      onClick={() => moveFile(index, 1)}
+                      className="p-1 rounded hover:bg-secondary text-muted-foreground disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer"
+                      title="Move Down"
+                    >
+                      <ArrowDown className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  className="p-1 rounded-full hover:bg-destructive/10 hover:text-destructive text-muted-foreground transition cursor-pointer"
+                  title="Remove Asset"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
