@@ -13,7 +13,7 @@ import {
   generateProjectKeywords,
   parseApproval,
 } from "@/lib/projects";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import type { ComponentType } from "react";
 import type { NearbyCategory, Project } from "@/data/projects";
 import { captureUtm, fbqTrack, gtagEvent, getStoredUtm, formatUtmNote } from "@/lib/utm";
@@ -293,6 +293,32 @@ function ProjectLandingPage() {
   const location = useLocation();
   useScrollReveal();
 
+  const heroImages = useMemo(() => {
+    const list: string[] = [];
+    if (p.galleryImages && p.galleryImages.length > 0) {
+      list.push(...p.galleryImages);
+    }
+    // Also include the main image if it's not already in the list
+    if (p.image && !list.includes(p.image)) {
+      list.unshift(p.image); // Put main image first
+    }
+    if (list.length === 0) {
+      // Ultimate fallback if no image at all
+      list.push("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200");
+    }
+    return list;
+  }, [p.galleryImages, p.image]);
+
+  const [activeHeroIdx, setActiveHeroIdx] = useState(0);
+
+  useEffect(() => {
+    if (heroImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setActiveHeroIdx((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages, activeHeroIdx]);
+
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   // Keyboard navigation for Lightbox
@@ -469,18 +495,46 @@ function ProjectLandingPage() {
           HERO — Full viewport
       ════════════════════════════════════════════════════════════ */}
       <section className="relative h-[90vh] min-h-[600px] max-h-[860px] overflow-hidden">
-        {/* Hero image */}
-        <img
-          src={p.image}
-          alt={`${p.name} — ${typeLabel} plots in ${p.area}, ${p.city}`}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        {/* Hero image slideshow */}
+        <div className="absolute inset-0 w-full h-full bg-black">
+          {heroImages.map((imgUrl, idx) => (
+            <img
+              key={imgUrl}
+              src={imgUrl}
+              alt={`${p.name} — view ${idx + 1}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${
+                idx === activeHeroIdx ? "opacity-100 scale-103" : "opacity-0 scale-100"
+              }`}
+            />
+          ))}
+        </div>
         {/* Gradient overlay */}
-        <div className="absolute inset-0 hero-overlay" />
+        <div className="absolute inset-0 hero-overlay z-10" />
+
+        {/* Slideshow indicators on the right side */}
+        {heroImages.length > 1 && (
+          <div className="absolute right-5 md:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-2.5">
+            {heroImages.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setActiveHeroIdx(idx)}
+                className="group p-1 focus:outline-none cursor-pointer"
+                aria-label={`Go to slide ${idx + 1}`}
+              >
+                <div
+                  className={`w-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeHeroIdx ? "h-6 bg-gold shadow-md" : "h-2.5 bg-white/40 group-hover:bg-white/70"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Subtle diagonal texture */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          className="absolute inset-0 opacity-[0.03] pointer-events-none z-10"
           style={{ backgroundImage: "repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)", backgroundSize: "20px 20px" }}
         />
 
