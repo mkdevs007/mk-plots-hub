@@ -295,12 +295,19 @@ function ProjectLandingPage() {
 
   const heroImages = useMemo(() => {
     const list: string[] = [];
-    if (p.galleryImages && p.galleryImages.length > 0) {
-      list.push(...p.galleryImages);
+    // Skip the first image (index 0) of galleryImages and start from 2nd image (index 1)
+    if (p.galleryImages && p.galleryImages.length > 1) {
+      list.push(...p.galleryImages.slice(1));
     }
+    // Fallback: if there is only 1 gallery image, use it
+    if (list.length === 0 && p.galleryImages && p.galleryImages.length > 0) {
+      list.push(p.galleryImages[0]);
+    }
+    // Fallback: use main image if empty
     if (list.length === 0 && p.image) {
       list.push(p.image);
     }
+    // Ultimate fallback if no image at all
     if (list.length === 0) {
       list.push("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200");
     }
