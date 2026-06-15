@@ -12,7 +12,7 @@ const schema = z.object({
     .trim()
     .regex(/^[0-9+\s-]{7,15}$/, "Enter a valid phone"),
   city: z.string().trim().min(2).max(60),
-  plotType: z.enum(["Residential", "Commercial", "Agricultural", "Industrial"]),
+  plotType: z.enum(["Residential", "Commercial", "Farm Land Plots", "Industrial"]),
   message: z.string().trim().max(500).optional(),
 });
 
@@ -117,7 +117,7 @@ export function EnquiryForm({ compact = false, plotId, projectName, onSuccess }:
         <select name="plotType" defaultValue="Residential" className={fieldCls}>
           <option>Residential</option>
           <option>Commercial</option>
-          <option>Agricultural</option>
+          <option>Farm Land Plots</option>
           <option>Industrial</option>
         </select>
       </div>

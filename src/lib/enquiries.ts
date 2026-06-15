@@ -46,7 +46,7 @@ const MOCK_ENQUIRIES: Enquiry[] = [
     name: "Amit Patel",
     phone: "+91 88888 77777",
     city: "Tumkur",
-    plot_type: "Agricultural",
+    plot_type: "Farm Land Plots",
     message: "Want to schedule a site visit for Kunigal farm plots.",
     project_name: "MK Agri Estates",
     status: "Closed",

@@ -33,7 +33,7 @@ export const Route = createFileRoute("/projects/")({
   component: ProjectsPage,
 });
 
-const types = ["All", "Residential", "Commercial", "Agricultural", "Industrial"] as const;
+const types = ["All", "Residential", "Commercial", "Farm Land Plots", "Industrial"] as const;
 const statuses = ["All", "Ongoing", "New Launch", "Few Plots Left", "Completed"] as const;
 
 function ProjectsPage() {
@@ -53,7 +53,7 @@ function ProjectsPage() {
       projects.filter(
         (p) =>
           (city === "All" || p.city === city) &&
-          (type === "All" || p.type === type.toLowerCase()) &&
+          (type === "All" || p.type === (type === "Farm Land Plots" ? "agricultural" : type.toLowerCase())) &&
           (status === "All" || p.status === status),
       ),
     [projects, city, type, status],

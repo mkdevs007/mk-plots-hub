@@ -43,7 +43,7 @@ interface GalleryItem {
   src: string;
   title: string;
   location: string;
-  category: "Residential" | "Commercial" | "Agricultural" | "Industrial";
+  category: "Residential" | "Commercial" | "Farm Land" | "Industrial";
   projectImage?: string;
 }
 
@@ -62,6 +62,10 @@ function Gallery() {
 
   const galleryItems = useMemo(() => {
     const items: GalleryItem[] = [];
+    const mapTypeToCategory = (type: string): any => {
+      if (type === "agricultural") return "Farm Land";
+      return type.charAt(0).toUpperCase() + type.slice(1);
+    };
     projects.forEach((p) => {
       // 1. Main layout image
       if (p.image) {
@@ -71,7 +75,7 @@ function Gallery() {
           src: p.image,
           title: `${p.name} - Layout View`,
           location: p.city,
-          category: (p.type.charAt(0).toUpperCase() + p.type.slice(1)) as any,
+          category: mapTypeToCategory(p.type),
         });
       }
 
@@ -83,7 +87,7 @@ function Gallery() {
           src: p.videoUrl,
           title: `${p.name} - Drone Tour`,
           location: p.city,
-          category: (p.type.charAt(0).toUpperCase() + p.type.slice(1)) as any,
+          category: mapTypeToCategory(p.type),
           projectImage: p.image,
         });
       }
@@ -97,7 +101,7 @@ function Gallery() {
             src: img,
             title: `${p.name} - Site View #${idx + 1}`,
             location: p.city,
-            category: (p.type.charAt(0).toUpperCase() + p.type.slice(1)) as any,
+            category: mapTypeToCategory(p.type),
           });
         });
       }
@@ -111,7 +115,7 @@ function Gallery() {
             src: vid,
             title: `${p.name} - Walkthrough #${idx + 1}`,
             location: p.city,
-            category: (p.type.charAt(0).toUpperCase() + p.type.slice(1)) as any,
+            category: mapTypeToCategory(p.type),
             projectImage: p.image,
           });
         });
@@ -199,7 +203,7 @@ function Gallery() {
           </h1>
           <p className="mt-4 text-sm md:text-base text-primary-foreground/75 max-w-xl mx-auto leading-relaxed">
             Take a high-definition tour of our gated layouts, industrial subdivisions, and
-            agricultural estates across Karnataka's fastest-growing regions.
+            farm land estates across Karnataka's fastest-growing regions.
           </p>
         </div>
       </section>

@@ -50,7 +50,7 @@ const servicesList = [
     title: "Commercial Plots",
     desc: "High-visibility plots for shops, offices and showrooms.",
   },
-  { icon: Trees, title: "Agricultural Plots", desc: "Farm land and weekend-farm investments." },
+  { icon: Trees, title: "Farm Land Plots", desc: "Farm land and weekend-farm investments." },
   { icon: Factory, title: "Industrial Plots", desc: "Warehouses and industrial-zone parcels." },
   {
     icon: RoadIcon,
