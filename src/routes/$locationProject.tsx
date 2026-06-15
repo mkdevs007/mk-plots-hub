@@ -63,7 +63,7 @@ export const Route = createFileRoute("/$locationProject")({
     const locationSlug = generateLocationSlug(p);
     const approval = parseApproval(p.rera);
     const areaMain = p.area.split(",")[0].trim();
-    const typeLabel = p.type.charAt(0).toUpperCase() + p.type.slice(1);
+    const typeLabel = p.type === "agricultural" ? "Farm Land" : (p.type.charAt(0).toUpperCase() + p.type.slice(1));
 
     const title = `${approval.type} Approved ${typeLabel} Plots in ${areaMain}, ${p.city} | ${p.name} | MK Builders & Developers`;
 
@@ -182,7 +182,7 @@ function buildInvestmentReasons(p: Project) {
 function autoGenerateFaqs(p: Project): { question: string; answer: string }[] {
   const approval = parseApproval(p.rera);
   const areaMain = p.area.split(",")[0].trim();
-  const typeLabel = p.type.charAt(0).toUpperCase() + p.type.slice(1);
+  const typeLabel = p.type === "agricultural" ? "Farm Land" : (p.type.charAt(0).toUpperCase() + p.type.slice(1));
   const nearbyNames = (p.nearbyPlaces ?? []).slice(0, 3).map(n => n.name);
   const faqs: { question: string; answer: string }[] = [];
 
@@ -415,7 +415,7 @@ function ProjectLandingPage() {
   const locationSlug = generateLocationSlug(p);
   const sold = p.totalPlots - p.availablePlots;
   const investmentReasons = buildInvestmentReasons(p);
-  const typeLabel = p.type.charAt(0).toUpperCase() + p.type.slice(1);
+  const typeLabel = p.type === "agricultural" ? "Farm Land" : (p.type.charAt(0).toUpperCase() + p.type.slice(1));
   const displayFaqs = (p.faqs && p.faqs.length > 0) ? p.faqs : autoGenerateFaqs(p);
   const utmNote = formatUtmNote(getStoredUtm());
 
