@@ -470,7 +470,7 @@ function AdminDashboard() {
                       </div>
                     </td>
                     <td className="px-6 py-4 capitalize text-muted-foreground font-medium">
-                      {project.type}
+                      {project.type === "agricultural" ? "Farm Land Plots" : project.type}
                     </td>
                     <td className="px-6 py-4">
                       <span
@@ -620,7 +620,7 @@ function AdminDashboard() {
                   <SelectContent>
                     <SelectItem value="residential">Residential</SelectItem>
                     <SelectItem value="commercial">Commercial</SelectItem>
-                    <SelectItem value="agricultural">Agricultural</SelectItem>
+                    <SelectItem value="agricultural">Farm Land Plots</SelectItem>
                     <SelectItem value="industrial">Industrial</SelectItem>
                   </SelectContent>
                 </Select>

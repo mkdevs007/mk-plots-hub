@@ -107,7 +107,7 @@ const cityData: Record<
       },
       {
         title: "Unbeatable Price Points",
-        desc: "Get premium agricultural or residential layouts at a fraction of Bangalore costs, with promising 15% yearly appreciation.",
+        desc: "Get premium farm land or residential layouts at a fraction of Bangalore costs, with promising 15% yearly appreciation.",
       },
       {
         title: "Rapid Urban Expansion",
@@ -186,7 +186,7 @@ function CityHubPage() {
           <SectionHeader
             eyebrow={`Layouts in ${data.name}`}
             title="Explore Available Projects"
-            description={`Fully developed residential, commercial, agricultural, and industrial land parcels inside ${data.name}.`}
+            description={`Fully developed residential, commercial, farm land, and industrial land parcels inside ${data.name}.`}
           />
           {cityProjects.length ? (
             <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

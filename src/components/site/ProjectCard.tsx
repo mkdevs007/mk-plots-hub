@@ -121,7 +121,7 @@ export function ProjectCard({ p }: { p: Project }) {
                 <span className="font-semibold">{approval.type} Approved</span>
               </div>
               <span className="text-[10px] uppercase tracking-wider font-bold text-[#512561] font-nav">
-                {p.type}
+                {p.type === "agricultural" ? "Farm Land" : p.type}
               </span>
             </div>
           </div>

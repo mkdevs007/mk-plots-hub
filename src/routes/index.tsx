@@ -47,7 +47,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur.",
+          "RERA-approved residential, commercial, farm land & industrial plots across Bangalore, Mysore, Hubli & Tumkur.",
       },
       { property: "og:title", content: "MK Builders & Developers — Own Your Future, Plot by Plot" },
       { property: "og:url", content: "/" },
@@ -82,8 +82,8 @@ const plotTypes = [
   },
   {
     icon: Trees,
-    title: "Agricultural Plots",
-    desc: "Farm land & agri investments",
+    title: "Farm Land Plots",
+    desc: "Farm land & agricultural investments",
     to: "/plots/$type" as const,
     type: "agricultural" as const,
   },
@@ -251,7 +251,7 @@ function HomePage() {
             <span className="text-gold italic">Plot by Plot.</span>
           </h1>
           <p className="mt-6 text-base md:text-xl text-primary-foreground/85 max-w-2xl mx-auto leading-relaxed animate-fade-up">
-            Premium residential, commercial, agricultural & industrial plots across Karnataka — RERA
+            Premium residential, commercial, farm land & industrial plots across Karnataka — RERA
             approved, clear titles, prime locations.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-3.5 justify-center items-center animate-fade-up w-full max-w-md mx-auto sm:max-w-none px-4 sm:px-0">

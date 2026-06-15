@@ -43,7 +43,7 @@ export function Footer() {
             <BrandLogo />
           </div>
           <p className="mt-4 text-sm text-primary-foreground/70 leading-relaxed">
-            True, Trusted, Transparent. Premium residential, commercial, agricultural & industrial
+            True, Trusted, Transparent. Premium residential, commercial, farm land & industrial
             plots across Karnataka. Own your future, plot by plot.
           </p>
           <div className="mt-6 flex gap-3">
@@ -124,7 +124,7 @@ export function Footer() {
             </li>
             <li>
               <Link to="/plots/$type" params={{ type: "agricultural" }} className="hover:text-gold">
-                Agricultural Plots
+                Farm Land Plots
               </Link>
             </li>
             <li>

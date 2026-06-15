@@ -1,6 +1,7 @@
 import project1 from "@/assets/project-1.jpg";
 import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
+import rishyamukhaVintage from "@/assets/rishyamukha-vintage.png";
 
 export type ProjectStatus = "Ongoing" | "New Launch" | "Few Plots Left" | "Completed";
 
@@ -327,6 +328,37 @@ export const projects: Project[] = [
     image: project1,
     description:
       "A successfully delivered gated community layout in Bangalore's fastest-growing IT belt.",
+  },
+  {
+    slug: "rishyamukha-vintage",
+    name: "Rishyamukha Vintage",
+    status: "New Launch",
+    city: "Bangalore",
+    area: "Mudagere, Channapatna",
+    landmark: "SyNo. 192/1, Mudagere",
+    type: "agricultural",
+    sizes: ["1/4 Acre", "1/2 Acre", "1 Acre"],
+    totalPlots: 55,
+    availablePlots: 55,
+    startingPrice: "₹15 Lakh",
+    priceLakh: 15,
+    amenities: ["Gated Community", "Road", "Water Connection", "Electricity", "Security", "Fencing"],
+    rera: "PRM/KA/RERA/1251/310/PR/2026",
+    image: rishyamukhaVintage,
+    description:
+      "Premium farm land plots in Mudagere near Channapatna. A scenic gated farmhouse community featuring beautiful views, coconut trees, road access, and clear title land registry.",
+    nearbyPlaces: [
+      { name: "Bangalore-Mysore Expressway", distance: "15 Mins", category: "highway" },
+      { name: "Channapatna Town", distance: "20 Mins", category: "other" },
+      { name: "Ramanagara", distance: "35 Mins", category: "other" },
+      { name: "Kanakapura Road", distance: "Easy Access", category: "highway" }
+    ],
+    faqs: [
+      { question: "Where is Rishyamukha Vintage located?", answer: "Rishyamukha Vintage is located in Mudagere, Channapatna Taluk, Ramanagara District, Karnataka, with easy access from the Bangalore-Mysore Expressway." },
+      { question: "What type of plots are offered?", answer: "The project offers premium agricultural farm land plots, ideal for building private holiday farmhouses, weekend getaways, and long-term organic farming investments." },
+      { question: "Are basic utilities like water and electricity provided?", answer: "Yes, the community features a gated layout with internal roads, border fencing, individual water connections, and electricity supply." }
+    ],
+    mapLink: "https://maps.app.goo.gl/quhQeoC6SHa27ies5"
   },
 ];
 

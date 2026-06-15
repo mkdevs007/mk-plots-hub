@@ -111,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "RERA-approved residential, commercial, agricultural & industrial plots across Bangalore, Mysore, Hubli & Tumkur. Own your future, plot by plot.",
+          "RERA-approved residential, commercial, farm land & industrial plots across Bangalore, Mysore, Hubli & Tumkur. Own your future, plot by plot.",
       },
       { name: "author", content: "MK Builders & Developers" },
       { name: "google-site-verification", content: "4oZEtZ8YGN8zvxHntshVLmjGzm5wE8det1VEyuim4s8" },

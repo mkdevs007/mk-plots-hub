@@ -34,10 +34,10 @@ const META: Record<string, { title: string; tagline: string; description: string
       "Commercial layouts on high-footfall corridors — perfect for showrooms, offices and mixed-use.",
   },
   agricultural: {
-    title: "Agricultural Plots in Karnataka",
+    title: "Farm Land Plots in Karnataka",
     tagline: "Land that grows with you",
     description:
-      "Fertile agri plots with road, water and power. Great for weekend farms and long-horizon investment.",
+      "Fertile farm land plots with road, water and power. Great for weekend farms and long-horizon investment.",
   },
   industrial: {
     title: "Industrial Plots in Karnataka",
@@ -77,7 +77,7 @@ const typeNames: Record<string, string> = {
   all: "All Types",
   residential: "Residential",
   commercial: "Commercial",
-  agricultural: "Agricultural",
+  agricultural: "Farm Land Plots",
   industrial: "Industrial",
 };
 
