@@ -139,8 +139,17 @@ export function Footer() {
           <h4 className="font-display text-lg text-gold mb-4">Reach Us</h4>
           <ul className="space-y-3 text-sm text-primary-foreground/70">
             <li className="flex gap-2">
-              <Phone className="w-4 h-4 mt-0.5 text-gold" />
-              <a href="tel:+917090090057" className="hover:text-gold transition">+91 70900 90057</a>
+              <Phone className="w-4 h-4 mt-0.5 text-gold shrink-0" />
+              <div className="flex flex-col gap-1">
+                <span className="font-semibold text-white">+91 70900 70095</span>
+                <div className="flex gap-3 text-xs text-primary-foreground/60">
+                  <a href="tel:+917090070095" className="hover:text-gold transition">Call</a>
+                  <span>•</span>
+                  <a href="sms:+917090070095" className="hover:text-gold transition">SMS</a>
+                  <span>•</span>
+                  <a href={whatsappHref()} target="_blank" rel="noreferrer" className="hover:text-gold transition">WhatsApp</a>
+                </div>
+              </div>
             </li>
             <li className="flex gap-2">
               <Mail className="w-4 h-4 mt-0.5 text-gold shrink-0" />

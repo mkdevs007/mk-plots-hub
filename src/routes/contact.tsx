@@ -44,8 +44,19 @@ function Contact() {
                 {
                   icon: <Phone className="w-5 h-5" />,
                   label: "Call us",
-                  value: "+91 70900 90057",
-                  href: "tel:+917090090057",
+                  value: "+91 70900 70095",
+                  href: "tel:+917090070095",
+                  external: false,
+                },
+                {
+                  icon: (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  ),
+                  label: "SMS Message",
+                  value: "+91 70900 70095",
+                  href: "sms:+917090070095",
                   external: false,
                 },
                 {

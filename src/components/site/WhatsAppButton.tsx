@@ -1,5 +1,5 @@
 export const whatsappHref = (msg?: string) =>
-  `https://wa.me/917090090057?text=${encodeURIComponent(
+  `https://wa.me/917090070095?text=${encodeURIComponent(
     msg ?? "Hi MK Builders & Developers, I'm interested in your projects — please share details",
   )}`;
 

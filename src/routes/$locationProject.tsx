@@ -458,7 +458,7 @@ function ProjectLandingPage() {
         "@id": `${BASE}/#organization`,
         name: "MK Builders & Developers",
         url: BASE,
-        telephone: "+919900000000",
+        telephone: "+917090070095",
         address: { "@type": "PostalAddress", addressLocality: p.city, addressRegion: "Karnataka", addressCountry: "IN" },
         areaServed: { "@type": "City", name: p.city },
       },
@@ -631,7 +631,7 @@ function ProjectLandingPage() {
                 </button>
               )}
               <a
-                href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
+                href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_hero" }); }}
@@ -1031,13 +1031,13 @@ function ProjectLandingPage() {
             {/* Quick contact */}
             <div className="grid grid-cols-2 gap-3">
               <a
-                href="tel:+917090090057"
+                href="tel:+917090070095"
                 className="flex items-center justify-center gap-2 min-h-[48px] rounded-xl bg-white border border-border text-foreground hover:border-[#512561]/40 hover:shadow-card transition-all text-sm font-bold font-nav shadow-sm"
               >
                 <Phone className="w-4 h-4 text-[#512561]" /> Call Now
               </a>
               <a
-                href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
+                href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp" }); }}
@@ -1100,7 +1100,7 @@ function ProjectLandingPage() {
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share details.${utmNote}`)}`}
+                href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share details.${utmNote}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_cta" }); }}
@@ -1115,7 +1115,7 @@ function ProjectLandingPage() {
                 <Calendar className="w-5 h-5" /> Book Free Site Visit
               </button>
               <a
-                href="tel:+917090090057"
+                href="tel:+917090070095"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-white/40 text-white font-bold font-nav text-base hover:bg-white/10 transition min-h-[52px]"
               >
                 <Phone className="w-5 h-5" /> Call Us
@@ -1131,13 +1131,13 @@ function ProjectLandingPage() {
       {p.status !== "Completed" && (
         <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-border px-4 py-3 flex gap-3 safe-bottom shadow-[0_-4px_20px_rgba(81,37,97,0.12)]">
           <a
-            href="tel:+917090090057"
+            href="tel:+917090070095"
             className="flex-1 flex items-center justify-center gap-2 min-h-[44px] rounded-full border-2 border-[#512561] text-[#512561] font-bold font-nav text-sm"
           >
             <Phone className="w-4 h-4" /> Call
           </a>
           <a
-            href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} at ${p.area}, ${p.city}. Please share pricing.${utmNote}`)}`}
+            href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} at ${p.area}, ${p.city}. Please share pricing.${utmNote}`)}`}
             target="_blank"
             rel="noreferrer"
             onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_mobile" }); }}
