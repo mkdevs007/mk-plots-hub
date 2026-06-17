@@ -631,7 +631,7 @@ function ProjectLandingPage() {
                 </button>
               )}
               <a
-                href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
+                href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_hero" }); }}
@@ -1037,7 +1037,7 @@ function ProjectLandingPage() {
                 <Phone className="w-4 h-4 text-[#512561]" /> Call Now
               </a>
               <a
-                href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
+                href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share pricing and availability.${utmNote}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp" }); }}
@@ -1100,7 +1100,7 @@ function ProjectLandingPage() {
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share details.${utmNote}`)}`}
+                href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} (${p.area}, ${p.city}). Please share details.${utmNote}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_cta" }); }}
@@ -1137,7 +1137,7 @@ function ProjectLandingPage() {
             <Phone className="w-4 h-4" /> Call
           </a>
           <a
-            href={`https://wa.me/917090070095?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} at ${p.area}, ${p.city}. Please share pricing.${utmNote}`)}`}
+            href={`https://wa.me/917090090057?text=${encodeURIComponent(`Hi, I'm interested in ${p.name} at ${p.area}, ${p.city}. Please share pricing.${utmNote}`)}`}
             target="_blank"
             rel="noreferrer"
             onClick={() => { fbqTrack("Lead", { content_name: p.name }); gtagEvent("generate_lead", { project: p.name, method: "whatsapp_mobile" }); }}
