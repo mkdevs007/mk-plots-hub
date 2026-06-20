@@ -140,8 +140,8 @@ function AdminLayout() {
   return (
     <div className="min-h-screen flex bg-background text-foreground">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-72 bg-card border-r border-border/80 relative z-25">
-        <div className="p-6 border-b border-border/80 flex items-center justify-between">
+      <aside className="hidden md:flex flex-col w-72 bg-[#512561] text-white border-r border-white/10 relative z-25">
+        <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <BrandLogo className="h-9 w-auto" />
           </Link>
@@ -163,7 +163,7 @@ function AdminLayout() {
                 href={link.to}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-semibold text-muted-foreground hover:text-foreground hover:bg-secondary/40 transition"
+                className="flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-semibold text-white/70 hover:text-white hover:bg-white/10 transition"
               >
                 <Icon className="w-5 h-5 text-gold" />
                 {link.label}
@@ -174,8 +174,8 @@ function AdminLayout() {
                 to={link.to}
                 className={`flex items-center gap-3.5 px-4 py-3 rounded-lg text-sm font-semibold transition ${
                   isLinkActive
-                    ? "bg-gold text-gold-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                    ? "bg-gold text-gold-foreground shadow-md"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
                 <Icon className={`w-5 h-5 ${isLinkActive ? "text-current" : "text-gold"}`} />
@@ -186,21 +186,21 @@ function AdminLayout() {
         </nav>
 
         {/* User profile & Logout */}
-        <div className="p-4 border-t border-border/80 bg-secondary/20">
+        <div className="p-4 border-t border-white/10 bg-white/5">
           <div className="px-3 py-2">
-            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider truncate">
+            <p className="text-[10px] font-semibold text-white/60 uppercase tracking-wider truncate">
               Signed in as
             </p>
-            <p className="text-xs font-bold truncate mt-0.5" title={userEmail || ""}>
+            <p className="text-xs font-bold text-white truncate mt-0.5" title={userEmail || ""}>
               {userEmail}
             </p>
           </div>
           <Button
             onClick={handleLogout}
             variant="ghost"
-            className="w-full mt-2 justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer font-semibold"
+            className="w-full mt-2 justify-start gap-3 text-white/70 hover:text-red-400 hover:bg-white/10 cursor-pointer font-semibold"
           >
-            <LogOut className="w-5 h-5 text-destructive" />
+            <LogOut className="w-5 h-5 text-red-400" />
             Log Out
           </Button>
         </div>
@@ -208,13 +208,13 @@ function AdminLayout() {
 
       {/* Mobile Top Navbar */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="md:hidden flex items-center justify-between h-16 px-4 bg-card border-b border-border/80 sticky top-0 z-20">
+        <header className="md:hidden flex items-center justify-between h-16 px-4 bg-[#512561] text-white border-b border-white/10 sticky top-0 z-20">
           <Link to="/" className="flex items-center gap-2">
             <BrandLogo className="h-8 w-auto" />
           </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg hover:bg-secondary/50 text-foreground transition"
+            className="p-2 rounded-lg hover:bg-white/10 text-white transition"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -222,7 +222,7 @@ function AdminLayout() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-30 pt-16 bg-background animate-fade-up">
+          <div className="md:hidden fixed inset-0 z-30 pt-16 bg-[#512561] text-white animate-fade-up">
             <div className="p-4 space-y-1">
               {sidebarLinks.map((link) => {
                 const Icon = link.icon;
@@ -240,7 +240,7 @@ function AdminLayout() {
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-semibold text-muted-foreground hover:text-foreground hover:bg-secondary/40 transition"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-semibold text-white/70 hover:text-white hover:bg-white/10 transition"
                   >
                     <Icon className="w-5 h-5 text-gold" />
                     {link.label}
@@ -252,8 +252,8 @@ function AdminLayout() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-semibold transition ${
                       isLinkActive
-                        ? "bg-gold text-gold-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
+                        ? "bg-gold text-gold-foreground shadow-md"
+                        : "text-white/70 hover:text-white hover:bg-white/10"
                     }`}
                   >
                     <Icon className={`w-5 h-5 ${isLinkActive ? "text-current" : "text-gold"}`} />
@@ -261,19 +261,19 @@ function AdminLayout() {
                   </Link>
                 );
               })}
-              <div className="pt-6 border-t border-border mt-4">
+              <div className="pt-6 border-t border-white/10 mt-4">
                 <div className="px-4 py-2">
-                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider truncate">
+                  <p className="text-[10px] font-semibold text-white/60 uppercase tracking-wider truncate">
                     Signed in as
                   </p>
-                  <p className="text-sm font-bold truncate mt-0.5">{userEmail}</p>
+                  <p className="text-sm font-bold text-white truncate mt-0.5">{userEmail}</p>
                 </div>
                 <Button
                   onClick={handleLogout}
                   variant="ghost"
-                  className="w-full mt-4 justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer font-semibold"
+                  className="w-full mt-4 justify-start gap-3 text-white/70 hover:text-red-400 hover:bg-white/10 cursor-pointer font-semibold"
                 >
-                  <LogOut className="w-5 h-5 text-destructive" />
+                  <LogOut className="w-5 h-5 text-red-400" />
                   Log Out
                 </Button>
               </div>
