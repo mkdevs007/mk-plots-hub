@@ -3,7 +3,7 @@ import { SiteLayout } from "@/components/site/Layout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
-import { getProjects } from "@/lib/projects";
+import { getProjects, getEffectivePriceLakh } from "@/lib/projects";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import {
@@ -109,11 +109,11 @@ function PlotTypePage() {
 
       // Budget filter
       if (budget !== "All") {
-        if (p.priceLakh === undefined || p.priceLakh === null) return false;
-        if (p.priceLakh === 0) return false; // Sold out
-        if (budget === "Under 15 Lakh" && p.priceLakh >= 15) return false;
-        if (budget === "15 - 25 Lakh" && (p.priceLakh < 15 || p.priceLakh > 25)) return false;
-        if (budget === "Above 25 Lakh" && p.priceLakh <= 25) return false;
+        const effPrice = getEffectivePriceLakh(p);
+        if (effPrice === undefined || effPrice === null || effPrice === 0) return false;
+        if (budget === "Under 15 Lakh" && effPrice >= 15) return false;
+        if (budget === "15 - 25 Lakh" && (effPrice < 15 || effPrice > 25)) return false;
+        if (budget === "Above 25 Lakh" && effPrice <= 25) return false;
       }
 
       // Size filter

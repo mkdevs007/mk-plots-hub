@@ -12,6 +12,9 @@ import {
   generateLocationSlug,
   generateProjectKeywords,
   parseApproval,
+  formatStartingPrice,
+  getEffectivePriceLakh,
+  parseAreaFromSize,
 } from "@/lib/projects";
 import { useState, useEffect, useRef, useMemo } from "react";
 import type { ComponentType } from "react";
@@ -271,6 +274,35 @@ function useScrollReveal() {
   }, []);
 }
 
+function formatPriceForSize(size: string, p: Project, index: number): string {
+  if (p.priceLakh && p.priceLakh > 0) {
+    return `From ₹${p.priceLakh + index * 4} Lakh`;
+  }
+  
+  if (p.startingPrice) {
+    const cleanStr = p.startingPrice.trim();
+    const isSqft =
+      cleanStr.toLowerCase().includes("sq.ft") ||
+      cleanStr.toLowerCase().includes("sqft") ||
+      cleanStr.toLowerCase().includes("sq ft") ||
+      /^\d+$/.test(cleanStr);
+      
+    if (isSqft) {
+      const numericStr = cleanStr.replace(/[^0-9]/g, "");
+      const priceSqft = numericStr ? parseInt(numericStr, 10) : 0;
+      if (priceSqft > 0) {
+        const area = parseAreaFromSize(size);
+        if (area !== null) {
+          const priceLakhVal = (area * priceSqft) / 100000;
+          return `From ₹${parseFloat(priceLakhVal.toFixed(2))} Lakh`;
+        }
+      }
+    }
+  }
+  
+  return p.status === "Completed" || p.startingPrice === "Sold Out" ? "Sold Out" : "Contact Us";
+}
+
 // ─── Eyebrow label ───────────────────────────────────────────────────────────
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -389,23 +421,24 @@ function ProjectLandingPage() {
     // of whether it was dismissed on a previous page in this session
     sessionStorage.removeItem("mk_callback_popup_dismissed");
     captureUtm();
+    const effectivePriceLakhVal = getEffectivePriceLakh(p) ?? 0;
     fbqTrack("ViewContent", {
       content_name: p.name,
       content_ids: [p.slug],
       content_type: "product",
       content_category: p.type,
-      value: p.priceLakh ?? 0,
+      value: effectivePriceLakhVal,
       currency: "INR",
     });
     gtagEvent("view_item", {
       currency: "INR",
-      value: p.priceLakh ?? 0,
+      value: effectivePriceLakhVal,
       items: [{
         item_id: p.slug,
         item_name: p.name,
         item_category: p.type,
         item_variant: p.area,
-        price: p.priceLakh ?? 0,
+        price: effectivePriceLakhVal,
       }],
     });
   }, [p.slug]);
@@ -413,6 +446,7 @@ function ProjectLandingPage() {
   const approval = parseApproval(p.rera);
   const areaMain = p.area.split(",")[0].trim();
   const locationSlug = generateLocationSlug(p);
+  const effectivePriceLakh = getEffectivePriceLakh(p);
   const sold = p.totalPlots - p.availablePlots;
   const investmentReasons = buildInvestmentReasons(p);
   const typeLabel = p.type === "agricultural" ? "Farm Land" : (p.type.charAt(0).toUpperCase() + p.type.slice(1));
@@ -447,7 +481,7 @@ function ProjectLandingPage() {
         offers: {
           "@type": "Offer",
           priceCurrency: "INR",
-          ...(p.priceLakh ? { price: p.priceLakh * 100000 } : {}),
+          ...(effectivePriceLakh ? { price: effectivePriceLakh * 100000 } : {}),
           availability: p.availablePlots > 0
             ? "https://schema.org/InStock"
             : "https://schema.org/SoldOut",
@@ -613,7 +647,9 @@ function ProjectLandingPage() {
                 className="mt-2 font-display text-2xl md:text-3xl text-gold animate-fade-up"
                 style={{ animationDelay: "0.35s" }}
               >
-                Starting {p.startingPrice}
+                {formatStartingPrice(p.startingPrice).includes("/Sq.Ft") || formatStartingPrice(p.startingPrice).includes("Lakh")
+                  ? `Starting ${formatStartingPrice(p.startingPrice)}`
+                  : formatStartingPrice(p.startingPrice)}
               </p>
             )}
 
@@ -665,7 +701,7 @@ function ProjectLandingPage() {
             {[
               { icon: Layers,       label: "Total Plots",            value: String(p.totalPlots) },
               { icon: CheckCircle2, label: "Available Now",          value: p.availablePlots > 0 ? String(p.availablePlots) : "Sold Out" },
-              { icon: MapPin,       label: "Starting Price",         value: p.startingPrice ?? "On Request" },
+              { icon: MapPin,       label: "Starting Price",         value: formatStartingPrice(p.startingPrice) },
               { icon: Shield,       label: `${approval.type} Status`, value: "Approved" },
             ].map((s, i) => (
               <div key={s.label} className="flex items-center gap-3 animate-fade-up" style={{ animationDelay: `${i * 0.08}s` }}>
@@ -828,10 +864,7 @@ function ProjectLandingPage() {
                       ? p.sizePrices
                       : p.sizes.map((size, i) => ({
                           size,
-                          price: (() => {
-                            if (p.priceLakh && p.priceLakh > 0) return `From ₹${p.priceLakh + i * 4} Lakh`;
-                            return p.status === "Completed" || p.startingPrice === "Sold Out" ? "Sold Out" : "Contact Us";
-                          })(),
+                          price: formatPriceForSize(size, p, i),
                         }))
                     ).map((row, idx) => (
                       <tr key={row.size} className={`hover:bg-[#F5F0F8]/50 transition-colors`}>

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, Ruler, Shield, ChevronRight } from "lucide-react";
 import type { Project, ProjectStatus } from "@/data/projects";
-import { parseApproval, generateLocationSlug } from "@/lib/projects";
+import { parseApproval, generateLocationSlug, formatStartingPrice } from "@/lib/projects";
 
 const statusBadgeClass: Record<ProjectStatus, string> = {
   Ongoing: "bg-emerald-500/80 text-white border border-emerald-400/30 backdrop-blur-md",
@@ -59,7 +59,7 @@ export function ProjectCard({ p }: { p: Project }) {
 
           {p.startingPrice && (
             <span className="absolute top-4 right-4 bg-black/60 text-gold text-xs font-semibold font-nav px-3 py-1 rounded-full border border-gold/30 backdrop-blur-md z-20">
-              {p.startingPrice}
+              {formatStartingPrice(p.startingPrice)}
             </span>
           )}
         </div>

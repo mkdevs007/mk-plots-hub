@@ -207,3 +207,102 @@ export function parseApproval(reraString: string | undefined | null): ApprovalDe
     number: str,
   };
 }
+
+export function parseAreaFromSize(sizeStr: string): number | null {
+  const clean = sizeStr.toLowerCase().trim();
+  
+  // 1. Matches "30x40" or "30 x 40" or "30*40"
+  const dimensionsMatch = clean.match(/(\d+(?:\.\d+)?)\s*[x*]\s*(\d+(?:\.\d+)?)/);
+  if (dimensionsMatch) {
+    const w = parseFloat(dimensionsMatch[1]);
+    const h = parseFloat(dimensionsMatch[2]);
+    if (!isNaN(w) && !isNaN(h)) {
+      return w * h;
+    }
+  }
+  
+  // 2. Matches "1/4 acre" or "0.25 acre" or "1 acre"
+  if (clean.includes("acre")) {
+    const acreMatch = clean.match(/(\d+(?:\.\d+)?)\s*acre/);
+    if (acreMatch) {
+      const val = parseFloat(acreMatch[1]);
+      if (!isNaN(val)) return val * 43560; // 1 acre = 43560 sq ft
+    }
+    if (clean.includes("1/4") || clean.includes("0.25")) return 10890;
+    if (clean.includes("1/2") || clean.includes("0.5")) return 21780;
+    if (clean.includes("1") || clean.startsWith("one")) return 43560;
+  }
+  
+  // 3. Matches "1200+ sq.ft" or "1200 sqft" or "1200"
+  const numberMatch = clean.match(/(\d+[\d,]*)/);
+  if (numberMatch) {
+    const val = parseFloat(numberMatch[1].replace(/,/g, ""));
+    if (!isNaN(val)) return val;
+  }
+  
+  return null;
+}
+
+export function getEffectivePriceLakh(p: Project): number | undefined {
+  // If priceLakh is explicitly set and > 0, return it
+  if (p.priceLakh && p.priceLakh > 0) {
+    return p.priceLakh;
+  }
+  
+  // If startingPrice is price per sqft (e.g. "1499" or "₹1,499/Sq.Ft")
+  if (p.startingPrice) {
+    const cleanStr = p.startingPrice.trim();
+    if (
+      cleanStr.toLowerCase().includes("sq.ft") ||
+      cleanStr.toLowerCase().includes("sqft") ||
+      cleanStr.toLowerCase().includes("sq ft") ||
+      /^\d+$/.test(cleanStr)
+    ) {
+      const numericStr = cleanStr.replace(/[^0-9]/g, "");
+      const priceSqft = numericStr ? parseInt(numericStr, 10) : 0;
+      if (priceSqft > 0 && p.sizes && p.sizes.length > 0) {
+        // Parse the smallest size's area to get starting price
+        let minArea: number | null = null;
+        for (const sizeStr of p.sizes) {
+          const area = parseAreaFromSize(sizeStr);
+          if (area !== null) {
+            if (minArea === null || area < minArea) {
+              minArea = area;
+            }
+          }
+        }
+        if (minArea !== null) {
+          return parseFloat(((minArea * priceSqft) / 100000).toFixed(2));
+        }
+      }
+    }
+  }
+  
+  return p.priceLakh;
+}
+
+export function formatStartingPrice(startingPrice?: string): string {
+  if (!startingPrice) return "Price on Request";
+  
+  const cleanStr = startingPrice.trim();
+  if (cleanStr === "" || cleanStr.toLowerCase() === "price on request" || cleanStr.toLowerCase() === "on request") {
+    return "Price on Request";
+  }
+  if (cleanStr === "Sold Out" || cleanStr.toLowerCase() === "sold out") {
+    return "Sold Out";
+  }
+  
+  // If it's a raw numeric string (e.g., "1499")
+  if (/^\d+$/.test(cleanStr)) {
+    const priceVal = parseInt(cleanStr, 10);
+    if (priceVal >= 100) {
+      return `₹${new Intl.NumberFormat('en-IN').format(priceVal)}/Sq.Ft`;
+    } else {
+      return `₹${priceVal} Lakh`;
+    }
+  }
+  
+  // If it's already formatted (e.g. contains "₹", "Lakh" or "/Sq.Ft"), return it as is
+  return cleanStr;
+}
+

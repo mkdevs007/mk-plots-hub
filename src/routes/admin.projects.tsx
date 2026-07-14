@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { projects as mockProjectsList, Project, ProjectStatus, SizePrice, ProgressMilestone, NearbyPlace, NearbyCategory } from "@/data/projects";
-import { parseApproval, generateLocationSlug } from "@/lib/projects";
+import { parseApproval, generateLocationSlug, formatStartingPrice } from "@/lib/projects";
 import { CloudinaryUpload } from "@/components/ui/CloudinaryUpload";
 import {
   Plus,
@@ -196,6 +196,43 @@ const defaultFormState = (): Project => ({
   mapLink: "",
 });
 
+const parseExistingPrice = (startingPrice?: string, priceLakh?: number) => {
+  if (!startingPrice) {
+    return { type: "none" as const, val: "" };
+  }
+  
+  const cleanStr = startingPrice.trim();
+  
+  if (cleanStr === "" || cleanStr.toLowerCase() === "price on request" || cleanStr.toLowerCase() === "on request") {
+    return { type: "none" as const, val: "" };
+  }
+  
+  if (cleanStr === "Sold Out" || cleanStr.toLowerCase() === "sold out") {
+    return { type: "custom" as const, val: "Sold Out" };
+  }
+  
+  // If startingPrice is a raw number (e.g., "1499", "4999") or contains "/Sq.Ft"
+  if (
+    cleanStr.toLowerCase().includes("sq.ft") ||
+    cleanStr.toLowerCase().includes("sqft") ||
+    cleanStr.toLowerCase().includes("sq ft") ||
+    /^\d+$/.test(cleanStr)
+  ) {
+    const numericStr = cleanStr.replace(/[^0-9]/g, "");
+    return { type: "sqft" as const, val: numericStr };
+  }
+  
+  // If startingPrice contains "Lakh" or priceLakh is set
+  if (cleanStr.toLowerCase().includes("lakh") || (priceLakh && priceLakh > 0)) {
+    const numericStr = cleanStr.replace(/[^0-9.]/g, "");
+    return { type: "lakh" as const, val: numericStr || String(priceLakh || "") };
+  }
+  
+  // Other custom text
+  return { type: "custom" as const, val: cleanStr };
+};
+
+
 const NEARBY_CATEGORIES: { value: NearbyCategory; label: string }[] = [
   { value: "airport", label: "Airport" },
   { value: "railway", label: "Railway Station" },
@@ -229,6 +266,8 @@ function AdminDashboard() {
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
   const [approvalType, setApprovalType] = useState<"RERA" | "DTCP" | "MUDA" | "BDA">("RERA");
   const [approvalNumber, setApprovalNumber] = useState<string>("");
+  const [pricingType, setPricingType] = useState<"none" | "sqft" | "lakh" | "custom">("none");
+  const [pricingVal, setPricingVal] = useState<string>("");
 
   // React Query queries
   const { data: projects = [], isLoading, error: queryError } = useQuery({
@@ -273,6 +312,8 @@ function AdminDashboard() {
     setShowNewCityInput(false);
     setApprovalType("RERA");
     setApprovalNumber("");
+    setPricingType("none");
+    setPricingVal("");
     setIsOpen(true);
   };
 
@@ -288,6 +329,9 @@ function AdminDashboard() {
     const apprv = parseApproval(project.rera);
     setApprovalType(apprv.type);
     setApprovalNumber(apprv.number);
+    const parsed = parseExistingPrice(project.startingPrice, project.priceLakh);
+    setPricingType(parsed.type);
+    setPricingVal(String(parsed.val));
     setIsOpen(true);
   };
 
@@ -331,11 +375,30 @@ function AdminDashboard() {
 
     const reraCombined = `${approvalType}|${(approvalNumber || "").trim()}`;
 
+    let computedStartingPrice = "";
+    let computedPriceLakh: number | undefined = undefined;
+
+    if (pricingType === "sqft") {
+      computedStartingPrice = pricingVal.trim();
+      computedPriceLakh = 0;
+    } else if (pricingType === "lakh") {
+      computedStartingPrice = `₹${pricingVal.trim()} Lakh`;
+      computedPriceLakh = parseFloat(pricingVal.trim()) || 0;
+    } else if (pricingType === "custom") {
+      computedStartingPrice = pricingVal.trim();
+      computedPriceLakh = 0;
+    } else {
+      computedStartingPrice = "";
+      computedPriceLakh = 0;
+    }
+
     const finalProject: Project = {
       ...formValues,
       rera: reraCombined,
       sizes,
       amenities,
+      startingPrice: computedStartingPrice,
+      priceLakh: computedPriceLakh,
       sizePrices: sizePrices.filter((r) => r.size.trim()),
       progressTimeline: progressTimeline.filter((m) => m.title.trim()),
       nearbyPlaces: nearbyPlaces.filter((n) => n.name.trim()),
@@ -491,7 +554,7 @@ function AdminDashboard() {
                       {project.availablePlots} / {project.totalPlots} Plots
                     </td>
                     <td className="px-6 py-4 font-bold text-foreground">
-                      {project.startingPrice}
+                      {formatStartingPrice(project.startingPrice)}
                     </td>
                     <td className="px-6 py-4 text-right">
                       {/* SEO URL pill — copy for Meta Ads / Google */}
@@ -797,30 +860,85 @@ function AdminDashboard() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Starting Price label
+                  Pricing Configuration
                 </label>
-                <Input
-                  value={formValues.startingPrice ?? ""}
-                  onChange={(e) => setFormValues((v) => ({ ...v, startingPrice: e.target.value }))}
-                  placeholder="E.g. ₹18 Lakh or Sold Out"
-                  className="bg-background border-border text-foreground"
-                />
+                <Select
+                  value={pricingType}
+                  onValueChange={(val: any) => {
+                    setPricingType(val);
+                    setPricingVal("");
+                  }}
+                >
+                  <SelectTrigger className="bg-background border-border text-foreground">
+                    <SelectValue placeholder="Select Pricing Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Skip / Price on Request</SelectItem>
+                    <SelectItem value="sqft">Price per Sq.Ft</SelectItem>
+                    <SelectItem value="lakh">Plot Starting Price (Lakhs)</SelectItem>
+                    <SelectItem value="custom">Custom Text (e.g. Sold Out)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Price in Lakhs (numerical)
-                </label>
-                <Input
-                  type="number"
-                  step="0.01"
-                  value={formValues.priceLakh ?? ""}
-                  onChange={(e) =>
-                    setFormValues((v) => ({ ...v, priceLakh: e.target.value ? parseFloat(e.target.value) : undefined }))
-                  }
-                  className="bg-background border-border text-foreground"
-                  min={0}
-                />
+                {pricingType === "sqft" && (
+                  <>
+                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Price per Sq.Ft (numerical)
+                    </label>
+                    <Input
+                      type="number"
+                      value={pricingVal}
+                      onChange={(e) => setPricingVal(e.target.value)}
+                      placeholder="E.g. 1499"
+                      className="bg-background border-border text-foreground"
+                      min={0}
+                      required
+                    />
+                  </>
+                )}
+                {pricingType === "lakh" && (
+                  <>
+                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Starting Price in Lakhs (numerical)
+                    </label>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      value={pricingVal}
+                      onChange={(e) => setPricingVal(e.target.value)}
+                      placeholder="E.g. 18.5"
+                      className="bg-background border-border text-foreground"
+                      min={0}
+                      required
+                    />
+                  </>
+                )}
+                {pricingType === "custom" && (
+                  <>
+                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Custom Price Label
+                    </label>
+                    <Input
+                      value={pricingVal}
+                      onChange={(e) => setPricingVal(e.target.value)}
+                      placeholder="E.g. Sold Out, On Request"
+                      className="bg-background border-border text-foreground"
+                      required
+                    />
+                  </>
+                )}
+                {pricingType === "none" && (
+                  <>
+                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block opacity-40">
+                      Pricing Detail
+                    </label>
+                    <div className="text-sm text-muted-foreground/60 italic py-2">
+                      Pricing is hidden. Will show as "Price on Request" or "Contact Us" on the frontend.
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="md:col-span-2 space-y-1.5">
