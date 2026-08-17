@@ -170,6 +170,17 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-foreground/50">
           <p>© {new Date().getFullYear()} MK Builders & Developers. All rights reserved.</p>
+          <p>
+            Developed by{" "}
+            <a
+              href="https://tsinnovations.in"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gold hover:underline font-semibold"
+            >
+              Techno Spirits Innovations
+            </a>
+          </p>
           <div className="flex gap-5">
             <a href="#" className="hover:text-gold">
               Privacy Policy
