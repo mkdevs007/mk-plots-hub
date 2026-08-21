@@ -21,6 +21,8 @@ import {
   Download,
   FileCode,
   FileJson,
+  FolderDown,
+  FileDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -257,6 +259,7 @@ function AdminDashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [assetsModalProject, setAssetsModalProject] = useState<Project | null>(null);
   
   // Form states
   const [formValues, setFormValues] = useState<Project>(defaultFormState());
