@@ -23,6 +23,7 @@ import {
   FileJson,
   FolderDown,
   FileDown,
+  Film,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -632,6 +633,104 @@ function AdminDashboard() {
     toast.success(`Generated SQL migration script for ${projects.length} project records.`);
   };
 
+  const downloadAssetFile = async (url: string, fileName: string) => {
+    try {
+      toast.info(`Starting download: ${fileName}`);
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+      toast.success(`Downloaded ${fileName}`);
+    } catch (err) {
+      console.error(err);
+      // Direct link fallback if CORS blocks blob fetch
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
+
+  const getProjectAssetsList = (p: Project) => {
+    const list: { label: string; url: string; type: "image" | "video" | "pdf"; filename: string }[] = [];
+
+    if (p.image) {
+      const ext = p.image.split(".").pop()?.split("?")[0] || "jpg";
+      list.push({
+        label: "Main Layout Thumbnail",
+        url: p.image,
+        type: "image",
+        filename: `${p.slug}_thumbnail.${ext}`,
+      });
+    }
+
+    if (p.videoUrl) {
+      const ext = p.videoUrl.split(".").pop()?.split("?")[0] || "mp4";
+      list.push({
+        label: "Main Walkthrough Video",
+        url: p.videoUrl,
+        type: "video",
+        filename: `${p.slug}_walkthrough.${ext}`,
+      });
+    }
+
+    if (p.layoutPdfUrl) {
+      list.push({
+        label: "Layout Plan PDF Document",
+        url: p.layoutPdfUrl,
+        type: "pdf",
+        filename: `${p.slug}_layout_plan.pdf`,
+      });
+    }
+
+    (p.galleryImages || []).forEach((imgUrl, idx) => {
+      const ext = imgUrl.split(".").pop()?.split("?")[0] || "jpg";
+      list.push({
+        label: `Gallery Image #${idx + 1}`,
+        url: imgUrl,
+        type: "image",
+        filename: `${p.slug}_gallery_img_${idx + 1}.${ext}`,
+      });
+    });
+
+    (p.galleryVideos || []).forEach((videoUrl, idx) => {
+      const ext = videoUrl.split(".").pop()?.split("?")[0] || "mp4";
+      list.push({
+        label: `Gallery Video #${idx + 1}`,
+        url: videoUrl,
+        type: "video",
+        filename: `${p.slug}_gallery_video_${idx + 1}.${ext}`,
+      });
+    });
+
+    return list;
+  };
+
+  const downloadAllAssetsForProject = async (p: Project) => {
+    const assets = getProjectAssetsList(p);
+    if (assets.length === 0) {
+      toast.error("No media assets uploaded for this project.");
+      return;
+    }
+
+    toast.info(`Preparing to download ${assets.length} assets for ${p.name}...`);
+    for (let i = 0; i < assets.length; i++) {
+      const item = assets[i];
+      await downloadAssetFile(item.url, item.filename);
+      // Small delay between downloads so browser doesn't block popup downloads
+      await new Promise((res) => setTimeout(res, 600));
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -818,6 +917,13 @@ function AdminDashboard() {
                         </button>
                       </div>
                       <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => setAssetsModalProject(project)}
+                          title="Download uploaded images, videos & layout PDF"
+                          className="p-2 text-muted-foreground hover:text-gold transition rounded-lg hover:bg-secondary cursor-pointer flex items-center gap-1 text-xs font-semibold"
+                        >
+                          <FolderDown className="w-4 h-4 text-gold" />
+                        </button>
                         <a
                           href={`/${generateLocationSlug(project)}`}
                           target="_blank"
@@ -1557,6 +1663,104 @@ function AdminDashboard() {
                   <Trash2 className="w-4 h-4" /> Yes, Delete
                 </>
               )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Project Media Assets Download Dialog */}
+      <Dialog open={!!assetsModalProject} onOpenChange={(open) => !open && setAssetsModalProject(null)}>
+        <DialogContent className="max-w-2xl bg-card border-border text-foreground">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl font-bold flex items-center gap-2">
+              <FolderDown className="w-6 h-6 text-gold" /> Media Assets: {assetsModalProject?.name}
+            </DialogTitle>
+            <DialogDescription>
+              Preview and download high-res images, walkthrough videos, and layout PDF files for this project.
+            </DialogDescription>
+          </DialogHeader>
+
+          {assetsModalProject && (
+            <div className="space-y-4 py-3 max-h-[60vh] overflow-y-auto pr-1">
+              <div className="flex items-center justify-between bg-gold/10 border border-gold/30 p-3 rounded-xl">
+                <div>
+                  <p className="text-xs font-semibold text-gold uppercase tracking-wider">
+                    All Media Files
+                  </p>
+                  <p className="text-sm font-medium text-foreground mt-0.5">
+                    {getProjectAssetsList(assetsModalProject).length} files uploaded
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => downloadAllAssetsForProject(assetsModalProject)}
+                  className="gold-gradient text-gold-foreground font-semibold flex items-center gap-2 cursor-pointer text-xs h-9 px-4 rounded-lg shadow-sm"
+                >
+                  <Download className="w-4 h-4" /> Download All Files
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2.5">
+                {getProjectAssetsList(assetsModalProject).map((asset, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between p-3 rounded-xl border border-border/80 bg-secondary/30 hover:bg-secondary/60 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 min-w-0 pr-3">
+                      {asset.type === "image" ? (
+                        <img
+                          src={asset.url}
+                          alt={asset.label}
+                          className="w-12 h-12 object-cover rounded-lg border border-border shrink-0"
+                        />
+                      ) : asset.type === "video" ? (
+                        <div className="w-12 h-12 rounded-lg bg-black/80 flex items-center justify-center text-white shrink-0 border border-border">
+                          <Film className="w-5 h-5 text-gold" />
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0 border border-border">
+                          <FileDown className="w-5 h-5 text-gold" />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-foreground truncate">{asset.label}</p>
+                        <p className="text-xs text-muted-foreground truncate">{asset.filename}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <a
+                        href={asset.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs font-semibold text-muted-foreground hover:text-foreground px-2.5 py-1.5 rounded-lg border border-border hover:bg-background transition"
+                      >
+                        Preview
+                      </a>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => downloadAssetFile(asset.url, asset.filename)}
+                        className="border-border text-foreground hover:bg-gold hover:text-gold-foreground transition flex items-center gap-1.5 text-xs h-8 cursor-pointer"
+                      >
+                        <Download className="w-3.5 h-3.5" /> Download
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setAssetsModalProject(null)}
+              className="bg-background border-border text-foreground hover:bg-secondary cursor-pointer"
+            >
+              Close
             </Button>
           </DialogFooter>
         </DialogContent>
