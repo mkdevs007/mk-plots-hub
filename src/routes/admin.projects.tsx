@@ -18,6 +18,9 @@ import {
   X,
   Copy,
   Check,
+  Download,
+  FileCode,
+  FileJson,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -420,21 +423,256 @@ function AdminDashboard() {
 
   const uniqueCities = Array.from(new Set(projects.map((p) => p.city)));
 
+  const exportProjectsToExcel = () => {
+    if (!projects || projects.length === 0) {
+      toast.error("No project data available to export.");
+      return;
+    }
+
+    const headers = [
+      "Project Name",
+      "Slug",
+      "Live URL",
+      "Status",
+      "Type",
+      "City",
+      "Area / Region",
+      "Landmark",
+      "Total Plots",
+      "Available Plots",
+      "Booked Plots",
+      "Starting Price Label",
+      "Price in Lakhs",
+      "Sizes Offered",
+      "Approval Type & Number",
+      "Amenities",
+      "Google Maps Link",
+      "Layout PDF Download URL",
+      "Main Walkthrough Video",
+      "Main Image URL",
+      "Gallery Images Count",
+      "Nearby Landmarks Count",
+      "Project Description",
+    ];
+
+    const escapeCsvField = (field: any): string => {
+      if (field === null || field === undefined) return '""';
+      const str = String(field).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    const rows = filteredProjects.map((p) => {
+      const approval = parseApproval(p.rera);
+      const liveUrl = `https://themkdevelopers.com/${generateLocationSlug(p)}`;
+      const booked = p.totalPlots - p.availablePlots;
+
+      return [
+        escapeCsvField(p.name),
+        escapeCsvField(p.slug),
+        escapeCsvField(liveUrl),
+        escapeCsvField(p.status),
+        escapeCsvField(p.type === "agricultural" ? "Farm Land" : p.type),
+        escapeCsvField(p.city),
+        escapeCsvField(p.area),
+        escapeCsvField(p.landmark || ""),
+        escapeCsvField(p.totalPlots),
+        escapeCsvField(p.availablePlots),
+        escapeCsvField(booked),
+        escapeCsvField(formatStartingPrice(p.startingPrice)),
+        escapeCsvField(p.priceLakh || 0),
+        escapeCsvField(p.sizes.join(", ")),
+        escapeCsvField(`${approval.type}${approval.number ? ": " + approval.number : ""}`),
+        escapeCsvField(p.amenities.join(", ")),
+        escapeCsvField(p.mapLink || ""),
+        escapeCsvField(p.layoutPdfUrl || ""),
+        escapeCsvField(p.videoUrl || ""),
+        escapeCsvField(p.image),
+        escapeCsvField((p.galleryImages || []).length),
+        escapeCsvField((p.nearbyPlaces || []).length),
+        escapeCsvField(p.description),
+      ].join(",");
+    });
+
+    // BOM character to ensure Excel opens UTF-8 text (Indian Currency symbols, etc.) correctly
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", `MK_Builders_Projects_Export_${dateStr}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success(`Exported ${filteredProjects.length} project records to Excel.`);
+  };
+
+  const exportProjectsToJson = () => {
+    if (!projects || projects.length === 0) {
+      toast.error("No project data available to export.");
+      return;
+    }
+
+    const jsonStr = JSON.stringify(projects, null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", `MK_Projects_Backup_${dateStr}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success(`Exported ${projects.length} project records as JSON Backup.`);
+  };
+
+  const exportProjectsToSql = () => {
+    if (!projects || projects.length === 0) {
+      toast.error("No project data available to export.");
+      return;
+    }
+
+    const escapeSqlStr = (val: string | null | undefined): string => {
+      if (!val) return "NULL";
+      return `'${val.replace(/'/g, "''")}'`;
+    };
+
+    const sqlHeader = `-- ====================================================================\n-- MK BUILDERS PROJECTS - SUPABASE / POSTGRES SEED & MIGRATION SCRIPT\n-- Generated on: ${new Date().toLocaleString()}\n-- ====================================================================\n\n`;
+
+    const sqlInserts = projects
+      .map((p) => {
+        const sizesJson = JSON.stringify(p.sizes || []).replace(/'/g, "''");
+        const sizePricesJson = JSON.stringify(p.sizePrices || []).replace(/'/g, "''");
+        const amenitiesJson = JSON.stringify(p.amenities || []).replace(/'/g, "''");
+        const galleryImagesJson = JSON.stringify(p.galleryImages || []).replace(/'/g, "''");
+        const galleryVideosJson = JSON.stringify(p.galleryVideos || []).replace(/'/g, "''");
+        const progressTimelineJson = JSON.stringify(p.progressTimeline || []).replace(/'/g, "''");
+        const nearbyPlacesJson = JSON.stringify(p.nearbyPlaces || []).replace(/'/g, "''");
+        const faqsJson = JSON.stringify(p.faqs || []).replace(/'/g, "''");
+
+        return `INSERT INTO public.projects (
+  slug, name, status, city, area, landmark, type,
+  sizes, size_prices, total_plots, available_plots,
+  starting_price, price_lakh, amenities, rera, image,
+  video_url, gallery_images, gallery_videos, description,
+  progress_timeline, layout_pdf_url, nearby_places, faqs, map_link
+) VALUES (
+  ${escapeSqlStr(p.slug)},
+  ${escapeSqlStr(p.name)},
+  ${escapeSqlStr(p.status)},
+  ${escapeSqlStr(p.city)},
+  ${escapeSqlStr(p.area)},
+  ${escapeSqlStr(p.landmark || "")},
+  ${escapeSqlStr(p.type)},
+  '${sizesJson}'::jsonb,
+  '${sizePricesJson}'::jsonb,
+  ${p.totalPlots || 0},
+  ${p.availablePlots || 0},
+  ${escapeSqlStr(p.startingPrice || "")},
+  ${p.priceLakh !== undefined && p.priceLakh !== null ? p.priceLakh : "NULL"},
+  '${amenitiesJson}'::jsonb,
+  ${escapeSqlStr(p.rera || "")},
+  ${escapeSqlStr(p.image)},
+  ${p.videoUrl ? escapeSqlStr(p.videoUrl) : "NULL"},
+  '${galleryImagesJson}'::jsonb,
+  '${galleryVideosJson}'::jsonb,
+  ${escapeSqlStr(p.description)},
+  '${progressTimelineJson}'::jsonb,
+  ${p.layoutPdfUrl ? escapeSqlStr(p.layoutPdfUrl) : "NULL"},
+  '${nearbyPlacesJson}'::jsonb,
+  '${faqsJson}'::jsonb,
+  ${p.mapLink ? escapeSqlStr(p.mapLink) : "NULL"}
+) ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  status = EXCLUDED.status,
+  city = EXCLUDED.city,
+  area = EXCLUDED.area,
+  landmark = EXCLUDED.landmark,
+  type = EXCLUDED.type,
+  sizes = EXCLUDED.sizes,
+  size_prices = EXCLUDED.size_prices,
+  total_plots = EXCLUDED.total_plots,
+  available_plots = EXCLUDED.available_plots,
+  starting_price = EXCLUDED.starting_price,
+  price_lakh = EXCLUDED.price_lakh,
+  amenities = EXCLUDED.amenities,
+  rera = EXCLUDED.rera,
+  image = EXCLUDED.image,
+  video_url = EXCLUDED.video_url,
+  gallery_images = EXCLUDED.gallery_images,
+  gallery_videos = EXCLUDED.gallery_videos,
+  description = EXCLUDED.description,
+  progress_timeline = EXCLUDED.progress_timeline,
+  layout_pdf_url = EXCLUDED.layout_pdf_url,
+  nearby_places = EXCLUDED.nearby_places,
+  faqs = EXCLUDED.faqs,
+  map_link = EXCLUDED.map_link;`;
+      })
+      .join("\n\n");
+
+    const fullSql = sqlHeader + sqlInserts;
+    const blob = new Blob([fullSql], { type: "text/plain;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const dateStr = new Date().toISOString().split("T")[0];
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", `MK_Projects_Migration_${dateStr}.sql`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success(`Generated SQL migration script for ${projects.length} project records.`);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-4xl text-foreground font-bold">Project Manager</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Add, update, or remove layout sites displayed on the main platform.
+            Add, update, export data or migrate layout sites to a new database.
           </p>
         </div>
-        <Button
-          onClick={openAddDialog}
-          className="gold-gradient text-gold-foreground font-semibold flex items-center gap-2 cursor-pointer rounded-lg px-4 h-11"
-        >
-          <Plus className="w-5 h-5" /> Add New Site
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            onClick={exportProjectsToExcel}
+            variant="outline"
+            className="border-border text-foreground hover:bg-secondary flex items-center gap-1.5 cursor-pointer rounded-lg px-3 h-10 text-xs font-semibold"
+            title="Export human-readable Excel / CSV spreadsheet"
+          >
+            <Download className="w-4 h-4 text-gold" /> Excel
+          </Button>
+
+          <Button
+            onClick={exportProjectsToJson}
+            variant="outline"
+            className="border-border text-foreground hover:bg-secondary flex items-center gap-1.5 cursor-pointer rounded-lg px-3 h-10 text-xs font-semibold"
+            title="Export raw JSON backup file"
+          >
+            <FileJson className="w-4 h-4 text-gold" /> JSON Backup
+          </Button>
+
+          <Button
+            onClick={exportProjectsToSql}
+            variant="outline"
+            className="border-border text-foreground hover:bg-secondary flex items-center gap-1.5 cursor-pointer rounded-lg px-3 h-10 text-xs font-semibold"
+            title="Export executable Supabase / Postgres SQL Migration Script"
+          >
+            <FileCode className="w-4 h-4 text-gold" /> SQL Migration
+          </Button>
+
+          <Button
+            onClick={openAddDialog}
+            className="gold-gradient text-gold-foreground font-semibold flex items-center gap-2 cursor-pointer rounded-lg px-4 h-10 text-xs"
+          >
+            <Plus className="w-4 h-4" /> Add New Site
+          </Button>
+        </div>
       </div>
 
       {!isSupabaseConfigured && (
